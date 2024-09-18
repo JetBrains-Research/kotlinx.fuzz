@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-
+import dataclasses
 import sys
 import os
 import os.path as path
+from dataclasses import dataclass
+
 import matplotlib.pyplot as plt
 import datetime
 import pandas as pd
@@ -35,7 +37,8 @@ def parse_libfuzzer_output(filename, timeout_sec):
                 if e > max_execs:
                     max_execs = e
 
-            if tokens[0].startswith('#') and len(tokens) >= 14 and (tokens[1] == 'NEW' or tokens[1] == 'REDUCE' or tokens[1] == 'pulse'):
+            if tokens[0].startswith('#') and len(tokens) >= 14 and (
+                tokens[1] == 'NEW' or tokens[1] == 'REDUCE' or tokens[1] == 'pulse'):
                 execs = int(tokens[0][1:])
                 cov_blks = int(tokens[3])
 
@@ -66,6 +69,36 @@ def parse_libfuzzer_output(filename, timeout_sec):
     crashes = list(zip(*crashes))
 
     return coverage, crashes, features
+
+
+@dataclass
+class LibfuzzerLogEntry:
+    execNr: int
+    cov: int
+    ft: int
+
+
+# 944	NEW    cov: 57 ft: 58 corp: 10/20b lim: 6 exec/s: 0 rss: 718Mb L: 2/3 MS: 2 ChangeBinInt-Custom-
+# 957	REDUCE cov: 63 ft: 64 corp: 11/26b lim: 6 exec/s: 0 rss: 718Mb L: 6/6 MS: 6 CMP-Custom-CrossOver-Custom-ShuffleBytes-Custom- DE: "\377\377\377\000"-
+
+def libfuzzer_output_to_csv(filename) -> str:
+    lines = list[LibfuzzerLogEntry]()
+
+    with open(filename, "r") as file:  # read libfuzzer output
+        for line in file:  # and process it line by line
+            tokens = line.split()  # split line into tokens
+            if len(tokens) < 2: continue
+
+            if tokens[0].startswith('#') and len(tokens) >= 14 and (
+                tokens[1] == 'NEW' or tokens[1] == 'REDUCE' or tokens[1] == 'pulse'):
+                execs = int(tokens[0][1:])
+                cov_blks = int(tokens[3])
+                cov_ft = int(tokens[5])
+                lines.append(LibfuzzerLogEntry(execNr=execs, cov=cov_blks, ft=cov_ft))
+
+            # if tokens[0].startswith("DEDUP_TOKEN"):
+            #     crashes.append(coverage[-1][0])
+    return pd.DataFrame.from_records(map(lambda x: dataclasses.asdict(x), lines)).to_csv()
 
 
 def parse_duration(s):

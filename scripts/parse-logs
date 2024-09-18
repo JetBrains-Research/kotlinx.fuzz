@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+
+import sys
+from os import path
+import os
+import jazzer_plot
+
+
+def main():
+    args = sys.argv[1:]
+    logs_dir = args[0]
+    outputs_dir = args[1]
+
+    log_files = filter(lambda x: x.endswith('.err'), os.listdir(logs_dir))
+    for log_file in log_files:
+        with open(path.join(outputs_dir, log_file.replace('.err', '') + '.csv'), 'w') as of:
+            csv_text = jazzer_plot.libfuzzer_output_to_csv(path.join(logs_dir, log_file))
+            of.write(csv_text)
+    return
+
+
+if __name__ == '__main__':
+    main()
