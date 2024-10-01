@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+
+import os
+
+import pandas as pd
+import argparse
+import re
+
+def parse_duration(duration):
+    match = re.match(r'^((?P<hours>\d+)h)?((?P<minutes>\d+)m)?((?P<seconds>\d+)s)?$', duration)
+    if not match:
+        raise ValueError(f"Invalid duration format: {duration}")
+
+    parts = match.groupdict(default='0')
+    return int(parts['hours']) * 3600 + int(parts['minutes']) * 60 + int(parts['seconds'])
+
+def process_csv_files(directory, duration):
+    duration_seconds = parse_duration(duration)
+
+    for filename in os.listdir(directory):
+        if filename.endswith('.csv'):
+            filepath = os.path.join(directory, filename)
+            if os.stat(filepath).st_size <= 1:
+                continue
+
+            df = pd.read_csv(filepath)
+
+            if 'execNr' not in df.columns:
+                print(f"Skipping {filename} as it doesn't contain 'execNr' column.")
+                continue
+
+            max_execNr = df['execNr'].max()
+            print(f"max execNr in {filename}: {max_execNr}")
+            if (max_execNr == 0):
+                print(f"Warn: max execNr is 0 in {filename}. Skipping it")
+                continue
+
+            df['time'] = (df['execNr'] * duration_seconds / max_execNr).astype(int)
+
+            df.to_csv(filepath, index=False)
+            print(f"Processed {filename}")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Add a time column to CSV files based on execNr column.')
+    parser.add_argument('stats_dir', type=str, help='Path to directory containing CSV files.')
+    parser.add_argument('duration', type=str, help='Duration in human-readable format (e.g., 1h30m15s).')
+
+    args = parser.parse_args()
+    process_csv_files(args.stats_dir, args.duration)

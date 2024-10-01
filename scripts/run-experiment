@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+import argparse
+import sys
+from os import path
+import os
+import subprocess
+import shutil
+
+
+def empty_dir(dir_path: str):
+    if not path.exists(dir_path):
+        os.mkdir(dir_path)
+    elif not path.isdir(dir_path):
+        print(f"Error: file '{dir_path}' already exists and is not a directory'", file=sys.stderr)
+        exit(1)
+    elif os.listdir(dir_path):
+        print(f"Error: directory '{dir_path}' is not empty", file=sys.stderr)
+        exit(1)
+
+
+def create_empty_dirs(dirs: list[str]):
+    for dir in dirs:
+        empty_dir(dir)
+
+
+def get_script_location():
+    script_dir = path.dirname(path.realpath(sys.argv[0]))
+    required_paths = ['run-targets', 'compute-timestamps', 'overall-stats', 'jacoco']
+    for req_path in required_paths:
+        assert path.exists(path.join(script_dir, req_path))
+    return script_dir
+
+
+def run_subprocess(command_list: list, env_vars=None, stdout_file=None):
+    subprocess.run(command_list, env=env_vars, stdout=stdout_file)
+
+
+def exec_run_targets(experiment_dir, project_dir, targets_file, threads, module, run_targets):
+    env = os.environ.copy()
+    env['PROJECT_HOME'] = project_dir
+    env['LOGS_DIR'] = path.join(experiment_dir, "logs")
+    env['JACOCO_EXEC_DIR'] = path.join(experiment_dir, "jacoco")
+    env['TARGET_FILE'] = targets_file
+    env['THREADS'] = str(threads)
+    if module:
+        env['MODULE'] = module
+    run_subprocess([run_targets], env_vars=env)
+
+
+def exec_overall_stats(experiment_dir, overall_stats):
+    overall_stats_args = [
+        overall_stats,
+        path.join(experiment_dir, 'stats'),
+        path.join(experiment_dir, 'overall-stats.csv')
+    ]
+    run_subprocess(overall_stats_args)
+
+
+def exec_parse_logs(experiment_dir, parse_logs):
+    run_subprocess([
+        parse_logs,
+        path.join(experiment_dir, 'logs'),
+        path.join(experiment_dir, 'stats'),
+        path.join(experiment_dir, 'findings')
+    ])
+
+
+def exec_compute_timestamps(experiment_dir, compute_timestamps, duration):
+    run_subprocess([
+        compute_timestamps,
+        path.join(experiment_dir, 'stats'),
+        duration
+    ])
+    run_subprocess([
+        compute_timestamps,
+        path.join(experiment_dir, 'findings'),
+        duration
+    ])
+
+
+def jacoco_merge(experiment_dir, jacoco):
+    exec_command = [
+        jacoco,
+        'merge',
+        '--destfile', path.join(experiment_dir, 'jacoco-merged.exec')
+    ]
+    exec_command.extend(
+        map(lambda x: path.join(experiment_dir, 'jacoco', x), os.listdir(path.join(experiment_dir, 'jacoco'))))
+    run_subprocess(exec_command)
+
+
+def jacoco_execinfo(experiment_dir, jacoco):
+    with open(path.join(experiment_dir, 'jacoco-execinfo.txt'), 'w') as of:
+        run_subprocess([jacoco, 'execinfo', path.join(experiment_dir, 'jacoco-merged.exec')], stdout_file=of)
+
+
+def jacoco_report(experiment_dir, jacoco, classfiles):
+    run_subprocess([
+        jacoco,
+        'report',
+        '--csv', path.join(experiment_dir, 'jacoco-report.csv'),
+        '--classfiles', classfiles,
+        path.join(experiment_dir, 'jacoco-merged.exec')
+    ])
+
+
+def main(args):
+    script_location = get_script_location()
+    run_targets = path.join(script_location, 'run-targets')
+    compute_timestamps = path.join(script_location, 'compute-timestamps')
+    overall_stats = path.join(script_location, 'overall-stats')
+    parse_logs = path.join(script_location, 'parse-logs')
+    jacoco = path.join(script_location, 'jacoco')
+
+    create_empty_dirs([
+        args.experiment_dir,
+        path.join(args.experiment_dir, "logs"),
+        path.join(args.experiment_dir, "jacoco"),
+        path.join(args.experiment_dir, "findings"),
+        path.join(args.experiment_dir, "stats"),
+    ])
+
+    exec_run_targets(args.experiment_dir, args.project_dir, args.targets_file, args.threads, args.module, run_targets)
+    shutil.copytree(path.join(args.project_dir, str(args.module or '.'), 'src', 'test', 'resources'),
+                    path.join(args.experiment_dir, 'resources'))
+    exec_parse_logs(args.experiment_dir, parse_logs)
+    exec_compute_timestamps(args.experiment_dir, compute_timestamps, args.duration)
+    exec_overall_stats(args.experiment_dir, overall_stats)
+    jacoco_merge(args.experiment_dir, jacoco)
+    jacoco_execinfo(args.experiment_dir, jacoco)
+    jacoco_report(args.experiment_dir, jacoco, args.classfiles)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Run experiment")
+    parser.add_argument('experiment_dir', type=str, help="Path to store all results")
+    parser.add_argument('project_dir', type=str, help="Path to project")
+    parser.add_argument("targets_file", type=str, help="Path to file with list of fuzz targets")
+    parser.add_argument('duration', type=str, help="MaxDuration value from @FuzzTest")
+    parser.add_argument('threads', type=int, help='Number of targets to run in parallel')
+    parser.add_argument('classfiles', type=str,
+                        help='Argument for jacoco report --classfiles. If your library is single jar, just pass path to it (you can find it in IDEA)')
+    parser.add_argument('module', default=None, type=str,
+                        help='Module of your targets. All targets must be from this module!')
+
+    args = parser.parse_args()
+    print(f"Arguments: {args}")
+    main(args)

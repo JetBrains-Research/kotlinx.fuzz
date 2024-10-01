@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import pandas as pd
+
+
+def process_csv_files(input_dir, output_file):
+    # List to store the last rows from all files
+    rows = []
+
+    # Iterate over all files in the directory
+    for file_name in os.listdir(input_dir):
+        # Check if the file is a CSV
+        if file_name.endswith('.csv'):
+            file_path = os.path.join(input_dir, file_name)
+
+            # Read the CSV file into a DataFrame
+            df = pd.read_csv(file_path)
+
+            # Get the last row of the DataFrame
+            last_row = df.iloc[-1].copy()
+
+            # Add a new column with the file name (without '.csv' suffix)
+            last_row = pd.concat([pd.Series({'target name': file_name[:-4]}), last_row])
+            # last_row = pd.Series({'target name': file_name[:-4]})._append(last_row)
+
+            # Append the row to the list
+            rows.append(last_row)
+
+    # Create a DataFrame from the list of rows
+    result_df = pd.DataFrame(rows)
+
+    # Write the DataFrame to the output CSV file
+    result_df.to_csv(output_file, index=False)
+    print(f"Processed rows written to {output_file}")
+
+
+if __name__ == "__main__":
+    # Command line arguments: input directory and output file
+    if len(sys.argv) != 3:
+        print("Usage: python script.py <input_directory> <output_file>")
+        sys.exit(1)
+
+    input_directory = sys.argv[1]
+    output_file = sys.argv[2]
+
+    process_csv_files(input_directory, output_file)

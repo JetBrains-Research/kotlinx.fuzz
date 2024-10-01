@@ -1,0 +1,110 @@
+#!/usr/bin/env python3
+
+import logging
+import sys
+import subprocess
+import os
+from os import path
+import shutil
+
+import run_commons
+
+logging.basicConfig(level=logging.DEBUG)
+
+homeDir = path.abspath(os.environ["PROJECT_HOME"])
+logsDir = path.abspath(os.environ["LOGS_DIR"])
+jacocoExecDir = path.abspath(os.environ["JACOCO_EXEC_DIR"])
+
+targetFile = path.abspath(os.environ.get("TARGET_FILE")) if os.environ.get("TARGET_FILE") is not None else None
+threads = int(os.environ.get("THREADS", "1"))
+module = os.environ.get("MODULE") or ""
+
+
+def print_help():
+    print("""
+       Usage:
+       PROJECT_HOME=<project home dir>
+       LOGS_DIR=<...>
+       JACOCO_EXEC_DIR=<...> 
+       TARGET_FILE=<file with target names>
+       THREADS=[1]
+       MODULE=[]
+    """)
+
+
+def main():
+    args = sys.argv
+    print(args)
+    if len(args) >= 2 and args[1] != '-f' and args[1] != '--file' and targetFile is None:
+        targets = args[1:]
+        for target in targets:
+            run_commons.run_target(target_name=target, home_dir=homeDir, logs_dir=logsDir, jacoco_exec_dir=jacocoExecDir,
+                                   module=module)
+        exit(0)
+    elif len(args) == 1 and targetFile is not None:
+        print('Running targets from file \"' + targetFile + '\"')
+        run_targets_in_subprocesses()
+    else:
+        print_help()
+        exit(1)
+
+
+def run_targets_in_subprocesses():
+    all_targets = read_targets(targetFile)
+    targets_for_process = chunk(all_targets, threads)
+    clean_gradle_and_corpus(all_targets)
+    child_env = os.environ.copy()
+    child_env.pop("TARGET_FILE")
+    subprocesses = [subprocess.Popen([sys.argv[0]] + targets, env=child_env) if len(targets) > 0 else None
+                    for targets in targets_for_process]
+
+    for p in subprocesses:
+        if p is not None:
+            p.wait()
+
+
+def read_targets(target_file=targetFile):
+    with open(target_file, 'r') as f:
+        targets = list(set(filter(lambda x: len(x) > 1, map(lambda x: x.strip(), f.readlines()))))
+    return targets
+
+
+def chunk(lst, n):
+    chunked = [list() for _ in range(n)]
+    for i in range(len(lst)):
+        chunked[i % n].append(lst[i])
+    return chunked
+
+
+# returns (class_name, method_name)
+def split_to_class_and_method(target_name):
+    i = target_name.rfind('.')
+    return target_name[:i], target_name[i + 1:]
+
+
+def clean_project():
+    subprocess.run(["./gradlew", f":{module}:clean"], cwd=homeDir, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+
+
+def clean_gradle_and_corpus(targets):
+    clean_project()
+
+    corpus_dir = os.path.join(homeDir, module, ".cifuzz-corpus/")
+    for target in targets:
+        class_name, method_name = split_to_class_and_method(target)
+        dir = path.join(corpus_dir, class_name, method_name)
+        if path.exists(dir):
+            print("Removing dir: " + dir)
+            shutil.rmtree(dir)
+
+    findings_dir = os.path.join(homeDir, module, "src/resources/fuzz/")
+    for target in targets:
+        class_name, method_name = split_to_class_and_method(target)
+        dir = path.join(findings_dir, class_name, method_name)
+        if path.exists(dir):
+            print("Removing dir: " + dir)
+            shutil.rmtree(dir)
+
+
+if __name__ == "__main__":
+    main()
