@@ -19,6 +19,6 @@ class Reproduce {
         builder.remove(0)
 
         assertEquals(set2, builder.build().toSet())
-        assertEquals(set2, builder.build())
+        assertEquals(set2, builder.build()) // fails, supposed to pass
     }
 }
