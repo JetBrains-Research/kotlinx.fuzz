@@ -1,4 +1,4 @@
-## `PersistentOrderedMap` not equals builder
+## equal `PersistentOrderedMaps` are not equal
 
 ### Code:
 
