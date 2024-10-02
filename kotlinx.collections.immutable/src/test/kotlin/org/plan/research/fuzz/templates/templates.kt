@@ -38,8 +38,10 @@ inline fun persistentSetRandomOps(
     val memorisingSet = MemorisingSet(mutableListOf(firstSet.toPersistent()))
 
     val opsNum = data.consumeInt(10, 1000)
+    val ops = mutableListOf<SetOperation>()
     repeat(opsNum) {
         val op = data.consumeSetOperation(memorisingSet.last)
+        ops += op
         memorisingSet.applyOperation(op)
     }
 

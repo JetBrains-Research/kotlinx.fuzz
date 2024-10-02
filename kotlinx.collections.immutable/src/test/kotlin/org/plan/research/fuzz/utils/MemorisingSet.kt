@@ -6,6 +6,7 @@
 package org.plan.research.fuzz.utils
 
 import kotlinx.collections.immutable.PersistentSet
+import kotlinx.collections.immutable.toPersistentSet
 import org.junit.jupiter.api.Assertions.assertEquals
 
 
@@ -70,6 +71,8 @@ class MemorisingSet(val history: MutableList<PersistentSet<Int>>) {
     ) {
         if (!validateBuilder) return
         op.apply(builder)
+        assertEquals(postSet, builder.toSet())
+        assertEquals(postSet, builder.toPersistentSet())
         assertEquals(postSet, builder)
     }
 
