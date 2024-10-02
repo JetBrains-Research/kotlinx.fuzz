@@ -1,0 +1,3 @@
+execNr,inputPath
+0,/home/malakhov/kotlinx-fuzz/kotlinx-collections-immutable-fuzzing/src/test/resources/fuzz/PersistentVectorTestsInputs/bubbleSort/crash-ad2cfb6979673042cf9c6414df699f453d14369b
+46512,/home/malakhov/kotlinx-fuzz/kotlinx-collections-immutable-fuzzing/src/test/resources/fuzz/PersistentVectorTestsInputs/bubbleSort/crash-eb7e8daf9fc2cc6f5e7621309a38518f9a067e95

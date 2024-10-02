@@ -1,0 +1,51 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.8/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :compileKotlin UP-TO-DATE
+> Task :compileJava NO-SOURCE
+> Task :processResources NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :jar UP-TO-DATE
+> Task :compileTestKotlin UP-TO-DATE
+> Task :compileTestJava NO-SOURCE
+> Task :processTestResources
+> Task :testClasses
+
+> Task :test
+
+PersistentOrderedMapTests > randomOpsValidateBuilder(FuzzedDataProvider) STANDARD_ERROR
+    INFO: Loaded 316 hooks from com.code_intelligence.jazzer.runtime.TraceCmpHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.runtime.TraceDivHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.runtime.TraceIndirHooks
+    INFO: Loaded 4 hooks from com.code_intelligence.jazzer.runtime.NativeLibHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.sanitizers.ClojureLangHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.Deserialization
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.ExpressionLanguageInjection
+    INFO: Loaded 70 hooks from com.code_intelligence.jazzer.sanitizers.LdapInjection
+    INFO: Loaded 46 hooks from com.code_intelligence.jazzer.sanitizers.NamingContextLookup
+    INFO: Loaded 1 hooks from com.code_intelligence.jazzer.sanitizers.OsCommandInjection
+    INFO: Loaded 76 hooks from com.code_intelligence.jazzer.sanitizers.ReflectiveCall
+    INFO: Loaded 8 hooks from com.code_intelligence.jazzer.sanitizers.RegexInjection
+    INFO: Loaded 16 hooks from com.code_intelligence.jazzer.sanitizers.RegexRoadblocks
+    INFO: Loaded 12 hooks from com.code_intelligence.jazzer.sanitizers.ScriptEngineInjection
+    INFO: Loaded 3 hooks from com.code_intelligence.jazzer.sanitizers.ServerSideRequestForgery
+    INFO: Loaded 19 hooks from com.code_intelligence.jazzer.sanitizers.SqlInjection
+    INFO: Loaded 6 hooks from com.code_intelligence.jazzer.sanitizers.XPathInjection
+
+PersistentOrderedMapTests > randomOpsValidateBuilder(FuzzedDataProvider) > <empty input> STANDARD_ERROR
+    WARN: JUnit arguments of type(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl with value(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl@eb6449b can not be serialized as fuzzing inputs. Skipped.
+
+PersistentOrderedMapTests > randomOpsValidateBuilder(FuzzedDataProvider) > <empty input> STANDARD_OUT
+    INIT_SIZE: 100
+
+PersistentOrderedMapTests > randomOpsValidateBuilder(FuzzedDataProvider) > crash-a802c262ec827730daa122f42d386cce40878dbf STANDARD_ERROR
+    WARN: JUnit arguments of type(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl with value(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl@184dbacc can not be serialized as fuzzing inputs. Skipped.
+
+PersistentOrderedMapTests > randomOpsValidateBuilder(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-collections-immutable-fuzzing/.cifuzz-corpus/fuzz.PersistentOrderedMapTests/randomOpsValidateBuilder
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-collections-immutable-fuzzing/build/resources/test/fuzz/PersistentOrderedMapTestsInputs/randomOpsValidateBuilder
+    INFO: using inputs from: /tmp/jazzer-java-seeds6214569972088254147
+
+
+> Task :test FAILED
+5 actionable tasks: 2 executed, 3 up-to-date

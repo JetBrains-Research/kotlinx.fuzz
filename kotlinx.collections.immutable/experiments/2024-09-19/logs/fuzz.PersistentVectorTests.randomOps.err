@@ -1,0 +1,45 @@
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: found LLVMFuzzerCustomMutator (0x7a24ec971a00). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 3563115787
+INFO: Loaded 1 modules   (512 inline 8-bit counters): 512 [0x7a2518acefc0, 0x7a2518acf1c0), 
+INFO: Loaded 1 PC tables (512 PCs): 512 [0x7a251894c1e0,0x7a251894e1e0), 
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-collections-immutable-fuzzing/.cifuzz-corpus/fuzz.PersistentVectorTests/randomOps
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-collections-immutable-fuzzing/src/test/resources/fuzz/PersistentVectorTestsInputs/randomOps
+INFO:        0 files found in /tmp/jazzer-java-seeds12747948053644156762
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED exec/s: 0 rss: 760Mb
+WARNING: no interesting inputs were found so far. Is the code instrumented for coverage?
+This may also happen if the target rejected all inputs we tried so far
+#32768	pulse  corp: 1/1b lim: 325 exec/s: 16384 rss: 760Mb
+#65536	pulse  corp: 1/1b lim: 652 exec/s: 21845 rss: 760Mb
+#131072	pulse  corp: 1/1b lim: 1300 exec/s: 18724 rss: 760Mb
+#262144	pulse  corp: 1/1b lim: 2611 exec/s: 16384 rss: 760Mb
+#524288	pulse  corp: 1/1b lim: 4096 exec/s: 17476 rss: 760Mb
+#1048576	pulse  corp: 1/1b lim: 4096 exec/s: 17772 rss: 760Mb
+#2097152	pulse  corp: 1/1b lim: 4096 exec/s: 18078 rss: 760Mb
+#4194304	pulse  corp: 1/1b lim: 4096 exec/s: 18157 rss: 760Mb
+#8388608	pulse  corp: 1/1b lim: 4096 exec/s: 18236 rss: 760Mb
+#16777216	pulse  corp: 1/1b lim: 4096 exec/s: 18255 rss: 760Mb
+#33554432	pulse  corp: 1/1b lim: 4096 exec/s: 18265 rss: 760Mb
+#67108864	pulse  corp: 1/1b lim: 4096 exec/s: 18280 rss: 760Mb
+#134217728	pulse  corp: 1/1b lim: 4096 exec/s: 18816 rss: 760Mb
+#135562572	DONE   corp: 1/1b lim: 4096 exec/s: 18825 rss: 760Mb
+Done 135562572 runs in 7201 second(s)
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':test'.
+> A build operation failed.
+      Could not write XML test results for fuzz.PersistentVectorTests to file /home/malakhov/kotlinx-fuzz/kotlinx-collections-immutable-fuzzing/build/test-results/test/TEST-fuzz.PersistentVectorTests.xml.
+   > Could not write XML test results for fuzz.PersistentVectorTests to file /home/malakhov/kotlinx-fuzz/kotlinx-collections-immutable-fuzzing/build/test-results/test/TEST-fuzz.PersistentVectorTests.xml.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 2h 33s

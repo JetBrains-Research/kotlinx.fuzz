@@ -1,0 +1,27 @@
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: found LLVMFuzzerCustomMutator (0x7675a0263a00). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 3581991812
+INFO: Loaded 1 modules   (512 inline 8-bit counters): 512 [0x7675ccc16150, 0x7675ccc16350), 
+INFO: Loaded 1 PC tables (512 PCs): 512 [0x7675cc8de1f0,0x7675cc8e01f0), 
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-collections-immutable-fuzzing/.cifuzz-corpus/fuzz.PersistentOrderedMapTests/randomOpsValidateReplay
+INFO:        1 files found in /home/malakhov/kotlinx-fuzz/kotlinx-collections-immutable-fuzzing/build/resources/test/fuzz/PersistentOrderedMapTestsInputs/randomOpsValidateReplay
+INFO:        0 files found in /tmp/jazzer-java-seeds785522558610690908
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: seed corpus: files: 1 min: 2b max: 2b total: 2b rss: 715Mb
+#2	INITED exec/s: 0 rss: 715Mb
+WARNING: no interesting inputs were found so far. Is the code instrumented for coverage?
+This may also happen if the target rejected all inputs we tried so far
+#131072	pulse  corp: 1/1b lim: 1300 exec/s: 32768 rss: 715Mb
+#262144	pulse  corp: 1/1b lim: 2611 exec/s: 32768 rss: 715Mb
+#524288	pulse  corp: 1/1b lim: 4096 exec/s: 32768 rss: 715Mb
+#1048576	pulse  corp: 1/1b lim: 4096 exec/s: 34952 rss: 715Mb
+#2097152	pulse  corp: 1/1b lim: 4096 exec/s: 33825 rss: 715Mb
+#4194304	pulse  corp: 1/1b lim: 4096 exec/s: 33554 rss: 715Mb
+#8388608	pulse  corp: 1/1b lim: 4096 exec/s: 33961 rss: 715Mb
+#16777216	pulse  corp: 1/1b lim: 4096 exec/s: 34309 rss: 715Mb
+#33554432	pulse  corp: 1/1b lim: 4096 exec/s: 34204 rss: 715Mb
+#67108864	pulse  corp: 1/1b lim: 4096 exec/s: 34169 rss: 715Mb
+#134217728	pulse  corp: 1/1b lim: 4096 exec/s: 34204 rss: 715Mb
+#258556542	DONE   corp: 1/1b lim: 4096 exec/s: 35905 rss: 715Mb
+Done 258556542 runs in 7201 second(s)

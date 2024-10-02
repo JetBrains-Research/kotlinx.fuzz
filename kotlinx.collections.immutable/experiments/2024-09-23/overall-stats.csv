@@ -1,0 +1,16 @@
+target name,execNr,cov,ft,crashes
+fuzz.PersistentHashMapTests.randomOpsValidateBuilder,0,0,0,0
+fuzz.PersistentHashMapTests.randomOpsValidateReverse,18219704,314,2085,0
+fuzz.SmallPersistentVectorTests.bubbleSort,0,0,0,0
+fuzz.PersistentOrderedMapBuilderTests.randomOpsVsOrderedMap,1766573,308,1832,0
+fuzz.PersistentVectorBuilderTests.listBuilderRandomOps,0,0,0,0
+fuzz.PersistentOrderedMapTests.randomOpsValidateInvariants,0,0,0,0
+fuzz.SmallPersistentVectorTests.randomOps,0,0,0,0
+fuzz.PersistentOrderedMapTests.randomOpsValidateBuilder,0,0,0,0
+fuzz.PersistentHashMapTests.randomOpsValidateInvariants,30289651,296,1920,0
+fuzz.PersistentHashMapTests.randomOpsValidateReplay,0,0,0,0
+fuzz.PersistentVectorTests.bubbleSort,2097152,127,329,2
+fuzz.PersistentOrderedMapTests.randomOpsValidateReplay,1415139,406,2768,0
+fuzz.PersistentOrderedMapTests.randomOpsValidateReverse,2989158,434,3041,0
+fuzz.PersistentVectorTests.randomOps,4927790,580,2978,0
+fuzz.PersistentHashMapBuilderTests.randomOpsVsHashMap,2097152,142,795,0

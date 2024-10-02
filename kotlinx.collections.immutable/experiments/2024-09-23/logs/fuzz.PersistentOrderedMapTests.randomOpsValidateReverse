@@ -1,0 +1,89 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.8/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :processResources NO-SOURCE
+> Task :processTestResources UP-TO-DATE
+> Task :compileKotlin
+> Task :compileJava NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :jar
+> Task :compileTestKotlin
+> Task :compileTestJava NO-SOURCE
+> Task :testClasses UP-TO-DATE
+
+> Task :test
+
+PersistentOrderedMapTests > randomOpsValidateReverse(FuzzedDataProvider) STANDARD_ERROR
+    INFO: Loaded 316 hooks from com.code_intelligence.jazzer.runtime.TraceCmpHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.runtime.TraceDivHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.runtime.TraceIndirHooks
+    INFO: Loaded 4 hooks from com.code_intelligence.jazzer.runtime.NativeLibHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.sanitizers.ClojureLangHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.Deserialization
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.ExpressionLanguageInjection
+    INFO: Loaded 70 hooks from com.code_intelligence.jazzer.sanitizers.LdapInjection
+    INFO: Loaded 46 hooks from com.code_intelligence.jazzer.sanitizers.NamingContextLookup
+    INFO: Loaded 1 hooks from com.code_intelligence.jazzer.sanitizers.OsCommandInjection
+    INFO: Loaded 76 hooks from com.code_intelligence.jazzer.sanitizers.ReflectiveCall
+    INFO: Loaded 8 hooks from com.code_intelligence.jazzer.sanitizers.RegexInjection
+    INFO: Loaded 16 hooks from com.code_intelligence.jazzer.sanitizers.RegexRoadblocks
+    INFO: Loaded 12 hooks from com.code_intelligence.jazzer.sanitizers.ScriptEngineInjection
+    INFO: Loaded 3 hooks from com.code_intelligence.jazzer.sanitizers.ServerSideRequestForgery
+    INFO: Loaded 19 hooks from com.code_intelligence.jazzer.sanitizers.SqlInjection
+    INFO: Loaded 6 hooks from com.code_intelligence.jazzer.sanitizers.XPathInjection
+
+PersistentOrderedMapTests > randomOpsValidateReverse(FuzzedDataProvider) > <empty input> STANDARD_ERROR
+    WARN: JUnit arguments of type(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl with value(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl@68759011 can not be serialized as fuzzing inputs. Skipped.
+
+PersistentOrderedMapTests > randomOpsValidateReverse(FuzzedDataProvider) > <empty input> STANDARD_OUT
+    INIT_SIZE: 100
+
+PersistentOrderedMapTests > randomOpsValidateReverse(FuzzedDataProvider) > <empty input> STANDARD_ERROR
+    INFO: Instrumented kotlinx.collections.immutable.PersistentMap (took 22 ms, size +0%)
+    INFO: Instrumented kotlinx.collections.immutable.ImmutableMap (took 2 ms, size +0%)
+    INFO: Instrumented kotlinx.collections.immutable.ExtensionsKt (took 128 ms, size +6%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.persistentOrderedMap.PersistentOrderedMap (took 74 ms, size +13%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.persistentOrderedMap.PersistentOrderedMapBuilder (took 28 ms, size +17%)
+    INFO: Instrumented kotlinx.collections.immutable.PersistentMap$Builder (took 1 ms, size +0%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.persistentOrderedMap.PersistentOrderedMap$Companion (took 5 ms, size +5%)
+    INFO: Instrumented kotlinx.collections.immutable.internal.EndOfChain (took 2 ms, size +14%)
+    INFO: New number of coverage counters: 1024
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMap (took 28 ms, size +5%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMap$Companion (took 6 ms, size +5%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.TrieNode (took 97 ms, size +16%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.TrieNode$Companion (took 2 ms, size +8%)
+    INFO: New number of coverage counters: 2048
+    INFO: Instrumented kotlinx.collections.immutable.implementations.persistentOrderedMap.LinkedValue (took 3 ms, size +6%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.TrieNodeKt (took 4 ms, size +6%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.TrieNode$ModificationResult (took 3 ms, size +3%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapBuilder (took 17 ms, size +8%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.persistentOrderedMap.PersistentOrderedMap$equals$1 (took 3 ms, size +16%)
+
+
+> Task :test
+
+PersistentOrderedMapTests > randomOpsValidateReverse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-collections-immutable-fuzzing/.cifuzz-corpus/fuzz.PersistentOrderedMapTests/randomOpsValidateReverse
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-collections-immutable-fuzzing/build/resources/test/fuzz/PersistentOrderedMapTestsInputs/randomOpsValidateReverse
+    INFO: using inputs from: /tmp/jazzer-java-seeds8041970193401900461
+    INFO: Instrumented kotlinx.collections.immutable.internal.MutabilityOwnership (took 1 ms, size +16%)
+    INFO: Instrumented kotlinx.collections.immutable.internal.CommonFunctionsKt (took 1 ms, size +36%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapKeys (took 4 ms, size +17%)
+    INFO: Instrumented kotlinx.collections.immutable.ImmutableSet (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.collections.immutable.ImmutableCollection (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapKeysIterator (took 1 ms, size +11%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapBaseIterator (took 4 ms, size +11%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.TrieNodeBaseIterator (took 5 ms, size +8%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.TrieNodeKeysIterator (took 1 ms, size +8%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.persistentOrderedMap.PersistentOrderedMapEntries (took 2 ms, size +8%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.persistentOrderedMap.PersistentOrderedMapEntriesIterator (took 2 ms, size +4%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.persistentOrderedMap.PersistentOrderedMapLinksIterator (took 4 ms, size +13%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.MapEntry (took 3 ms, size +23%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapBuilderKeys (took 1 ms, size +22%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapBuilderKeysIterator (took 0 ms, size +10%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapBuilderBaseIterator (took 3 ms, size +15%)
+
+
+> Task :test FAILED
+w: Detected multiple Kotlin daemon sessions at 
+5 actionable tasks: 4 executed, 1 up-to-date

@@ -1,5 +1,9 @@
 .idea
+.gradle
 
 .cifuzz-corpus
 *.cifuzz-corpus
 
+
+# Interesting inputs will be backed up using scripts
+*/src/test/resources/org/plan/research/**/*Inputs

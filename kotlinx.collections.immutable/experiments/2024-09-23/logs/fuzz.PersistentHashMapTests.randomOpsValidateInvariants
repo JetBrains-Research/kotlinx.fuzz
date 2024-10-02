@@ -1,0 +1,154 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.8/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :processResources NO-SOURCE
+> Task :processTestResources UP-TO-DATE
+
+> Task :compileKotlin
+Failed to compile with Kotlin daemon: java.lang.Exception
+	at org.jetbrains.kotlin.daemon.common.CompileService$CallResult$Error.get(CompileService.kt:69)
+	at org.jetbrains.kotlin.daemon.common.CompileService$CallResult$Error.get(CompileService.kt:65)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemon(GradleKotlinCompilerWork.kt:240)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemonOrFallbackImpl(GradleKotlinCompilerWork.kt:159)
+	at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:111)
+	at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:76)
+	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:63)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:66)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:62)
+	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:100)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:62)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
+	at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
+	at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:59)
+	at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$0(DefaultWorkerExecutor.java:174)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:187)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$700(DefaultConditionalExecutionQueue.java:120)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:162)
+	at org.gradle.internal.Factories$1.create(Factories.java:31)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:264)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:128)
+	at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:133)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:157)
+	at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:126)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+Caused by: java.io.FileNotFoundException: /home/malakhov/kotlinx-fuzz/kotlinx-collections-immutable-fuzzing/build/classes/kotlin/main/org/example/MainKt.class (No such file or directory)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at kotlin.io.FilesKt__FileReadWriteKt.readBytes(FileReadWrite.kt:69)
+	at org.jetbrains.kotlin.incremental.LocalFileKotlinClass$Companion.create(LocalFileKotlinClass.kt:37)
+	at org.jetbrains.kotlin.build.GeneratedJvmClass.<init>(generatedFiles.kt:39)
+	at org.jetbrains.kotlin.compilerRunner.SimpleOutputItemKt.toGeneratedFile(SimpleOutputItem.kt:31)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.doCompile(IncrementalCompilerRunner.kt:521)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.compileImpl(IncrementalCompilerRunner.kt:423)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.compileNonIncrementally(IncrementalCompilerRunner.kt:301)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.compile(IncrementalCompilerRunner.kt:129)
+	at org.jetbrains.kotlin.daemon.CompileServiceImplBase.execIncrementalCompiler(CompileServiceImpl.kt:676)
+	at org.jetbrains.kotlin.daemon.CompileServiceImplBase.access$execIncrementalCompiler(CompileServiceImpl.kt:92)
+	at org.jetbrains.kotlin.daemon.CompileServiceImpl.compile(CompileServiceImpl.kt:1661)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:357)
+	at sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:573)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:834)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:688)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:687)
+	... 3 more
+Using fallback strategy: Compile without Kotlin daemon
+Try ./gradlew --stop if this issue persists
+If it does not look related to your configuration, please file an issue with logs to https://kotl.in/issue
+
+> Task :compileJava NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :jar UP-TO-DATE
+> Task :compileTestKotlin
+> Task :compileTestJava NO-SOURCE
+> Task :testClasses UP-TO-DATE
+
+> Task :test
+
+PersistentHashMapTests > randomOpsValidateInvariants(FuzzedDataProvider) STANDARD_ERROR
+    INFO: Loaded 316 hooks from com.code_intelligence.jazzer.runtime.TraceCmpHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.runtime.TraceDivHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.runtime.TraceIndirHooks
+    INFO: Loaded 4 hooks from com.code_intelligence.jazzer.runtime.NativeLibHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.sanitizers.ClojureLangHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.Deserialization
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.ExpressionLanguageInjection
+    INFO: Loaded 70 hooks from com.code_intelligence.jazzer.sanitizers.LdapInjection
+    INFO: Loaded 46 hooks from com.code_intelligence.jazzer.sanitizers.NamingContextLookup
+    INFO: Loaded 1 hooks from com.code_intelligence.jazzer.sanitizers.OsCommandInjection
+    INFO: Loaded 76 hooks from com.code_intelligence.jazzer.sanitizers.ReflectiveCall
+    INFO: Loaded 8 hooks from com.code_intelligence.jazzer.sanitizers.RegexInjection
+    INFO: Loaded 16 hooks from com.code_intelligence.jazzer.sanitizers.RegexRoadblocks
+    INFO: Loaded 12 hooks from com.code_intelligence.jazzer.sanitizers.ScriptEngineInjection
+    INFO: Loaded 3 hooks from com.code_intelligence.jazzer.sanitizers.ServerSideRequestForgery
+    INFO: Loaded 19 hooks from com.code_intelligence.jazzer.sanitizers.SqlInjection
+    INFO: Loaded 6 hooks from com.code_intelligence.jazzer.sanitizers.XPathInjection
+
+PersistentHashMapTests > randomOpsValidateInvariants(FuzzedDataProvider) > <empty input> STANDARD_ERROR
+    WARN: JUnit arguments of type(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl with value(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl@68759011 can not be serialized as fuzzing inputs. Skipped.
+
+PersistentHashMapTests > randomOpsValidateInvariants(FuzzedDataProvider) > <empty input> STANDARD_OUT
+    INIT_SIZE: 100
+
+PersistentHashMapTests > randomOpsValidateInvariants(FuzzedDataProvider) > <empty input> STANDARD_ERROR
+    INFO: Instrumented kotlinx.collections.immutable.PersistentMap (took 28 ms, size +0%)
+    INFO: Instrumented kotlinx.collections.immutable.ImmutableMap (took 2 ms, size +0%)
+    INFO: Instrumented kotlinx.collections.immutable.ExtensionsKt (took 68 ms, size +6%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMap (took 17 ms, size +5%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapBuilder (took 20 ms, size +8%)
+    INFO: Instrumented kotlinx.collections.immutable.PersistentMap$Builder (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMap$Companion (took 2 ms, size +5%)
+    INFO: New number of coverage counters: 1024
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.TrieNode (took 56 ms, size +16%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.TrieNode$Companion (took 3 ms, size +8%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.TrieNodeKt (took 2 ms, size +6%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.TrieNode$ModificationResult (took 2 ms, size +3%)
+    INFO: New number of coverage counters: 2048
+    INFO: Instrumented kotlinx.collections.immutable.implementations.persistentOrderedMap.PersistentOrderedMap (took 10 ms, size +13%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.persistentOrderedMap.PersistentOrderedMapBuilder (took 6 ms, size +17%)
+
+PersistentHashMapTests > randomOpsValidateInvariants(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-collections-immutable-fuzzing/.cifuzz-corpus/fuzz.PersistentHashMapTests/randomOpsValidateInvariants
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-collections-immutable-fuzzing/build/resources/test/fuzz/PersistentHashMapTestsInputs/randomOpsValidateInvariants
+    INFO: using inputs from: /tmp/jazzer-java-seeds2505139257222937636
+
+
+> Task :test
+    INFO: Instrumented kotlinx.collections.immutable.internal.MutabilityOwnership (took 0 ms, size +16%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapEntries (took 2 ms, size +8%)
+    INFO: Instrumented kotlinx.collections.immutable.ImmutableSet (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.collections.immutable.ImmutableCollection (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapEntriesIterator (took 1 ms, size +10%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMapBaseIterator (took 3 ms, size +11%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.TrieNodeBaseIterator (took 3 ms, size +8%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.TrieNodeEntriesIterator (took 1 ms, size +6%)
+    INFO: Instrumented kotlinx.collections.immutable.internal.CommonFunctionsKt (took 0 ms, size +36%)
+    INFO: Instrumented kotlinx.collections.immutable.implementations.immutableMap.MapEntry (took 2 ms, size +23%)
+
+
+> Task :test FAILED
+5 actionable tasks: 3 executed, 2 up-to-date
