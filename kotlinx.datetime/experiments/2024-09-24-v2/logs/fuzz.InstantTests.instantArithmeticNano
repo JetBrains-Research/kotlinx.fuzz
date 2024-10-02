@@ -1,0 +1,81 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.8/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :compileKotlin NO-SOURCE
+> Task :compileJava NO-SOURCE
+> Task :processResources NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :jar UP-TO-DATE
+> Task :compileTestKotlin UP-TO-DATE
+> Task :compileTestJava NO-SOURCE
+> Task :processTestResources UP-TO-DATE
+> Task :testClasses UP-TO-DATE
+
+> Task :test
+
+InstantTests > instantArithmeticNano(FuzzedDataProvider) STANDARD_ERROR
+    INFO: Loaded 307 hooks from com.code_intelligence.jazzer.runtime.TraceCmpHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.runtime.TraceDivHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.runtime.TraceIndirHooks
+    INFO: Loaded 4 hooks from com.code_intelligence.jazzer.runtime.NativeLibHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.sanitizers.ClojureLangHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.Deserialization
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.ExpressionLanguageInjection
+    INFO: Loaded 70 hooks from com.code_intelligence.jazzer.sanitizers.LdapInjection
+    INFO: Loaded 46 hooks from com.code_intelligence.jazzer.sanitizers.NamingContextLookup
+    INFO: Loaded 1 hooks from com.code_intelligence.jazzer.sanitizers.OsCommandInjection
+    INFO: Loaded 92 hooks from com.code_intelligence.jazzer.sanitizers.ReflectiveCall
+    INFO: Loaded 8 hooks from com.code_intelligence.jazzer.sanitizers.RegexInjection
+    INFO: Loaded 16 hooks from com.code_intelligence.jazzer.sanitizers.RegexRoadblocks
+    INFO: Loaded 12 hooks from com.code_intelligence.jazzer.sanitizers.ScriptEngineInjection
+    INFO: Loaded 3 hooks from com.code_intelligence.jazzer.sanitizers.ServerSideRequestForgery
+    INFO: Loaded 19 hooks from com.code_intelligence.jazzer.sanitizers.SqlInjection
+    INFO: Loaded 6 hooks from com.code_intelligence.jazzer.sanitizers.XPathInjection
+
+InstantTests > instantArithmeticNano(FuzzedDataProvider) > <empty input> STANDARD_ERROR
+    WARN: JUnit arguments of type(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl with value(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl@61861a29 can not be serialized as fuzzing inputs. Skipped.
+    INFO: Instrumented kotlinx.datetime.TimeZone (took 139 ms, size +19%)
+    INFO: Instrumented kotlinx.datetime.TimeZone$Companion (took 26 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.IllegalTimeZoneException (took 35 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.UtcOffset (took 56 ms, size +26%)
+    INFO: Instrumented kotlinx.datetime.UtcOffset$Companion (took 45 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.UtcOffsetKt (took 11 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.FixedOffsetTimeZone (took 30 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.FixedOffsetTimeZone$Companion (took 8 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.TimeZoneKt__TimeZoneJvmKt (took 16 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.DateTimeArithmeticException (took 12 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.Padding (took 17 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.format.MonthNames (took 44 ms, size +15%)
+    INFO: Instrumented kotlinx.datetime.format.MonthNames$Companion (took 2 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.Instant (took 40 ms, size +15%)
+    INFO: Instrumented kotlinx.datetime.Instant$Companion (took 38 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.DateTimeFormatException (took 28 ms, size +9%)
+
+InstantTests > instantArithmeticNano(FuzzedDataProvider) > <empty input> FAILED
+    org.opentest4j.AssertionFailedError at InstantTests.kt:66
+
+
+> Task :test
+
+InstantTests > instantArithmeticNano(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.InstantTests/instantArithmeticNano
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/InstantTestsInputs/instantArithmeticNano
+    INFO: using inputs from: /tmp/jazzer-java-seeds12307109252098116672
+
+    == Java Exception: org.opentest4j.AssertionFailedError: expected: <1s> but was: <999.483648ms>
+    	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+    	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+    	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+    	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+    	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+    	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1142)
+    	at fuzz.InstantTests.instantArithmeticNano(InstantTests.kt:66)
+
+InstantTests > instantArithmeticNano(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: c01ff9ec7a58ee54
+
+
+> Task :test
+
+> Task :test FAILED
+4 actionable tasks: 1 executed, 3 up-to-date

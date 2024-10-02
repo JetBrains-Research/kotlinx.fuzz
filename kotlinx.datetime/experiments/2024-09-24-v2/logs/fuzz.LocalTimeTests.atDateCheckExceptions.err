@@ -1,0 +1,26 @@
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: found LLVMFuzzerCustomMutator (0x74c27015da00). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 180749752
+INFO: Loaded 1 modules   (512 inline 8-bit counters): 512 [0x74c2a4b4eff0, 0x74c2a4b4f1f0), 
+INFO: Loaded 1 PC tables (512 PCs): 512 [0x74c2a4ad88a0,0x74c2a4ada8a0), 
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.LocalTimeTests/atDateCheckExceptions
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalTimeTestsInputs/atDateCheckExceptions
+INFO:        0 files found in /tmp/jazzer-java-seeds11968417097394170900
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED cov: 21 ft: 21 corp: 1/1b exec/s: 0 rss: 1286Mb
+#4194304	pulse  cov: 21 ft: 21 corp: 1/1b lim: 4096 exec/s: 2097152 rss: 1286Mb
+#8388608	pulse  cov: 21 ft: 21 corp: 1/1b lim: 4096 exec/s: 1677721 rss: 1286Mb
+#16777216	pulse  cov: 21 ft: 21 corp: 1/1b lim: 4096 exec/s: 1677721 rss: 1286Mb
+#33554432	pulse  cov: 21 ft: 21 corp: 1/1b lim: 4096 exec/s: 1458888 rss: 1286Mb
+#67108864	pulse  cov: 21 ft: 21 corp: 1/1b lim: 4096 exec/s: 1398101 rss: 1286Mb
+#134217728	pulse  cov: 21 ft: 21 corp: 1/1b lim: 4096 exec/s: 1443201 rss: 1286Mb
+#268435456	pulse  cov: 21 ft: 21 corp: 1/1b lim: 4096 exec/s: 1508064 rss: 1295Mb
+#536870912	pulse  cov: 21 ft: 21 corp: 1/1b lim: 4096 exec/s: 1579032 rss: 1295Mb
+#1073741824	pulse  cov: 21 ft: 21 corp: 1/1b lim: 4096 exec/s: 1569797 rss: 1295Mb
+#2147483648	pulse  cov: 21 ft: 21 corp: 1/1b lim: 4096 exec/s: 1597830 rss: 1295Mb
+#4294967296	pulse  cov: 21 ft: 21 corp: 1/1b lim: 4096 exec/s: 1589551 rss: 1295Mb
+#8589934592	pulse  cov: 21 ft: 21 corp: 1/1b lim: 4096 exec/s: 1601106 rss: 1295Mb
+#11472263132	DONE   cov: 21 ft: 21 corp: 1/1b lim: 4096 exec/s: 1593148 rss: 1295Mb
+Done 11472263132 runs in 7201 second(s)

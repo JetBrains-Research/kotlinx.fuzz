@@ -1,0 +1,35 @@
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: found LLVMFuzzerCustomMutator (0x7681c126ca00). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 214828882
+INFO: Loaded 2 modules   (1024 inline 8-bit counters): 512 [0x7681f4b80be0, 0x7681f4b80de0), 512 [0x7681f4b80de0, 0x7681f4b80fe0), 
+INFO: Loaded 2 PC tables (1024 PCs): 512 [0x7681f4b08fb0,0x7681f4b0afb0), 512 [0x7681f4d96b90,0x7681f4d98b90), 
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.LocalDateTests/periodUntilVsJava
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateTestsInputs/periodUntilVsJava
+INFO:        0 files found in /tmp/jazzer-java-seeds12711593906939427454
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED cov: 34 ft: 34 corp: 1/1b exec/s: 0 rss: 1549Mb
+MS: 10 ChangeBit-Custom-ChangeByte-Custom-ShuffleBytes-Custom-InsertByte-Custom-InsertRepeatedBytes-Custom-; base unit: adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+0xff,0xff,0xff,0xff,0xff,0xff,0x3d,0xe1,
+\377\377\377\377\377\377=\341
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateTestsInputs/periodUntilVsJava/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateTestsInputs/periodUntilVsJava/crash-251464d8002457ffcd421392ccf6b95d46666776
+Base64: ////////PeE=
+#1047	NEW    cov: 56 ft: 61 corp: 2/9b lim: 14 exec/s: 0 rss: 1551Mb L: 8/8 MS: 10 ChangeBit-Custom-ChangeByte-Custom-ShuffleBytes-Custom-InsertByte-Custom-InsertRepeatedBytes-Custom-
+#1096	REDUCE cov: 56 ft: 61 corp: 2/5b lim: 14 exec/s: 0 rss: 1551Mb L: 4/4 MS: 8 ChangeBinInt-Custom-ShuffleBytes-Custom-ChangeBinInt-Custom-EraseBytes-Custom-
+#1582	REDUCE cov: 56 ft: 61 corp: 2/4b lim: 17 exec/s: 0 rss: 1551Mb L: 3/3 MS: 2 EraseBytes-Custom-
+#4408	REDUCE cov: 57 ft: 63 corp: 3/8b lim: 43 exec/s: 0 rss: 1552Mb L: 4/4 MS: 2 InsertByte-Custom-
+#524288	pulse  cov: 57 ft: 63 corp: 3/8b lim: 4096 exec/s: 262144 rss: 1641Mb
+#1048576	pulse  cov: 57 ft: 63 corp: 3/8b lim: 4096 exec/s: 262144 rss: 1641Mb
+#2097152	pulse  cov: 57 ft: 63 corp: 3/8b lim: 4096 exec/s: 262144 rss: 1641Mb
+#4194304	pulse  cov: 57 ft: 63 corp: 3/8b lim: 4096 exec/s: 233016 rss: 1641Mb
+#8388608	pulse  cov: 57 ft: 63 corp: 3/8b lim: 4096 exec/s: 226719 rss: 1647Mb
+#16777216	pulse  cov: 57 ft: 63 corp: 3/8b lim: 4096 exec/s: 223696 rss: 1647Mb
+#33554432	pulse  cov: 57 ft: 63 corp: 3/8b lim: 4096 exec/s: 225197 rss: 1647Mb
+#67108864	pulse  cov: 57 ft: 63 corp: 3/8b lim: 4096 exec/s: 226719 rss: 1647Mb
+#134217728	pulse  cov: 57 ft: 63 corp: 3/8b lim: 4096 exec/s: 221116 rss: 1647Mb
+#268435456	pulse  cov: 57 ft: 63 corp: 3/8b lim: 4096 exec/s: 224632 rss: 1647Mb
+#536870912	pulse  cov: 57 ft: 63 corp: 3/8b lim: 4096 exec/s: 222675 rss: 1647Mb
+#1073741824	pulse  cov: 57 ft: 63 corp: 3/8b lim: 4096 exec/s: 224585 rss: 1648Mb
+#1600486838	DONE   cov: 57 ft: 63 corp: 3/8b lim: 4096 exec/s: 222258 rss: 1649Mb
+Done 1600486838 runs in 7201 second(s)

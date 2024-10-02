@@ -1,0 +1,104 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.8/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :compileKotlin NO-SOURCE
+> Task :compileJava NO-SOURCE
+> Task :processResources NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :jar UP-TO-DATE
+> Task :compileTestKotlin UP-TO-DATE
+> Task :compileTestJava NO-SOURCE
+> Task :processTestResources
+> Task :testClasses
+
+> Task :test
+
+DurationTests > parseIsoVsJava(FuzzedDataProvider) STANDARD_ERROR
+    INFO: Loaded 307 hooks from com.code_intelligence.jazzer.runtime.TraceCmpHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.runtime.TraceDivHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.runtime.TraceIndirHooks
+    INFO: Loaded 4 hooks from com.code_intelligence.jazzer.runtime.NativeLibHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.sanitizers.ClojureLangHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.Deserialization
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.ExpressionLanguageInjection
+    INFO: Loaded 70 hooks from com.code_intelligence.jazzer.sanitizers.LdapInjection
+    INFO: Loaded 46 hooks from com.code_intelligence.jazzer.sanitizers.NamingContextLookup
+    INFO: Loaded 1 hooks from com.code_intelligence.jazzer.sanitizers.OsCommandInjection
+    INFO: Loaded 92 hooks from com.code_intelligence.jazzer.sanitizers.ReflectiveCall
+    INFO: Loaded 8 hooks from com.code_intelligence.jazzer.sanitizers.RegexInjection
+    INFO: Loaded 16 hooks from com.code_intelligence.jazzer.sanitizers.RegexRoadblocks
+    INFO: Loaded 12 hooks from com.code_intelligence.jazzer.sanitizers.ScriptEngineInjection
+    INFO: Loaded 3 hooks from com.code_intelligence.jazzer.sanitizers.ServerSideRequestForgery
+    INFO: Loaded 19 hooks from com.code_intelligence.jazzer.sanitizers.SqlInjection
+    INFO: Loaded 6 hooks from com.code_intelligence.jazzer.sanitizers.XPathInjection
+
+DurationTests > parseIsoVsJava(FuzzedDataProvider) > <empty input> STANDARD_ERROR
+    WARN: JUnit arguments of type(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl with value(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl@f9879ac can not be serialized as fuzzing inputs. Skipped.
+
+DurationTests > parseIsoVsJava(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.DurationTests/parseIsoVsJava
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/DurationTestsInputs/parseIsoVsJava
+    INFO: using inputs from: /tmp/jazzer-java-seeds9192230211231706031
+
+
+> Task :test
+
+    == Java Exception: org.opentest4j.AssertionFailedError: expected: <false> but was: <true>
+    	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+    	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+    	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+    	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+    	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+    	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1142)
+    	at fuzz.DurationTests.parseIsoVsJava(DurationTests.kt:66)
+
+DurationTests > parseIsoVsJava(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 9ae6aa782a439e6a
+
+DurationTests > parseIsoVsJava(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+    INFO: Instrumented kotlinx.datetime.TimeZone (took 75 ms, size +19%)
+    INFO: Instrumented kotlinx.datetime.TimeZone$Companion (took 11 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.IllegalTimeZoneException (took 13 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.UtcOffset (took 12 ms, size +26%)
+    INFO: Instrumented kotlinx.datetime.UtcOffset$Companion (took 19 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.UtcOffsetKt (took 6 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.FixedOffsetTimeZone (took 11 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.FixedOffsetTimeZone$Companion (took 4 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.TimeZoneKt__TimeZoneJvmKt (took 9 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.DateTimeArithmeticException (took 12 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.Padding (took 8 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.format.MonthNames (took 11 ms, size +15%)
+    INFO: Instrumented kotlinx.datetime.format.MonthNames$Companion (took 3 ms, size +8%)
+
+
+> Task :test
+
+    == Java Exception: org.opentest4j.AssertionFailedError: expected: <Infinity> but was: <4h>
+    	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+    	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+    	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+    	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+    	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+    	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1142)
+    	at fuzz.DurationTests.parseIsoVsJava(DurationTests.kt:76)
+
+DurationTests > parseIsoVsJava(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: b0154582c183f2bd
+
+DurationTests > parseIsoVsJava(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: org.opentest4j.AssertionFailedError: expected: <PT6666666666644H> but was: <PT2562047788015215H30M7S>
+    	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+    	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+    	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+    	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+    	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+    	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1142)
+    	at fuzz.DurationTests.parseIsoVsJava(DurationTests.kt:77)
+
+DurationTests > parseIsoVsJava(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: ebbbf6417ad5188b
+
+
+> Task :test FAILED
+4 actionable tasks: 2 executed, 2 up-to-date

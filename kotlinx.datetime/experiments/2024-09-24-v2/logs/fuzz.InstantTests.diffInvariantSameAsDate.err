@@ -1,0 +1,26 @@
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: found LLVMFuzzerCustomMutator (0x74df30c65a00). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 1552698783
+INFO: Loaded 2 modules   (1024 inline 8-bit counters): 512 [0x74df64c96e30, 0x74df64c97030), 512 [0x74df64c97030, 0x74df64c97230), 
+INFO: Loaded 2 PC tables (1024 PCs): 512 [0x74df64754210,0x74df64756210), 512 [0x74df6470a2f0,0x74df6470c2f0), 
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.InstantTests/diffInvariantSameAsDate
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/resources/test/fuzz/InstantTestsInputs/diffInvariantSameAsDate
+INFO:        0 files found in /tmp/jazzer-java-seeds11394108616856481816
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED cov: 47 ft: 47 corp: 1/1b exec/s: 0 rss: 1612Mb
+#1048576	pulse  cov: 47 ft: 47 corp: 1/1b lim: 4096 exec/s: 524288 rss: 1623Mb
+#2097152	pulse  cov: 47 ft: 47 corp: 1/1b lim: 4096 exec/s: 419430 rss: 1623Mb
+#4194304	pulse  cov: 47 ft: 47 corp: 1/1b lim: 4096 exec/s: 381300 rss: 1623Mb
+#8388608	pulse  cov: 47 ft: 47 corp: 1/1b lim: 4096 exec/s: 322638 rss: 1623Mb
+#16777216	pulse  cov: 47 ft: 47 corp: 1/1b lim: 4096 exec/s: 322638 rss: 1637Mb
+#33554432	pulse  cov: 47 ft: 47 corp: 1/1b lim: 4096 exec/s: 335544 rss: 1637Mb
+#67108864	pulse  cov: 47 ft: 47 corp: 1/1b lim: 4096 exec/s: 377016 rss: 1637Mb
+#134217728	pulse  cov: 47 ft: 47 corp: 1/1b lim: 4096 exec/s: 419430 rss: 1637Mb
+#268435456	pulse  cov: 47 ft: 47 corp: 1/1b lim: 4096 exec/s: 446648 rss: 1637Mb
+#536870912	pulse  cov: 47 ft: 47 corp: 1/1b lim: 4096 exec/s: 468473 rss: 1637Mb
+#1073741824	pulse  cov: 47 ft: 47 corp: 1/1b lim: 4096 exec/s: 483667 rss: 1637Mb
+#2147483648	pulse  cov: 47 ft: 47 corp: 1/1b lim: 4096 exec/s: 486957 rss: 1637Mb
+#3527249882	DONE   cov: 47 ft: 47 corp: 1/1b lim: 4096 exec/s: 489827 rss: 1637Mb
+Done 3527249882 runs in 7201 second(s)

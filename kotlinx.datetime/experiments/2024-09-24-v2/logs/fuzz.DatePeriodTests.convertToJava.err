@@ -1,0 +1,62 @@
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: found LLVMFuzzerCustomMutator (0x7f8b9e870a00). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 2932589748
+INFO: Loaded 1 modules   (512 inline 8-bit counters): 512 [0x7f8bd4aa0610, 0x7f8bd4aa0810), 
+INFO: Loaded 1 PC tables (512 PCs): 512 [0x7f8bd4a82f00,0x7f8bd4a84f00), 
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.DatePeriodTests/convertToJava
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/resources/test/fuzz/DatePeriodTestsInputs/convertToJava
+INFO:        0 files found in /tmp/jazzer-java-seeds18289595857687097887
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED cov: 88 ft: 88 corp: 1/1b exec/s: 0 rss: 1610Mb
+#17	NEW    cov: 91 ft: 97 corp: 2/5b lim: 4 exec/s: 0 rss: 1610Mb L: 4/4 MS: 10 InsertByte-Custom-InsertByte-Custom-ChangeBit-Custom-ChangeBit-Custom-CrossOver-Custom-
+#36	NEW    cov: 94 ft: 101 corp: 3/7b lim: 4 exec/s: 0 rss: 1610Mb L: 2/4 MS: 8 EraseBytes-Custom-EraseBytes-Custom-CrossOver-Custom-EraseBytes-Custom-
+#41	NEW    cov: 94 ft: 110 corp: 4/11b lim: 4 exec/s: 0 rss: 1610Mb L: 4/4 MS: 10 ChangeBit-Custom-ChangeByte-Custom-CrossOver-Custom-ShuffleBytes-Custom-InsertByte-Custom-
+#58	NEW    cov: 95 ft: 112 corp: 5/15b lim: 4 exec/s: 0 rss: 1610Mb L: 4/4 MS: 4 ChangeBit-Custom-CrossOver-Custom-
+#69	REDUCE cov: 95 ft: 112 corp: 5/13b lim: 4 exec/s: 0 rss: 1610Mb L: 2/4 MS: 2 CrossOver-Custom-
+#357	NEW    cov: 95 ft: 115 corp: 6/19b lim: 6 exec/s: 0 rss: 1611Mb L: 6/6 MS: 6 ShuffleBytes-Custom-ChangeBit-Custom-CrossOver-Custom-
+#369	NEW    cov: 96 ft: 116 corp: 7/25b lim: 6 exec/s: 0 rss: 1611Mb L: 6/6 MS: 4 ChangeBit-Custom-CMP-Custom- DE: "P371Y1"-
+#466	REDUCE cov: 97 ft: 118 corp: 8/27b lim: 6 exec/s: 0 rss: 1612Mb L: 2/6 MS: 4 ChangeBit-Custom-ChangeBit-Custom-
+#653	REDUCE cov: 97 ft: 122 corp: 9/33b lim: 6 exec/s: 0 rss: 1612Mb L: 6/6 MS: 4 ShuffleBytes-Custom-InsertRepeatedBytes-Custom-
+#773	REDUCE cov: 97 ft: 122 corp: 9/32b lim: 6 exec/s: 0 rss: 1612Mb L: 3/6 MS: 10 CrossOver-Custom-ChangeBit-Custom-ShuffleBytes-Custom-ChangeBinInt-Custom-EraseBytes-Custom-
+#842	NEW    cov: 97 ft: 124 corp: 10/38b lim: 6 exec/s: 0 rss: 1612Mb L: 6/6 MS: 8 ChangeBit-Custom-ShuffleBytes-Custom-ChangeByte-Custom-ChangeBit-Custom-
+#899	REDUCE cov: 97 ft: 124 corp: 10/37b lim: 6 exec/s: 0 rss: 1612Mb L: 5/6 MS: 4 ChangeBit-Custom-EraseBytes-Custom-
+#8395	NEW    cov: 97 ft: 132 corp: 11/43b lim: 80 exec/s: 0 rss: 1617Mb L: 6/6 MS: 2 ChangeByte-Custom-
+#8534	NEW    cov: 98 ft: 133 corp: 12/56b lim: 80 exec/s: 0 rss: 1617Mb L: 13/13 MS: 8 InsertByte-Custom-ChangeBinInt-Custom-ChangeByte-Custom-CrossOver-Custom-
+#8648	REDUCE cov: 98 ft: 133 corp: 12/55b lim: 80 exec/s: 0 rss: 1617Mb L: 5/13 MS: 8 ChangeByte-Custom-CrossOver-Custom-EraseBytes-Custom-EraseBytes-Custom-
+#8794	REDUCE cov: 98 ft: 133 corp: 12/53b lim: 80 exec/s: 0 rss: 1617Mb L: 3/13 MS: 2 EraseBytes-Custom-
+#9492	REDUCE cov: 98 ft: 146 corp: 13/58b lim: 86 exec/s: 0 rss: 1623Mb L: 5/13 MS: 6 ChangeBit-Custom-ChangeByte-Custom-CopyPart-Custom-
+#10630	NEW    cov: 98 ft: 152 corp: 14/65b lim: 92 exec/s: 0 rss: 1629Mb L: 7/13 MS: 6 CrossOver-Custom-EraseBytes-Custom-CrossOver-Custom-
+#10886	REDUCE cov: 98 ft: 152 corp: 14/64b lim: 92 exec/s: 0 rss: 1629Mb L: 6/13 MS: 2 EraseBytes-Custom-
+#11227	NEW    cov: 100 ft: 160 corp: 15/73b lim: 92 exec/s: 0 rss: 1631Mb L: 9/13 MS: 2 CopyPart-Custom-
+#11263	REDUCE cov: 100 ft: 160 corp: 15/72b lim: 92 exec/s: 0 rss: 1632Mb L: 2/13 MS: 2 EraseBytes-Custom-
+#11509	REDUCE cov: 100 ft: 160 corp: 15/69b lim: 92 exec/s: 0 rss: 1632Mb L: 6/13 MS: 2 EraseBytes-Custom-
+#11652	REDUCE cov: 100 ft: 160 corp: 15/68b lim: 92 exec/s: 0 rss: 1632Mb L: 12/12 MS: 6 InsertByte-Custom-ShuffleBytes-Custom-EraseBytes-Custom-
+#12116	REDUCE cov: 100 ft: 160 corp: 15/67b lim: 92 exec/s: 0 rss: 1632Mb L: 11/11 MS: 8 CopyPart-Custom-InsertByte-Custom-ChangeASCIIInt-Custom-EraseBytes-Custom-
+#13088	REDUCE cov: 100 ft: 160 corp: 15/66b lim: 98 exec/s: 0 rss: 1632Mb L: 10/10 MS: 4 ChangeBit-Custom-EraseBytes-Custom-
+#13520	REDUCE cov: 100 ft: 160 corp: 15/65b lim: 98 exec/s: 0 rss: 1632Mb L: 4/10 MS: 4 EraseBytes-Custom-CrossOver-Custom-
+#17557	REDUCE cov: 100 ft: 160 corp: 15/62b lim: 135 exec/s: 0 rss: 1632Mb L: 7/7 MS: 4 ChangeByte-Custom-EraseBytes-Custom-
+#21783	REDUCE cov: 100 ft: 160 corp: 15/61b lim: 170 exec/s: 0 rss: 1633Mb L: 6/6 MS: 2 EraseBytes-Custom-
+#42968	REDUCE cov: 100 ft: 160 corp: 15/60b lim: 373 exec/s: 42968 rss: 1648Mb L: 3/6 MS: 10 ChangeByte-Custom-EraseBytes-Custom-ShuffleBytes-Custom-CrossOver-Custom-ShuffleBytes-Custom-
+#55281	REDUCE cov: 100 ft: 160 corp: 15/59b lim: 493 exec/s: 55281 rss: 1657Mb L: 5/6 MS: 6 CrossOver-Custom-EraseBytes-Custom-EraseBytes-Custom-
+#56453	REDUCE cov: 100 ft: 160 corp: 15/58b lim: 501 exec/s: 56453 rss: 1657Mb L: 4/6 MS: 4 EraseBytes-Custom-CopyPart-Custom-
+#65536	pulse  cov: 100 ft: 160 corp: 15/58b lim: 589 exec/s: 32768 rss: 1657Mb
+#131072	pulse  cov: 100 ft: 160 corp: 15/58b lim: 1240 exec/s: 65536 rss: 1659Mb
+#262144	pulse  cov: 100 ft: 160 corp: 15/58b lim: 2545 exec/s: 65536 rss: 1660Mb
+#524288	pulse  cov: 100 ft: 160 corp: 15/58b lim: 4096 exec/s: 58254 rss: 1660Mb
+#1048576	pulse  cov: 100 ft: 160 corp: 15/58b lim: 4096 exec/s: 74898 rss: 1660Mb
+#2097152	pulse  cov: 100 ft: 160 corp: 15/58b lim: 4096 exec/s: 77672 rss: 1660Mb
+#4194304	pulse  cov: 100 ft: 160 corp: 15/58b lim: 4096 exec/s: 87381 rss: 1669Mb
+#8388608	pulse  cov: 100 ft: 160 corp: 15/58b lim: 4096 exec/s: 106184 rss: 1669Mb
+#16777216	pulse  cov: 100 ft: 160 corp: 15/58b lim: 4096 exec/s: 131072 rss: 1669Mb
+#33554432	pulse  cov: 100 ft: 160 corp: 15/58b lim: 4096 exec/s: 138654 rss: 1669Mb
+#67108864	pulse  cov: 100 ft: 160 corp: 15/58b lim: 4096 exec/s: 140985 rss: 1669Mb
+#134217728	pulse  cov: 100 ft: 160 corp: 15/58b lim: 4096 exec/s: 154628 rss: 1669Mb
+#268435456	pulse  cov: 100 ft: 160 corp: 15/58b lim: 4096 exec/s: 153479 rss: 1669Mb
+#536870912	pulse  cov: 100 ft: 160 corp: 15/58b lim: 4096 exec/s: 150047 rss: 1669Mb
+#1070196103	DONE   cov: 100 ft: 160 corp: 15/58b lim: 4096 exec/s: 148617 rss: 1669Mb
+###### Recommended dictionary. ######
+"P371Y1" # Uses: 78411008
+###### End of recommended dictionary. ######
+Done 1070196103 runs in 7201 second(s)

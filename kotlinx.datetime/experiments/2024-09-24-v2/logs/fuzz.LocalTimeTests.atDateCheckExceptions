@@ -1,0 +1,70 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.8/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :compileKotlin NO-SOURCE
+> Task :compileJava NO-SOURCE
+> Task :processResources NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :jar UP-TO-DATE
+> Task :compileTestKotlin UP-TO-DATE
+> Task :compileTestJava NO-SOURCE
+> Task :processTestResources
+> Task :testClasses
+
+> Task :test
+
+LocalTimeTests > atDateCheckExceptions(FuzzedDataProvider) STANDARD_ERROR
+    INFO: Loaded 307 hooks from com.code_intelligence.jazzer.runtime.TraceCmpHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.runtime.TraceDivHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.runtime.TraceIndirHooks
+    INFO: Loaded 4 hooks from com.code_intelligence.jazzer.runtime.NativeLibHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.sanitizers.ClojureLangHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.Deserialization
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.ExpressionLanguageInjection
+    INFO: Loaded 70 hooks from com.code_intelligence.jazzer.sanitizers.LdapInjection
+    INFO: Loaded 46 hooks from com.code_intelligence.jazzer.sanitizers.NamingContextLookup
+    INFO: Loaded 1 hooks from com.code_intelligence.jazzer.sanitizers.OsCommandInjection
+    INFO: Loaded 92 hooks from com.code_intelligence.jazzer.sanitizers.ReflectiveCall
+    INFO: Loaded 8 hooks from com.code_intelligence.jazzer.sanitizers.RegexInjection
+    INFO: Loaded 16 hooks from com.code_intelligence.jazzer.sanitizers.RegexRoadblocks
+    INFO: Loaded 12 hooks from com.code_intelligence.jazzer.sanitizers.ScriptEngineInjection
+    INFO: Loaded 3 hooks from com.code_intelligence.jazzer.sanitizers.ServerSideRequestForgery
+    INFO: Loaded 19 hooks from com.code_intelligence.jazzer.sanitizers.SqlInjection
+    INFO: Loaded 6 hooks from com.code_intelligence.jazzer.sanitizers.XPathInjection
+    INFO: Instrumented kotlinx.datetime.LocalTime (took 55 ms, size +16%)
+
+LocalTimeTests > atDateCheckExceptions(FuzzedDataProvider) > <empty input> STANDARD_ERROR
+    WARN: JUnit arguments of type(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl with value(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl@25f9407e can not be serialized as fuzzing inputs. Skipped.
+    INFO: Instrumented kotlinx.datetime.TimeZone (took 11 ms, size +19%)
+    INFO: Instrumented kotlinx.datetime.TimeZone$Companion (took 7 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.IllegalTimeZoneException (took 3 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.UtcOffset (took 5 ms, size +26%)
+    INFO: Instrumented kotlinx.datetime.UtcOffset$Companion (took 6 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.UtcOffsetKt (took 3 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.FixedOffsetTimeZone (took 5 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.FixedOffsetTimeZone$Companion (took 2 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.TimeZoneKt__TimeZoneJvmKt (took 7 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.DateTimeArithmeticException (took 3 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.Padding (took 4 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.format.MonthNames (took 10 ms, size +15%)
+    INFO: Instrumented kotlinx.datetime.format.MonthNames$Companion (took 6 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.LocalTime$Companion (took 9 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.DateTimeFormatException (took 3 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.LocalDate (took 12 ms, size +15%)
+    INFO: Instrumented kotlinx.datetime.LocalDate$Companion (took 11 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.MonthKt (took 2 ms, size +21%)
+    INFO: Instrumented kotlinx.datetime.LocalTimeKt (took 6 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.LocalDateTime (took 9 ms, size +14%)
+    INFO: Instrumented kotlinx.datetime.LocalDateTime$Companion (took 2 ms, size +6%)
+
+LocalTimeTests > atDateCheckExceptions(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.LocalTimeTests/atDateCheckExceptions
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalTimeTestsInputs/atDateCheckExceptions
+
+
+> Task :test
+    INFO: using inputs from: /tmp/jazzer-java-seeds11968417097394170900
+
+
+BUILD SUCCESSFUL in 2h 10s
+4 actionable tasks: 2 executed, 2 up-to-date

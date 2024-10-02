@@ -1,0 +1,57 @@
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: found LLVMFuzzerCustomMutator (0x742f7ab71a00). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 1566886178
+INFO: Loaded 4 modules   (4096 inline 8-bit counters): 512 [0x742fb0bf9350, 0x742fb0bf9550), 512 [0x742fb0bf9550, 0x742fb0bf9750), 1024 [0x742fb0bf9750, 0x742fb0bf9b50), 2048 [0x742fb0bf9b50, 0x742fb0bfa350), 
+INFO: Loaded 4 PC tables (4096 PCs): 512 [0x742fb06f9010,0x742fb06fb010), 512 [0x742fb08ad400,0x742fb08af400), 1024 [0x742fb0ba0050,0x742fb0ba4050), 2048 [0x742fb0d9fb10,0x742fb0da7b10), 
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.InstantTests/convertToJava
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/resources/test/fuzz/InstantTestsInputs/convertToJava
+INFO:        0 files found in /tmp/jazzer-java-seeds9769689530870049954
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED cov: 315 ft: 315 corp: 1/1b exec/s: 0 rss: 1644Mb
+#220	NEW    cov: 319 ft: 329 corp: 2/7b lim: 6 exec/s: 0 rss: 1649Mb L: 6/6 MS: 6 ShuffleBytes-Custom-InsertRepeatedBytes-Custom-CopyPart-Custom-
+#249	NEW    cov: 319 ft: 335 corp: 3/13b lim: 6 exec/s: 0 rss: 1649Mb L: 6/6 MS: 8 ChangeByte-Custom-EraseBytes-Custom-ChangeBit-Custom-CopyPart-Custom-
+#389	REDUCE cov: 319 ft: 335 corp: 3/12b lim: 6 exec/s: 0 rss: 1650Mb L: 5/6 MS: 10 ChangeBit-Custom-CopyPart-Custom-ChangeBit-Custom-ShuffleBytes-Custom-EraseBytes-Custom-
+#606	NEW    cov: 333 ft: 377 corp: 4/19b lim: 8 exec/s: 0 rss: 1651Mb L: 7/7 MS: 4 ShuffleBytes-Custom-InsertByte-Custom-
+#619	NEW    cov: 333 ft: 383 corp: 5/27b lim: 8 exec/s: 0 rss: 1651Mb L: 8/8 MS: 6 ChangeByte-Custom-ChangeBit-Custom-InsertRepeatedBytes-Custom-
+#666	REDUCE cov: 333 ft: 383 corp: 5/26b lim: 8 exec/s: 0 rss: 1651Mb L: 7/7 MS: 4 ShuffleBytes-Custom-EraseBytes-Custom-
+#4657	NEW    cov: 335 ft: 388 corp: 6/55b lim: 43 exec/s: 0 rss: 1653Mb L: 29/29 MS: 2 InsertRepeatedBytes-Custom-
+#4705	REDUCE cov: 335 ft: 388 corp: 6/48b lim: 43 exec/s: 0 rss: 1653Mb L: 22/22 MS: 6 ChangeBinInt-Custom-ShuffleBytes-Custom-EraseBytes-Custom-
+#4821	REDUCE cov: 335 ft: 388 corp: 6/44b lim: 43 exec/s: 0 rss: 1653Mb L: 18/18 MS: 2 EraseBytes-Custom-
+#5004	REDUCE cov: 335 ft: 388 corp: 6/37b lim: 43 exec/s: 0 rss: 1653Mb L: 11/11 MS: 6 ChangeByte-Custom-ChangeBinInt-Custom-EraseBytes-Custom-
+#9547	REDUCE cov: 335 ft: 388 corp: 6/35b lim: 86 exec/s: 9547 rss: 1653Mb L: 9/9 MS: 6 EraseBytes-Custom-ChangeBit-Custom-ShuffleBytes-Custom-
+#32768	pulse  cov: 335 ft: 388 corp: 6/35b lim: 309 exec/s: 10922 rss: 1653Mb
+#65536	pulse  cov: 335 ft: 388 corp: 6/35b lim: 634 exec/s: 13107 rss: 1653Mb
+#131072	pulse  cov: 335 ft: 388 corp: 6/35b lim: 1290 exec/s: 21845 rss: 1672Mb
+#262144	pulse  cov: 335 ft: 388 corp: 6/35b lim: 2589 exec/s: 29127 rss: 1672Mb
+#524288	pulse  cov: 335 ft: 388 corp: 6/35b lim: 4096 exec/s: 32768 rss: 1672Mb
+#644046	REDUCE cov: 335 ft: 388 corp: 6/34b lim: 4096 exec/s: 33897 rss: 1672Mb L: 8/8 MS: 8 EraseBytes-Custom-ChangeBit-Custom-CrossOver-Custom-InsertByte-Custom-
+#1048576	pulse  cov: 335 ft: 388 corp: 6/34b lim: 4096 exec/s: 37449 rss: 1672Mb
+#2097152	pulse  cov: 335 ft: 388 corp: 6/34b lim: 4096 exec/s: 38130 rss: 1672Mb
+#4194304	pulse  cov: 335 ft: 388 corp: 6/34b lim: 4096 exec/s: 47127 rss: 1678Mb
+#5090901	NEW    cov: 335 ft: 391 corp: 7/43b lim: 4096 exec/s: 48027 rss: 1678Mb L: 9/9 MS: 10 ShuffleBytes-Custom-InsertByte-Custom-ChangeBinInt-Custom-InsertByte-Custom-ChangeBinInt-Custom-
+#8388608	pulse  cov: 335 ft: 391 corp: 7/43b lim: 4096 exec/s: 52758 rss: 1678Mb
+#16777216	pulse  cov: 335 ft: 391 corp: 7/43b lim: 4096 exec/s: 57456 rss: 1678Mb
+#33554432	pulse  cov: 335 ft: 391 corp: 7/43b lim: 4096 exec/s: 61008 rss: 1678Mb
+#67108864	pulse  cov: 335 ft: 391 corp: 7/43b lim: 4096 exec/s: 63191 rss: 1678Mb
+#134217728	pulse  cov: 335 ft: 391 corp: 7/43b lim: 4096 exec/s: 64965 rss: 1678Mb
+#268435456	pulse  cov: 335 ft: 391 corp: 7/43b lim: 4096 exec/s: 65744 rss: 1678Mb
+#479717216	DONE   cov: 335 ft: 391 corp: 7/43b lim: 4096 exec/s: 66618 rss: 1678Mb
+Done 479717216 runs in 7201 second(s)
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':test'.
+> A build operation failed.
+      Could not write XML test results for fuzz.InstantTests to file /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/test-results/test/TEST-fuzz.InstantTests.xml.
+   > Could not write XML test results for fuzz.InstantTests to file /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/test-results/test/TEST-fuzz.InstantTests.xml.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 2h 23s

@@ -1,0 +1,27 @@
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: found LLVMFuzzerCustomMutator (0x755bd4d71a00). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 4275622101
+INFO: Loaded 3 modules   (2048 inline 8-bit counters): 512 [0x755c08c24310, 0x755c08c24510), 512 [0x755c08c24510, 0x755c08c24710), 1024 [0x755c08c24710, 0x755c08c24b10), 
+INFO: Loaded 3 PC tables (2048 PCs): 512 [0x755c08bcd0c0,0x755c08bcf0c0), 512 [0x755c08dc7d70,0x755c08dc9d70), 1024 [0x755c08ec9980,0x755c08ecd980), 
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.LocalDateTests/parseWithDictVsJava
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/resources/test/fuzz/LocalDateTestsInputs/parseWithDictVsJava
+INFO:        0 files found in /tmp/jazzer-java-seeds16923889866653851222
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED cov: 12 ft: 12 corp: 1/1b exec/s: 0 rss: 1422Mb
+#131072	pulse  cov: 12 ft: 12 corp: 1/1b lim: 1300 exec/s: 65536 rss: 1434Mb
+#262144	pulse  cov: 12 ft: 12 corp: 1/1b lim: 2611 exec/s: 43690 rss: 1434Mb
+#524288	pulse  cov: 12 ft: 12 corp: 1/1b lim: 4096 exec/s: 37449 rss: 1434Mb
+#1048576	pulse  cov: 12 ft: 12 corp: 1/1b lim: 4096 exec/s: 38836 rss: 1444Mb
+#2097152	pulse  cov: 12 ft: 12 corp: 1/1b lim: 4096 exec/s: 35544 rss: 1445Mb
+#4194304	pulse  cov: 12 ft: 12 corp: 1/1b lim: 4096 exec/s: 39568 rss: 1445Mb
+#8388608	pulse  cov: 12 ft: 12 corp: 1/1b lim: 4096 exec/s: 35394 rss: 1445Mb
+#16777216	pulse  cov: 12 ft: 12 corp: 1/1b lim: 4096 exec/s: 34239 rss: 1445Mb
+#33554432	pulse  cov: 12 ft: 12 corp: 1/1b lim: 4096 exec/s: 31895 rss: 1445Mb
+#46673457	NEW    cov: 86 ft: 86 corp: 2/116b lim: 4096 exec/s: 31240 rss: 1447Mb L: 115/115 MS: 10 CrossOver-Custom-ShuffleBytes-Custom-InsertRepeatedBytes-Custom-ChangeByte-Custom-CopyPart-Custom-
+#67108864	pulse  cov: 86 ft: 86 corp: 2/116b lim: 4096 exec/s: 37179 rss: 1474Mb
+#134217728	pulse  cov: 86 ft: 86 corp: 2/116b lim: 4096 exec/s: 42380 rss: 1474Mb
+#268435456	pulse  cov: 86 ft: 86 corp: 2/116b lim: 4096 exec/s: 43011 rss: 1474Mb
+#306524717	DONE   cov: 86 ft: 86 corp: 2/116b lim: 4096 exec/s: 42566 rss: 1474Mb
+Done 306524717 runs in 7201 second(s)

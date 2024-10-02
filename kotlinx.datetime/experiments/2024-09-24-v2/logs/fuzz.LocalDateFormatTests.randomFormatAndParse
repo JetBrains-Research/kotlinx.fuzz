@@ -1,0 +1,543 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.8/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :compileKotlin NO-SOURCE
+> Task :compileJava NO-SOURCE
+> Task :processResources NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :jar UP-TO-DATE
+> Task :compileTestKotlin UP-TO-DATE
+> Task :compileTestJava NO-SOURCE
+> Task :processTestResources
+> Task :testClasses
+
+> Task :test
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) STANDARD_ERROR
+    INFO: Loaded 307 hooks from com.code_intelligence.jazzer.runtime.TraceCmpHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.runtime.TraceDivHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.runtime.TraceIndirHooks
+    INFO: Loaded 4 hooks from com.code_intelligence.jazzer.runtime.NativeLibHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.sanitizers.ClojureLangHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.Deserialization
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.ExpressionLanguageInjection
+    INFO: Loaded 70 hooks from com.code_intelligence.jazzer.sanitizers.LdapInjection
+    INFO: Loaded 46 hooks from com.code_intelligence.jazzer.sanitizers.NamingContextLookup
+    INFO: Loaded 1 hooks from com.code_intelligence.jazzer.sanitizers.OsCommandInjection
+    INFO: Loaded 92 hooks from com.code_intelligence.jazzer.sanitizers.ReflectiveCall
+    INFO: Loaded 8 hooks from com.code_intelligence.jazzer.sanitizers.RegexInjection
+    INFO: Loaded 16 hooks from com.code_intelligence.jazzer.sanitizers.RegexRoadblocks
+    INFO: Loaded 12 hooks from com.code_intelligence.jazzer.sanitizers.ScriptEngineInjection
+    INFO: Loaded 3 hooks from com.code_intelligence.jazzer.sanitizers.ServerSideRequestForgery
+    INFO: Loaded 19 hooks from com.code_intelligence.jazzer.sanitizers.SqlInjection
+    INFO: Loaded 6 hooks from com.code_intelligence.jazzer.sanitizers.XPathInjection
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormatBuilder$WithDate (took 36 ms, size +-4%)
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormatBuilder (took 0 ms, size +-6%)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > <empty input> STANDARD_ERROR
+    WARN: JUnit arguments of type(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl with value(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl@724f138e can not be serialized as fuzzing inputs. Skipped.
+    INFO: Instrumented kotlinx.datetime.TimeZone (took 97 ms, size +19%)
+    INFO: Instrumented kotlinx.datetime.TimeZone$Companion (took 38 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.IllegalTimeZoneException (took 14 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.UtcOffset (took 29 ms, size +26%)
+    INFO: Instrumented kotlinx.datetime.UtcOffset$Companion (took 21 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.UtcOffsetKt (took 12 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.FixedOffsetTimeZone (took 6 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.FixedOffsetTimeZone$Companion (took 6 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.TimeZoneKt__TimeZoneJvmKt (took 10 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.DateTimeArithmeticException (took 4 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.Padding (took 7 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.format.MonthNames (took 27 ms, size +15%)
+    INFO: Instrumented kotlinx.datetime.format.MonthNames$Companion (took 1 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.LocalDate (took 7 ms, size +15%)
+    INFO: Instrumented kotlinx.datetime.LocalDate$Companion (took 12 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.DateTimeFormatException (took 2 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.LocalDateFormat (took 9 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.format.AbstractDateTimeFormat (took 20 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormat (took 9 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParseException (took 1 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.format.LocalDateFormat$Companion (took 4 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.LocalDateFormat$Builder (took 8 ms, size +3%)
+    INFO: Instrumented kotlinx.datetime.format.AbstractDateTimeFormatBuilder (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.AbstractWithDateBuilder (took 2 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.AppendableFormatStructure (took 5 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.AbstractDateTimeFormatBuilder$DefaultImpls (took 6 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.internal.format.CachedFormatStructure (took 5 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.internal.format.ConcatenatedFormatStructure (took 9 ms, size +13%)
+    INFO: Instrumented kotlinx.datetime.internal.format.FormatStructure (took 1 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.ConcatenatedFormatter (took 5 ms, size +12%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.FormatterStructure (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParserKt (took 24 ms, size +11%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParserStructure (took 3 ms, size +4%)
+    INFO: New number of coverage counters: 1024
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.Parser (took 24 ms, size +12%)
+    INFO: Instrumented kotlinx.datetime.format.LocalDateFormatKt (took 8 ms, size +14%)
+    INFO: Instrumented kotlinx.datetime.format.LocalDateFormatKt$ISO_DATE$2 (took 1 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.format.LocalDateFormatKt$ISO_DATE_BASIC$2 (took 2 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.format.IncompleteLocalDate (took 19 ms, size +24%)
+    INFO: Instrumented kotlinx.datetime.format.DateFieldContainer (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.Copyable (took 2 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.Parser$ParserState (took 4 ms, size +6%)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.LocalDateFormatTests/randomFormatAndParse
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse
+    INFO: using inputs from: /tmp/jazzer-java-seeds2112459569909981556
+
+
+> Task :test
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParseError (took 1 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.Parser$parse$1$3 (took 1 ms, size +6%)
+
+    == Java Exception: java.lang.IllegalArgumentException: Unknown pattern letter: R
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1882)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 3d1df39b3e07c8f6
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Pattern includes reserved character: '}'
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1918)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: a8f6c4c7b4b8d6ca
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Pattern letter count must be 2: V
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1815)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: fd75512186f568cd
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Too many pattern letters: F
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parseField(DateTimeFormatterBuilder.java:2005)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1804)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 20446461e3c498ed
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Pattern ends with an incomplete string literal: 5'
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1899)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: e5d94d585494c3a3
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Pattern invalid as it contains ] without previous [
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1913)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: d216d50ae07cb314
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Too many pattern letters: K
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parseField(DateTimeFormatterBuilder.java:2020)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1804)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 5370846524b8c5f5
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Too many pattern letters: w
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1864)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: c908722e84a596ea
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Too many pattern letters: M
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parseField(DateTimeFormatterBuilder.java:1980)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1804)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 3c5b05ff8d412eff
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Wrong number of pattern letters: B
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1879)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: ed99dfc9feb58bf6
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Too many pattern letters: a
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parseField(DateTimeFormatterBuilder.java:1987)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1804)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: eab95f1ae455c7ee
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Too many pattern letters: z
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1807)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: c43c35ebfa49c2fd
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Minimum width must be from 0 to 9 inclusive but was 14
+    	at java.base/java.time.format.DateTimeFormatterBuilder$FractionPrinterParser.<init>(DateTimeFormatterBuilder.java:3141)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendFraction(DateTimeFormatterBuilder.java:706)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parseField(DateTimeFormatterBuilder.java:1999)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1804)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 0e56bee32b8c346a
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Too many pattern letters: Z
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1834)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 1661a74de82b1a0a
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Too many pattern letters: G
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parseField(DateTimeFormatterBuilder.java:1995)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1804)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 9977b90f2df10123
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Too many pattern letters: x
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1851)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: a48fff3b1ea20283
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Too many pattern letters: W
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1858)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: a429bfef52a3ea72
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Wrong number of pattern letters: v
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1824)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 73793cda653de86e
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: The minimum width must be from 1 to 19 inclusive but was 49
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendValue(DateTimeFormatterBuilder.java:502)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parseField(DateTimeFormatterBuilder.java:2038)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1804)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 05b9294e940f19a6
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Too many pattern letters: X
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1846)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 0221b0d71596a0df
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: The minimum width must be from 1 to 19 inclusive but was 39
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendValue(DateTimeFormatterBuilder.java:502)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parseField(DateTimeFormatterBuilder.java:2033)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1804)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: b5e5439086147343
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Too many pattern letters: D
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parseField(DateTimeFormatterBuilder.java:2029)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1804)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 49189b87f0627e8a
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: The minimum width must be from 1 to 19 inclusive but was 42
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendValue(DateTimeFormatterBuilder.java:502)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parseField(DateTimeFormatterBuilder.java:1936)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1804)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 8841f28a1138e600
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.IllegalArgumentException: Invalid pattern "cc"
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parseField(DateTimeFormatterBuilder.java:1944)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.parsePattern(DateTimeFormatterBuilder.java:1804)
+    	at java.base/java.time.format.DateTimeFormatterBuilder.appendPattern(DateTimeFormatterBuilder.java:1772)
+    	at java.base/java.time.format.DateTimeFormatter.ofPattern(DateTimeFormatter.java:566)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:50)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: cf6127899d33b434
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+    INFO: Instrumented kotlinx.datetime.format.AbstractWithDateBuilder$DefaultImpls (took 4 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.internal.format.BasicFormatStructure (took 9 ms, size +20%)
+    INFO: Instrumented kotlinx.datetime.internal.format.NonConcatenatedFormatStructure (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.DayDirective (took 2 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.internal.format.UnsignedIntFieldFormatDirective (took 21 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.internal.format.FieldFormatDirective (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.DateFields (took 5 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.internal.format.GenericFieldSpec (took 2 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.internal.format.AbstractFieldSpec (took 5 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.internal.format.FieldSpec (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.PropertyAccessor (took 2 ms, size +23%)
+    INFO: Instrumented kotlinx.datetime.internal.format.Accessor (took 2 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.AssignableField (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.DateFields$year$1 (took 1 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.internal.format.UnsignedFieldSpec (took 7 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.format.DateFields$month$1 (took 1 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.format.DateFields$dayOfMonth$1 (took 6 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.format.DateFields$isoDayOfWeek$1 (took 1 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.UnsignedIntFormatterStructure (took 1 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.internal.format.UnsignedIntFieldFormatDirective$formatter$formatter$1 (took 0 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParserOperationKt (took 5 ms, size +10%)
+    INFO: New number of coverage counters: 2048
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.NumberSpanParserOperation (took 12 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParserOperation (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.UnsignedIntConsumer (took 11 ms, size +15%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.NumberConsumer (took 4 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.YearDirective (took 2 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.internal.format.SignedIntFieldFormatDirective (took 2 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.SignedIntFormatterStructure (took 2 ms, size +11%)
+    INFO: Instrumented kotlinx.datetime.internal.format.SignedIntFieldFormatDirective$formatter$formatter$1 (took 1 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.PlainStringParserOperation (took 2 ms, size +11%)
+    INFO: Instrumented kotlinx.datetime.internal.UtilKt (took 1 ms, size +36%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.UnconditionalModification (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.ReducedYearDirective (took 3 ms, size +14%)
+    INFO: Instrumented kotlinx.datetime.internal.format.ReducedIntFieldDirective (took 1 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.ReducedIntFormatterStructure (took 2 ms, size +12%)
+    INFO: Instrumented kotlinx.datetime.internal.format.ReducedIntFieldDirective$formatter$1 (took 1 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ReducedIntConsumer (took 1 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.internal.MathKt (took 16 ms, size +16%)
+    INFO: Instrumented kotlinx.datetime.format.MonthNameDirective (took 2 ms, size +23%)
+    INFO: Instrumented kotlinx.datetime.internal.format.NamedUnsignedIntFieldFormatDirective (took 5 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.StringFormatterStructure (took 0 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.internal.format.NamedUnsignedIntFieldFormatDirective$formatter$1 (took 0 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.StringSetParserOperation (took 6 ms, size +14%)
+    INFO: Instrumented kotlinx.datetime.internal.format.NamedUnsignedIntFieldFormatDirective$AssignableString (took 5 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.StringSetParserOperation$TrieNode (took 2 ms, size +13%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.StringSetParserOperation$special$$inlined$binarySearchBy$default$1 (took 0 ms, size +-1%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.StringSetParserOperation$_init_$reduceTrie$$inlined$sortedBy$1 (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.MonthDirective (took 1 ms, size +9%)
+
+
+> Task :test
+
+    == Java Exception: com.code_intelligence.jazzer.api.FuzzerSecurityIssueLow: Out of memory (use '-Xmx3686m' to reproduce)
+    Caused by: java.lang.OutOfMemoryError: Java heap space
+    	at java.base/java.util.AbstractCollection.toArray(AbstractCollection.java:141)
+    	at java.base/java.util.ArrayList.addAll(ArrayList.java:670)
+    	at kotlin.collections.CollectionsKt___CollectionsKt.plus(_Collections.kt:3264)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:103)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat(Parser.kt:125)
+    	at kotlinx.datetime.internal.format.ConcatenatedFormatStructure.parser(FormatStructure.kt:233)
+    	at kotlinx.datetime.internal.format.CachedFormatStructure.<init>(FormatStructure.kt:248)
+    	at kotlinx.datetime.format.AbstractDateTimeFormatBuilder$DefaultImpls.build(DateTimeFormatBuilder.kt:429)
+    	at kotlinx.datetime.format.LocalDateFormat$Builder.build(LocalDateFormat.kt:406)
+    	at kotlinx.datetime.format.LocalDateFormat$Companion.build(LocalDateFormat.kt:402)
+    	at kotlinx.datetime.LocalDate$Companion.Format(LocalDate.kt:44)
+    	at fuzz.utils.GeneratorsKt.consumeDateFormat(Generators.kt:145)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:52)
+    	at java.base/java.lang.invoke.LambdaForm$DMH/0x00007190400b0000.invokeSpecial(LambdaForm$DMH)
+    	at java.base/java.lang.invoke.LambdaForm$MH/0x0000719040225000.invoke(LambdaForm$MH)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 90352df0fd7657c1
+
+
+
+> Task :test
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: com.code_intelligence.jazzer.api.FuzzerSecurityIssueLow: Out of memory (use '-Xmx3686m' to reproduce)
+    Caused by: java.lang.OutOfMemoryError: Java heap space
+    	at java.base/java.util.ArrayList.iterator(ArrayList.java:947)
+    	at kotlinx.datetime.internal.format.parser.NumberSpanParserOperation.<init>(ParserOperation.kt:437)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:96)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat(Parser.kt:125)
+    	at kotlinx.datetime.internal.format.ConcatenatedFormatStructure.parser(FormatStructure.kt:233)
+    	at kotlinx.datetime.internal.format.CachedFormatStructure.<init>(FormatStructure.kt:248)
+    	at kotlinx.datetime.format.AbstractDateTimeFormatBuilder$DefaultImpls.build(DateTimeFormatBuilder.kt:429)
+    	at kotlinx.datetime.format.LocalDateFormat$Builder.build(LocalDateFormat.kt:406)
+    	at kotlinx.datetime.format.LocalDateFormat$Companion.build(LocalDateFormat.kt:402)
+    	at kotlinx.datetime.LocalDate$Companion.Format(LocalDate.kt:44)
+    	at fuzz.utils.GeneratorsKt.consumeDateFormat(Generators.kt:145)
+    	at fuzz.LocalDateFormatTests.randomFormatAndParse(LocalDateFormatTests.kt:52)
+    	at java.base/java.lang.invoke.LambdaForm$DMH/0x00007190400b0000.invokeSpecial(LambdaForm$DMH)
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 7109bcef5e608b33
+
+
+> Task :test
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: com.code_intelligence.jazzer.api.FuzzerSecurityIssueLow: Out of memory (use '-Xmx3686m' to reproduce)
+    Caused by: java.lang.OutOfMemoryError: Java heap space
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: bac12c1dd0658676
+
+
+> Task :test
+
+LocalDateFormatTests > randomFormatAndParse(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.SpacePaddedFormatter (took 1 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParseResult (took 3 ms, size +19%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParseResult$Companion (took 1 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.PlainStringParserOperation$consume$2 (took 0 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.NumberSpanParserOperation$consume$1 (took 0 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.Parser$match-impl$$inlined$sortByDescending$1 (took 0 ms, size +-1%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParserKt$formatError$1 (took 0 ms, size +5%)
+
+
+> Task :test
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.PlainStringParserOperation$consume$1 (took 1 ms, size +5%)
+
+
+> Task :test
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.StringSetParserOperation$consume$1 (took 8 ms, size +4%)
+
+
+> Task :test
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.NumberSpanParserOperation$consume$2 (took 1 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.NumberConsumerKt (took 1 ms, size +13%)
+
+
+> Task :test FAILED
+4 actionable tasks: 2 executed, 2 up-to-date

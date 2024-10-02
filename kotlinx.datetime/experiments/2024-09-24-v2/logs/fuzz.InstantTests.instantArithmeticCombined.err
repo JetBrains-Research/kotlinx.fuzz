@@ -1,0 +1,43 @@
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: found LLVMFuzzerCustomMutator (0x79e77d56fa00). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 1623135953
+INFO: Loaded 1 modules   (512 inline 8-bit counters): 512 [0x79e7b0b48990, 0x79e7b0b48b90), 
+INFO: Loaded 1 PC tables (512 PCs): 512 [0x79e7b0acef50,0x79e7b0ad0f50), 
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.InstantTests/instantArithmeticCombined
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/resources/test/fuzz/InstantTestsInputs/instantArithmeticCombined
+INFO:        0 files found in /tmp/jazzer-java-seeds14786942321193750301
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED cov: 25 ft: 25 corp: 1/1b exec/s: 0 rss: 1518Mb
+#1048576	pulse  cov: 25 ft: 25 corp: 1/1b lim: 4096 exec/s: 349525 rss: 1523Mb
+#2097152	pulse  cov: 25 ft: 25 corp: 1/1b lim: 4096 exec/s: 349525 rss: 1523Mb
+#4194304	pulse  cov: 25 ft: 25 corp: 1/1b lim: 4096 exec/s: 466033 rss: 1523Mb
+#8388608	pulse  cov: 25 ft: 25 corp: 1/1b lim: 4096 exec/s: 559240 rss: 1523Mb
+#16777216	pulse  cov: 25 ft: 25 corp: 1/1b lim: 4096 exec/s: 645277 rss: 1523Mb
+#33554432	pulse  cov: 25 ft: 25 corp: 1/1b lim: 4096 exec/s: 645277 rss: 1523Mb
+#67108864	pulse  cov: 25 ft: 25 corp: 1/1b lim: 4096 exec/s: 664444 rss: 1523Mb
+#134217728	pulse  cov: 25 ft: 25 corp: 1/1b lim: 4096 exec/s: 721600 rss: 1523Mb
+#268435456	pulse  cov: 25 ft: 25 corp: 1/1b lim: 4096 exec/s: 754032 rss: 1523Mb
+#536870912	pulse  cov: 25 ft: 25 corp: 1/1b lim: 4096 exec/s: 762600 rss: 1523Mb
+#1073741824	pulse  cov: 25 ft: 25 corp: 1/1b lim: 4096 exec/s: 760979 rss: 1523Mb
+#2147483648	pulse  cov: 25 ft: 25 corp: 1/1b lim: 4096 exec/s: 765045 rss: 1523Mb
+#4294967296	pulse  cov: 25 ft: 25 corp: 1/1b lim: 4096 exec/s: 770674 rss: 1523Mb
+#5619098427	DONE   cov: 25 ft: 25 corp: 1/1b lim: 4096 exec/s: 780321 rss: 1523Mb
+Done 5619098427 runs in 7201 second(s)
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':test'.
+> A build operation failed.
+      Could not write XML test results for fuzz.InstantTests to file /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/test-results/test/TEST-fuzz.InstantTests.xml.
+   > Could not write XML test results for fuzz.InstantTests to file /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/test-results/test/TEST-fuzz.InstantTests.xml.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 2h 25s

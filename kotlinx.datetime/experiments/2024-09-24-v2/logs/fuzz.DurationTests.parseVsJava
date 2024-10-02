@@ -1,0 +1,71 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.8/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :compileKotlin NO-SOURCE
+> Task :compileJava NO-SOURCE
+> Task :processResources NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :jar UP-TO-DATE
+> Task :compileTestKotlin UP-TO-DATE
+> Task :compileTestJava NO-SOURCE
+> Task :processTestResources
+> Task :testClasses
+
+> Task :test
+
+DurationTests > parseVsJava(FuzzedDataProvider) STANDARD_ERROR
+    INFO: Loaded 307 hooks from com.code_intelligence.jazzer.runtime.TraceCmpHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.runtime.TraceDivHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.runtime.TraceIndirHooks
+    INFO: Loaded 4 hooks from com.code_intelligence.jazzer.runtime.NativeLibHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.sanitizers.ClojureLangHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.Deserialization
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.ExpressionLanguageInjection
+    INFO: Loaded 70 hooks from com.code_intelligence.jazzer.sanitizers.LdapInjection
+    INFO: Loaded 46 hooks from com.code_intelligence.jazzer.sanitizers.NamingContextLookup
+    INFO: Loaded 1 hooks from com.code_intelligence.jazzer.sanitizers.OsCommandInjection
+    INFO: Loaded 92 hooks from com.code_intelligence.jazzer.sanitizers.ReflectiveCall
+    INFO: Loaded 8 hooks from com.code_intelligence.jazzer.sanitizers.RegexInjection
+    INFO: Loaded 16 hooks from com.code_intelligence.jazzer.sanitizers.RegexRoadblocks
+    INFO: Loaded 12 hooks from com.code_intelligence.jazzer.sanitizers.ScriptEngineInjection
+    INFO: Loaded 3 hooks from com.code_intelligence.jazzer.sanitizers.ServerSideRequestForgery
+    INFO: Loaded 19 hooks from com.code_intelligence.jazzer.sanitizers.SqlInjection
+    INFO: Loaded 6 hooks from com.code_intelligence.jazzer.sanitizers.XPathInjection
+
+DurationTests > parseVsJava(FuzzedDataProvider) > <empty input> STANDARD_ERROR
+    WARN: JUnit arguments of type(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl with value(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl@f9879ac can not be serialized as fuzzing inputs. Skipped.
+
+DurationTests > parseVsJava(FuzzedDataProvider) > crash-1943bbea511c8af937b6e00bcac0a5317a4c12d8 STANDARD_ERROR
+    WARN: JUnit arguments of type(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl with value(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl@ec0c838 can not be serialized as fuzzing inputs. Skipped.
+
+DurationTests > parseVsJava(FuzzedDataProvider) > crash-868a3fef3fee384d709488840073aa89b0909842 STANDARD_ERROR
+    WARN: JUnit arguments of type(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl with value(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl@55f3c410 can not be serialized as fuzzing inputs. Skipped.
+
+DurationTests > parseVsJava(FuzzedDataProvider) > crash-868a3fef3fee384d709488840073aa89b0909842 FAILED
+    org.opentest4j.AssertionFailedError at DurationTests.kt:50
+
+DurationTests > parseVsJava(FuzzedDataProvider) > crash-89a1cde866d9c75d248a91e30ffef4b0ca8ddd77 STANDARD_ERROR
+    WARN: JUnit arguments of type(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl with value(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl@59aa20b3 can not be serialized as fuzzing inputs. Skipped.
+    INFO: Instrumented kotlinx.datetime.TimeZone (took 104 ms, size +19%)
+    INFO: Instrumented kotlinx.datetime.TimeZone$Companion (took 26 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.IllegalTimeZoneException (took 6 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.UtcOffset (took 19 ms, size +26%)
+    INFO: Instrumented kotlinx.datetime.UtcOffset$Companion (took 20 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.UtcOffsetKt (took 7 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.FixedOffsetTimeZone (took 8 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.FixedOffsetTimeZone$Companion (took 11 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.TimeZoneKt__TimeZoneJvmKt (took 13 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.DateTimeArithmeticException (took 3 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.Padding (took 13 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.format.MonthNames (took 24 ms, size +15%)
+    INFO: Instrumented kotlinx.datetime.format.MonthNames$Companion (took 2 ms, size +8%)
+
+DurationTests > parseVsJava(FuzzedDataProvider) > crash-89a1cde866d9c75d248a91e30ffef4b0ca8ddd77 FAILED
+    org.opentest4j.AssertionFailedError at DurationTests.kt:61
+
+DurationTests > parseVsJava(FuzzedDataProvider) > executionError FAILED
+    java.lang.IllegalStateException at SeedArgumentsProvider.java:228
+        Caused by: java.nio.file.NoSuchFileException at UnixException.java:92
+
+> Task :test FAILED
+4 actionable tasks: 2 executed, 2 up-to-date

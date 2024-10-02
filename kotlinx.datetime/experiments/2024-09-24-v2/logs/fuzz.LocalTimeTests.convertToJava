@@ -1,0 +1,154 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.8/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :compileKotlin NO-SOURCE
+> Task :compileJava NO-SOURCE
+> Task :processResources NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :jar UP-TO-DATE
+> Task :compileTestKotlin UP-TO-DATE
+> Task :compileTestJava NO-SOURCE
+> Task :processTestResources UP-TO-DATE
+> Task :testClasses UP-TO-DATE
+
+> Task :test
+
+LocalTimeTests > convertToJava(FuzzedDataProvider) STANDARD_ERROR
+    INFO: Loaded 307 hooks from com.code_intelligence.jazzer.runtime.TraceCmpHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.runtime.TraceDivHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.runtime.TraceIndirHooks
+    INFO: Loaded 4 hooks from com.code_intelligence.jazzer.runtime.NativeLibHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.sanitizers.ClojureLangHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.Deserialization
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.ExpressionLanguageInjection
+    INFO: Loaded 70 hooks from com.code_intelligence.jazzer.sanitizers.LdapInjection
+    INFO: Loaded 46 hooks from com.code_intelligence.jazzer.sanitizers.NamingContextLookup
+    INFO: Loaded 1 hooks from com.code_intelligence.jazzer.sanitizers.OsCommandInjection
+    INFO: Loaded 92 hooks from com.code_intelligence.jazzer.sanitizers.ReflectiveCall
+    INFO: Loaded 8 hooks from com.code_intelligence.jazzer.sanitizers.RegexInjection
+    INFO: Loaded 16 hooks from com.code_intelligence.jazzer.sanitizers.RegexRoadblocks
+    INFO: Loaded 12 hooks from com.code_intelligence.jazzer.sanitizers.ScriptEngineInjection
+    INFO: Loaded 3 hooks from com.code_intelligence.jazzer.sanitizers.ServerSideRequestForgery
+    INFO: Loaded 19 hooks from com.code_intelligence.jazzer.sanitizers.SqlInjection
+    INFO: Loaded 6 hooks from com.code_intelligence.jazzer.sanitizers.XPathInjection
+    INFO: Instrumented kotlinx.datetime.LocalTime (took 119 ms, size +16%)
+
+LocalTimeTests > convertToJava(FuzzedDataProvider) > <empty input> STANDARD_ERROR
+    WARN: JUnit arguments of type(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl with value(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl@25f9407e can not be serialized as fuzzing inputs. Skipped.
+    INFO: Instrumented kotlinx.datetime.TimeZone (took 60 ms, size +19%)
+    INFO: Instrumented kotlinx.datetime.TimeZone$Companion (took 37 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.IllegalTimeZoneException (took 18 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.UtcOffset (took 14 ms, size +26%)
+    INFO: Instrumented kotlinx.datetime.UtcOffset$Companion (took 32 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.UtcOffsetKt (took 15 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.FixedOffsetTimeZone (took 12 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.FixedOffsetTimeZone$Companion (took 6 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.TimeZoneKt__TimeZoneJvmKt (took 18 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.DateTimeArithmeticException (took 5 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.Padding (took 4 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.format.MonthNames (took 17 ms, size +15%)
+    INFO: Instrumented kotlinx.datetime.format.MonthNames$Companion (took 6 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.LocalTime$Companion (took 10 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.DateTimeFormatException (took 1 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.ConvertersKt (took 5 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.LocalTimeKt (took 16 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.LocalTime$Formats (took 1 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.format.LocalTimeFormatKt (took 3 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.format.LocalTimeFormatKt$ISO_TIME$2 (took 2 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.format.IncompleteLocalTime (took 21 ms, size +21%)
+    INFO: Instrumented kotlinx.datetime.format.TimeFieldContainer (took 9 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.Copyable (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.LocalTimeFormat (took 9 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.format.AbstractDateTimeFormat (took 15 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormat (took 1 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParseException (took 1 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.format.LocalTimeFormat$Companion (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.LocalTimeFormatKt$ISO_TIME$2$1 (took 2 ms, size +5%)
+    INFO: New number of coverage counters: 1024
+    INFO: Instrumented kotlinx.datetime.format.LocalTimeFormat$Builder (took 9 ms, size +3%)
+    INFO: Instrumented kotlinx.datetime.format.AbstractDateTimeFormatBuilder (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormatBuilder (took 5 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.AbstractWithTimeBuilder (took 3 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormatBuilder$WithTime (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.AppendableFormatStructure (took 7 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormatBuilder$WithTime$DefaultImpls (took 4 ms, size +19%)
+    INFO: Instrumented kotlinx.datetime.format.AbstractWithTimeBuilder$DefaultImpls (took 11 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.internal.format.BasicFormatStructure (took 3 ms, size +20%)
+    INFO: Instrumented kotlinx.datetime.internal.format.NonConcatenatedFormatStructure (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.FormatStructure (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.HourDirective (took 4 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.internal.format.UnsignedIntFieldFormatDirective (took 5 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.internal.format.FieldFormatDirective (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.TimeFields (took 7 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.internal.format.UnsignedFieldSpec (took 2 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.internal.format.AbstractFieldSpec (took 2 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.internal.format.FieldSpec (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.PropertyAccessor (took 2 ms, size +23%)
+    INFO: Instrumented kotlinx.datetime.internal.format.Accessor (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.AssignableField (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.TimeFields$hour$1 (took 3 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.format.TimeFields$minute$1 (took 1 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.format.TimeFields$second$1 (took 1 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.internal.format.GenericFieldSpec (took 2 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.format.TimeFields$fractionOfSecond$1 (took 2 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.internal.DecimalFraction (took 3 ms, size +21%)
+    INFO: Instrumented kotlinx.datetime.format.TimeFields$amPm$1 (took 2 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.format.TimeFields$hourOfAmPm$1 (took 1 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormatBuilderKt (took 4 ms, size +18%)
+    INFO: Instrumented kotlinx.datetime.format.AbstractDateTimeFormatBuilder$DefaultImpls (took 8 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.internal.format.ConstantFormatStructure (took 9 ms, size +17%)
+    INFO: Instrumented kotlinx.datetime.format.MinuteDirective (took 5 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.LocalTimeFormatKt$ISO_TIME$2$1$1 (took 12 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.format.LocalTimeFormatKt$ISO_TIME$2$1$2 (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.internal.format.ConcatenatedFormatStructure (took 6 ms, size +13%)
+    INFO: Instrumented kotlinx.datetime.format.SecondDirective (took 2 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.LocalTimeFormatKt$ISO_TIME$2$1$2$1 (took 1 ms, size +6%)
+    INFO: New number of coverage counters: 2048
+    INFO: Instrumented kotlinx.datetime.format.FractionalSecondDirective (took 9 ms, size +12%)
+    INFO: Instrumented kotlinx.datetime.internal.format.DecimalFractionFieldFormatDirective (took 1 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.format.FractionalSecondDirective$Companion (took 5 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.internal.format.OptionalFormatStructure (took 8 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.internal.format.FormatStructureKt (took 1 ms, size +11%)
+    INFO: Instrumented kotlinx.datetime.internal.format.OptionalFormatStructure$PropertyWithDefault (took 2 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.internal.format.OptionalFormatStructure$PropertyWithDefault$Companion (took 4 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.internal.format.AlternativesParsingFormatStructure (took 9 ms, size +17%)
+    INFO: Instrumented kotlinx.datetime.internal.format.CachedFormatStructure (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.UnsignedIntFormatterStructure (took 1 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.FormatterStructure (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.UnsignedIntFieldFormatDirective$formatter$formatter$1 (took 1 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.ConstantStringFormatterStructure (took 12 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.DecimalFractionFormatterStructure (took 3 ms, size +13%)
+    INFO: Instrumented kotlinx.datetime.internal.format.DecimalFractionFieldFormatDirective$formatter$1 (took 5 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.ConcatenatedFormatter (took 1 ms, size +12%)
+    INFO: Instrumented kotlinx.datetime.internal.format.ComparisonPredicate (took 3 ms, size +24%)
+    INFO: Instrumented kotlinx.datetime.internal.format.Predicate (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.OptionalFormatStructure$PropertyWithDefault$isDefaultComparisonPredicate$1 (took 0 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.internal.format.PredicateKt (took 0 ms, size +17%)
+    INFO: Instrumented kotlinx.datetime.internal.format.Truth (took 0 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.ConditionalFormatter (took 3 ms, size +11%)
+    INFO: Instrumented kotlinx.datetime.internal.format.OptionalFormatStructure$formatter$1 (took 1 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.internal.format.OptionalFormatStructure$formatter$2 (took 1 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParserOperationKt (took 14 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.NumberSpanParserOperation (took 13 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParserOperation (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.UnsignedIntConsumer (took 6 ms, size +15%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.NumberConsumer (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParserStructure (took 3 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.internal.UtilKt (took 6 ms, size +36%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.PlainStringParserOperation (took 7 ms, size +11%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.FractionPartConsumer (took 4 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParserKt (took 16 ms, size +11%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.UnconditionalModification (took 5 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.internal.format.OptionalFormatStructure$parser$1 (took 2 ms, size +7%)
+
+
+> Task :test
+
+LocalTimeTests > convertToJava(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.LocalTimeTests/convertToJava
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/resources/test/fuzz/LocalTimeTestsInputs/convertToJava
+    INFO: using inputs from: /tmp/jazzer-java-seeds732503436098757319
+
+
+> Task :test FAILED
+4 actionable tasks: 1 executed, 3 up-to-date

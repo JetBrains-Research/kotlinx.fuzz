@@ -1,0 +1,283 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.8/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :compileKotlin NO-SOURCE
+> Task :compileJava NO-SOURCE
+> Task :processResources NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :jar UP-TO-DATE
+> Task :compileTestKotlin UP-TO-DATE
+> Task :compileTestJava NO-SOURCE
+> Task :processTestResources
+> Task :testClasses
+
+> Task :test
+
+LocalTimeFormatTests > byUnicodePattern(FuzzedDataProvider) STANDARD_ERROR
+    INFO: Loaded 307 hooks from com.code_intelligence.jazzer.runtime.TraceCmpHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.runtime.TraceDivHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.runtime.TraceIndirHooks
+    INFO: Loaded 4 hooks from com.code_intelligence.jazzer.runtime.NativeLibHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.sanitizers.ClojureLangHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.Deserialization
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.ExpressionLanguageInjection
+    INFO: Loaded 70 hooks from com.code_intelligence.jazzer.sanitizers.LdapInjection
+    INFO: Loaded 46 hooks from com.code_intelligence.jazzer.sanitizers.NamingContextLookup
+    INFO: Loaded 1 hooks from com.code_intelligence.jazzer.sanitizers.OsCommandInjection
+    INFO: Loaded 92 hooks from com.code_intelligence.jazzer.sanitizers.ReflectiveCall
+    INFO: Loaded 8 hooks from com.code_intelligence.jazzer.sanitizers.RegexInjection
+    INFO: Loaded 16 hooks from com.code_intelligence.jazzer.sanitizers.RegexRoadblocks
+    INFO: Loaded 12 hooks from com.code_intelligence.jazzer.sanitizers.ScriptEngineInjection
+    INFO: Loaded 3 hooks from com.code_intelligence.jazzer.sanitizers.ServerSideRequestForgery
+    INFO: Loaded 19 hooks from com.code_intelligence.jazzer.sanitizers.SqlInjection
+    INFO: Loaded 6 hooks from com.code_intelligence.jazzer.sanitizers.XPathInjection
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormatBuilder$WithTime (took 26 ms, size +-5%)
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormatBuilder (took 1 ms, size +-6%)
+
+LocalTimeFormatTests > byUnicodePattern(FuzzedDataProvider) > <empty input> STANDARD_ERROR
+    WARN: JUnit arguments of type(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl with value(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl@724f138e can not be serialized as fuzzing inputs. Skipped.
+    INFO: Instrumented kotlinx.datetime.LocalTime (took 25 ms, size +18%)
+    INFO: Instrumented kotlinx.datetime.LocalTime$Companion (took 11 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.DateTimeFormatException (took 5 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.LocalTimeFormat (took 6 ms, size +3%)
+    INFO: Instrumented kotlinx.datetime.format.AbstractDateTimeFormat (took 10 ms, size +3%)
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormat (took 2 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParseException (took 2 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.format.LocalTimeFormat$Companion (took 5 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.LocalTimeFormat$Builder (took 10 ms, size +3%)
+    INFO: Instrumented kotlinx.datetime.format.AbstractDateTimeFormatBuilder (took 1 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.AbstractWithTimeBuilder (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.AppendableFormatStructure (took 3 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeKt (took 22 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat (took 1 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Companion (took 5 ms, size +28%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Sequence (took 4 ms, size +22%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$StringLiteral (took 5 ms, size +25%)
+    INFO: Instrumented kotlinx.datetime.format.AbstractDateTimeFormatBuilder$DefaultImpls (took 3 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.internal.format.CachedFormatStructure (took 2 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.internal.format.ConcatenatedFormatStructure (took 4 ms, size +13%)
+    INFO: Instrumented kotlinx.datetime.internal.format.FormatStructure (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.ConcatenatedFormatter (took 1 ms, size +12%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.FormatterStructure (took 0 ms, size +0%)
+    INFO: New number of coverage counters: 1024
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParserKt (took 8 ms, size +11%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParserStructure (took 2 ms, size +4%)
+
+LocalTimeFormatTests > byUnicodePattern(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.LocalTimeFormatTests/byUnicodePattern
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalTimeFormatTestsInputs/byUnicodePattern
+    INFO: using inputs from: /tmp/jazzer-java-seeds1221596577283747096
+
+
+> Task :test
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$TimeBased$WithSubsecondPrecision$MilliOfDay (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$TimeBased$WithSubsecondPrecision (took 0 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$TimeBased$WithSecondPrecision (took 1 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$TimeBased (took 1 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive (took 2 ms, size +12%)
+    INFO: Instrumented kotlinx.datetime.format.UnknownUnicodeDirective (took 5 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$OptionalGroup (took 6 ms, size +26%)
+    INFO: Instrumented kotlinx.datetime.internal.format.ConstantFormatStructure (took 6 ms, size +17%)
+    INFO: Instrumented kotlinx.datetime.internal.format.NonConcatenatedFormatStructure (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased (took 1 ms, size +2%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$ZoneBased (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$OffsetBased (took 1 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.ConstantStringFormatterStructure (took 1 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.internal.UtilKt (took 0 ms, size +36%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.PlainStringParserOperation (took 2 ms, size +11%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParserOperation (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.NumberSpanParserOperation (took 3 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.UnconditionalModification (took 0 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$WeekBasedYear (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormatBuilder$WithDate (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ConstantNumberConsumer (took 1 ms, size +21%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.NumberConsumer (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$OffsetBased$ZoneOffset2 (took 2 ms, size +11%)
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormatBuilder$WithUtcOffset (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$OffsetBased$ZoneOffset3 (took 1 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$TimeBased$AmPmHourOfDay (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$TimeBased$MinuteOfHour (took 1 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.format.Padding (took 2 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.format.AbstractWithTimeBuilder$DefaultImpls (took 2 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.internal.format.BasicFormatStructure (took 2 ms, size +20%)
+    INFO: Instrumented kotlinx.datetime.format.MinuteDirective (took 1 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.internal.format.UnsignedIntFieldFormatDirective (took 2 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.internal.format.FieldFormatDirective (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.TimeFields (took 4 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.internal.format.UnsignedFieldSpec (took 2 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.internal.format.AbstractFieldSpec (took 1 ms, size +7%)
+    INFO: Instrumented kotlinx.datetime.internal.format.FieldSpec (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.PropertyAccessor (took 1 ms, size +23%)
+    INFO: Instrumented kotlinx.datetime.internal.format.Accessor (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.AssignableField (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.TimeFields$hour$1 (took 0 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.format.TimeFieldContainer (took 1 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.TimeFields$minute$1 (took 1 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.format.TimeFields$second$1 (took 1 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.internal.format.GenericFieldSpec (took 1 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.format.TimeFields$fractionOfSecond$1 (took 2 ms, size +7%)
+    INFO: New number of coverage counters: 2048
+    INFO: Instrumented kotlinx.datetime.internal.DecimalFraction (took 2 ms, size +21%)
+    INFO: Instrumented kotlinx.datetime.format.TimeFields$amPm$1 (took 1 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.format.TimeFields$hourOfAmPm$1 (took 0 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.UnsignedIntFormatterStructure (took 1 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.internal.format.UnsignedIntFieldFormatDirective$formatter$formatter$1 (took 0 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.ParserOperationKt (took 3 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.UnsignedIntConsumer (took 2 ms, size +15%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$OffsetBased$ZoneOffset1 (took 1 ms, size +11%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$ZoneBased$GenericTimeZoneName (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormatBuilder$WithDateTimeComponents (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormatBuilder$WithDateTime (took 0 ms, size +0%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$TimeBased$WithSubsecondPrecision$NanoOfDay (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$YearOfEra (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$MonthOfYear (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$DayOfMonth (took 1 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$ModifiedJulianDay (took 1 ms, size +5%)
+
+    == Java Exception: java.util.NoSuchElementException: List is empty.
+    	at kotlin.collections.CollectionsKt___CollectionsKt.last(_Collections.kt:428)
+    	at kotlinx.datetime.format.UnicodeFormat$Companion.parse(Unicode.kt:206)
+    	at kotlinx.datetime.format.UnicodeKt.byUnicodePattern(Unicode.kt:109)
+    	at fuzz.LocalTimeFormatTests.byUnicodePattern$lambda$1$lambda$0(LocalTimeFormatTests.kt:20)
+    	at kotlinx.datetime.format.LocalTimeFormat$Companion.build(LocalTimeFormat.kt:263)
+    	at kotlinx.datetime.LocalTime$Companion.Format(LocalTime.kt:85)
+    	at fuzz.LocalTimeFormatTests.byUnicodePattern(LocalTimeFormatTests.kt:20)
+
+LocalTimeFormatTests > byUnicodePattern(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 660be4f678dfbdf7
+
+LocalTimeFormatTests > byUnicodePattern(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$TimeBased$AmPmMarker (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$ZoneBased$TimeZoneId (took 1 ms, size +11%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$OffsetBased$LocalizedZoneOffset (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$CyclicYearName (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$StandaloneMonthOfYear (took 2 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$ZoneBased$TimeZoneName (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$LocalizedDayOfWeek (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$Era (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$WeekOfWeekBasedYear (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$StandaloneQuarterOfYear (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$QuarterOfYear (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$TimeBased$HourOfDay (took 1 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.format.HourDirective (took 1 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$DayOfWeekInMonth (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$WeekOfMonth (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$DayOfWeek (took 2 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$StandaloneLocalizedDayOfWeek (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$RelatedGregorianYear (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$TimeBased$WithSecondPrecision$SecondOfMinute (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.SecondDirective (took 1 ms, size +9%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$TimeBased$WithSubsecondPrecision$FractionOfSecond (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormatBuilder$WithTime$DefaultImpls (took 1 ms, size +19%)
+    INFO: Instrumented kotlinx.datetime.format.FractionalSecondDirective (took 2 ms, size +12%)
+    INFO: Instrumented kotlinx.datetime.internal.format.DecimalFractionFieldFormatDirective (took 1 ms, size +4%)
+    INFO: Instrumented kotlinx.datetime.format.FractionalSecondDirective$Companion (took 0 ms, size +8%)
+    INFO: Instrumented kotlinx.datetime.internal.format.formatter.DecimalFractionFormatterStructure (took 1 ms, size +13%)
+    INFO: Instrumented kotlinx.datetime.internal.format.DecimalFractionFieldFormatDirective$formatter$1 (took 2 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.internal.format.parser.FractionPartConsumer (took 4 ms, size +10%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$Year (took 2 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$DateBased$DayOfYear (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeFormat$Directive$TimeBased$WithSubsecondPrecision$NanoOfSecond (took 1 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeKt$byUnicodePattern$rec$2 (took 1 ms, size +6%)
+    INFO: Instrumented kotlinx.datetime.format.UnicodeKt$byUnicodePattern$rec$3 (took 0 ms, size +5%)
+    INFO: Instrumented kotlinx.datetime.format.DateTimeFormatBuilderKt (took 3 ms, size +18%)
+    INFO: Instrumented kotlinx.datetime.internal.format.AlternativesParsingFormatStructure (took 2 ms, size +17%)
+
+
+> Task :test
+
+    == Java Exception: com.code_intelligence.jazzer.api.FuzzerSecurityIssueLow: Out of memory (use '-Xmx3686m' to reproduce)
+    Caused by: java.lang.OutOfMemoryError: Java heap space
+    	at java.base/java.util.ArrayList.iterator(ArrayList.java:947)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:241)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+
+LocalTimeFormatTests > byUnicodePattern(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: e3672d0a11be8c4f
+
+
+> Task :test
+
+LocalTimeFormatTests > byUnicodePattern(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: com.code_intelligence.jazzer.api.FuzzerSecurityIssueLow: Out of memory (use '-Xmx3686m' to reproduce)
+    Caused by: java.lang.OutOfMemoryError: Java heap space
+    	at java.base/java.util.Arrays.copyOf(Arrays.java:3481)
+    	at java.base/java.util.ArrayList.toArray(ArrayList.java:369)
+    	at java.base/java.util.ArrayList.<init>(ArrayList.java:181)
+    	at kotlin.collections.CollectionsKt___CollectionsKt.toMutableList(_Collections.kt:1343)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:55)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+    	at kotlinx.datetime.internal.format.parser.ParserKt.concat$simplify(Parser.kt:76)
+
+LocalTimeFormatTests > byUnicodePattern(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: f605961babecb12f
+
+
+> Task :test
+
+LocalTimeFormatTests > byUnicodePattern(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: com.code_intelligence.jazzer.api.FuzzerSecurityIssueLow: Out of memory (use '-Xmx3686m' to reproduce)
+    Caused by: java.lang.OutOfMemoryError: Java heap space
+
+LocalTimeFormatTests > byUnicodePattern(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: bac12c1dd0658676
+
+
+> Task :test FAILED
+4 actionable tasks: 2 executed, 2 up-to-date

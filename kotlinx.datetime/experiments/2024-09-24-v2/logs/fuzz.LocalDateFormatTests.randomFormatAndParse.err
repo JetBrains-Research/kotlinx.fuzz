@@ -1,0 +1,314 @@
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: found LLVMFuzzerCustomMutator (0x719089c70a00). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 1537413786
+INFO: Loaded 2 modules   (1024 inline 8-bit counters): 512 [0x7190c0a9d8e0, 0x7190c0a9dae0), 512 [0x7190c0a9dae0, 0x7190c0a9dce0), 
+INFO: Loaded 2 PC tables (1024 PCs): 512 [0x7190c0b9d8f0,0x7190c0b9f8f0), 512 [0x7190c0bff1c0,0x7190c0c011c0), 
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.LocalDateFormatTests/randomFormatAndParse
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse
+INFO:        0 files found in /tmp/jazzer-java-seeds2112459569909981556
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED cov: 112 ft: 112 corp: 1/1b exec/s: 0 rss: 1605Mb
+#3	NEW    cov: 134 ft: 138 corp: 2/3b lim: 4 exec/s: 0 rss: 1607Mb L: 2/2 MS: 2 CrossOver-Custom-
+MS: 10 ChangeBinInt-Custom-EraseBytes-Custom-ChangeBit-Custom-CrossOver-Custom-ChangeBit-Custom-; base unit: 71853c6197a6a7f222db0f1978c7cb232b87c5ee
+0x52,0xa,
+R\012
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-b1aa98ad3a02ffe896c49687300d8644f50fdd88
+Base64: Ugo=
+MS: 8 CrossOver-Custom-CopyPart-Custom-InsertByte-Custom-ChangeBit-Custom-; base unit: 71853c6197a6a7f222db0f1978c7cb232b87c5ee
+0xa,0xa,0xa,0x7d,
+\012\012\012}
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-a19e84e4a2108c1b57398dd2d4299565d0ee3d7f
+Base64: CgoKfQ==
+MS: 2 InsertByte-Custom-; base unit: 71853c6197a6a7f222db0f1978c7cb232b87c5ee
+0x56,0xa,0xa,
+V\012\012
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-bf7529a5d082326924f0157aeb79f694b43c6f98
+Base64: VgoK
+MS: 4 ChangeBinInt-Custom-InsertRepeatedBytes-Custom-; base unit: adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+0x46,0x46,0x46,0xf3,
+FFF\363
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-fe6c1439f04a017f021b573a4a180799b3b289b6
+Base64: RkZG8w==
+MS: 8 ChangeBit-Custom-InsertByte-Custom-InsertByte-Custom-InsertByte-Custom-; base unit: adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+0x35,0x1a,0x27,0xdf,
+5\032'\337
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-f325009ea324a5b3e2862320e55cf1e89f4e87db
+Base64: NRon3w==
+MS: 10 CrossOver-Custom-InsertByte-Custom-ChangeByte-Custom-InsertByte-Custom-InsertRepeatedBytes-Custom-; base unit: adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+0xa,0x5d,0x5d,0x5d,0xa,0xa,0x0,0x32,
+\012]]]\012\012\0002
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-c45f82b177ff9fdf3859093dedaa6f7ba138d0b6
+Base64: Cl1dXQoKADI=
+MS: 2 InsertRepeatedBytes-Custom-; base unit: adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+0x4b,0x4b,0x4b,0x4b,0x4b,0x4b,0xa,
+KKKKKK\012
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-044732309f71bdf8142d8364556b7ef5887517da
+Base64: S0tLS0tLCg==
+MS: 8 InsertRepeatedBytes-Custom-CrossOver-Custom-ChangeBit-Custom-InsertRepeatedBytes-Custom-; base unit: 71853c6197a6a7f222db0f1978c7cb232b87c5ee
+0xd4,0xd4,0xd4,0xd4,0xd4,0xa,0x8a,0x77,0x77,0x77,0x77,0x77,
+\324\324\324\324\324\012\212wwwww
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-f85b67e7b882a07b929e54d3f4a118158502a92c
+Base64: 1NTU1NQKind3d3d3
+MS: 8 ShuffleBytes-Custom-ChangeByte-Custom-ChangeBit-Custom-InsertRepeatedBytes-Custom-; base unit: adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+0xb2,0x4d,0x4d,0x4d,0x4d,0x4d,0x4d,0x4d,0x4d,0x4d,0x4d,0x4d,
+\262MMMMMMMMMMM
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-21fcca64f7c9e6dd1a2ce02ede74e5f26a6cae46
+Base64: sk1NTU1NTU1NTU1N
+MS: 10 InsertByte-Custom-CrossOver-Custom-CrossOver-Custom-InsertRepeatedBytes-Custom-CopyPart-Custom-; base unit: 71853c6197a6a7f222db0f1978c7cb232b87c5ee
+0x42,0x42,0x42,0x42,0x42,0x41,0xa,0xa,0x42,0x42,0xa,
+BBBBBA\012\012BB\012
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-ec1f079395c8c8dc22d5f46061ac784abdfa93a6
+Base64: QkJCQkJBCgpCQgo=
+MS: 4 InsertRepeatedBytes-Custom-ChangeBinInt-Custom-; base unit: adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+0xa,0x9e,0x9e,0x9e,0x9e,0x9e,0x9e,0x9e,0x9e,0x9e,0x9e,0x9e,0x9e,0x9e,0x5c,0x61,0x61,0x61,0x9e,0x9e,0x9e,0x9e,
+\012\236\236\236\236\236\236\236\236\236\236\236\236\236\\aaa\236\236\236\236
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-801b5cd9883e9a50f82a1d6e7e0b6d830b2c272b
+Base64: Cp6enp6enp6enp6enp5cYWFhnp6eng==
+MS: 4 InsertRepeatedBytes-Custom-InsertRepeatedBytes-Custom-; base unit: 71853c6197a6a7f222db0f1978c7cb232b87c5ee
+0xa,0xa,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0x7a,0x7a,0x7a,0x7a,0x7a,0x7a,0x7a,0x7a,0x7a,0x7a,0x7a,0x7a,0x7a,0x7a,0x7a,0x7a,0x7a,0x7a,0x7a,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,
+\012\012\377\377\377\377\377\377\377\377zzzzzzzzzzzzzzzzzzz\377\377\377\377\377\377\377\377\377
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-a750ea69cdbf553ef361439299d451b60f80846d
+Base64: Cgr//////////3p6enp6enp6enp6enp6enp6enr///////////8=
+MS: 4 ChangeBinInt-Custom-InsertRepeatedBytes-Custom-; base unit: 71853c6197a6a7f222db0f1978c7cb232b87c5ee
+0x53,0x53,0x53,0x53,0x53,0x53,0x53,0x53,0x53,0x53,0x53,0x53,0x53,0x53,0x4,0xa,
+SSSSSSSSSSSSSS\004\012
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-b99baa714a5f0f9d9a3cc8f431571ddb024fc036
+Base64: U1NTU1NTU1NTU1NTU1MECg==
+MS: 8 ShuffleBytes-Custom-InsertByte-Custom-EraseBytes-Custom-InsertRepeatedBytes-Custom-; base unit: 71853c6197a6a7f222db0f1978c7cb232b87c5ee
+0x5a,0x5a,0x5a,0x5a,0x5a,0x5a,0x5a,0x5a,0x5d,0xa,
+ZZZZZZZZ]\012
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-674103260a18d4ee3fe3d00a355d9ad70c1ab510
+Base64: WlpaWlpaWlpdCg==
+MS: 10 ChangeBit-Custom-CMP-Custom-CopyPart-Custom-CrossOver-Custom-InsertRepeatedBytes-Custom- DE: "\000\000\000\000\000\000\000\000"-; base unit: 71853c6197a6a7f222db0f1978c7cb232b87c5ee
+0x0,0x0,0x0,0x0,0x0,0x47,0x47,0x47,0x47,0x47,0x47,0x47,0x47,0x0,0x0,0x0,0x8a,0xa,0xa,
+\000\000\000\000\000GGGGGGGG\000\000\000\212\012\012
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-ecc4391ffcb6ba23aff8681546b7f38fd271bd62
+Base64: AAAAAABHR0dHR0dHRwAAAIoKCg==
+MS: 6 CMP-Custom-InsertRepeatedBytes-Custom-InsertRepeatedBytes-Custom- DE: "\001\000\000\000\000\000\000\000"-; base unit: adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+0x78,0x78,0x78,0x78,0x78,0x78,0x78,0x78,0x78,0x78,0x78,0x78,0x1,0x0,0x0,0x0,0xba,0xba,0xba,0xba,0x0,0x0,0x0,0x0,0xa,
+xxxxxxxxxxxx\001\000\000\000\272\272\272\272\000\000\000\000\012
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-618d5f411b3cd3534a23e57203086b674e707e05
+Base64: eHh4eHh4eHh4eHh4AQAAALq6uroAAAAACg==
+MS: 4 CopyPart-Custom-InsertRepeatedBytes-Custom-; base unit: 71853c6197a6a7f222db0f1978c7cb232b87c5ee
+0xa,0xa,0x57,0x57,0x57,0x57,0x57,0x57,0x57,0x57,0x57,0x57,0x57,0xa,
+\012\012WWWWWWWWWWW\012
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-31ea3f024408e6385c8d0ff3b29405e9b7f06d51
+Base64: CgpXV1dXV1dXV1dXVwo=
+MS: 8 ShuffleBytes-Custom-EraseBytes-Custom-CopyPart-Custom-InsertRepeatedBytes-Custom-; base unit: 71853c6197a6a7f222db0f1978c7cb232b87c5ee
+0xa,0x76,0x76,0x76,0x76,0x76,
+\012vvvvv
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-040769626d8014af82d419da49efac47c2ac1e8f
+Base64: CnZ2dnZ2
+MS: 8 ChangeByte-Custom-InsertByte-Custom-ChangeBit-Custom-InsertRepeatedBytes-Custom-; base unit: adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x6e,0x60,0x84,
+nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn`\204
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-671bdf676c15232021b2648eee89c5a44cdafdac
+Base64: bm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubmCE
+MS: 4 CopyPart-Custom-InsertRepeatedBytes-Custom-; base unit: 71853c6197a6a7f222db0f1978c7cb232b87c5ee
+0xa,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0x58,0xa,0xa,0xa,
+\012XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\012\012\012
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-f26b5e13dd82d7e0c9084a156fb20742467bfbb2
+Base64: ClhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFgKCgo=
+MS: 2 InsertRepeatedBytes-Custom-; base unit: adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0x67,0xa,
+ggggggggggggggggggggggggggggggggggggggg\012
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-64c3c9642e537144bd9e4306bbfd9e16e62fc9c8
+Base64: Z2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnCg==
+MS: 4 CrossOver-Custom-InsertRepeatedBytes-Custom-; base unit: 71853c6197a6a7f222db0f1978c7cb232b87c5ee
+0xa,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0x44,0xa,0xa,
+\012DDDDDDDDDDDDDDDDDDDDDDDDDDDDDD\012\012
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-c0a94f80674e5bd617ec1402058dc7e5ecccdd3d
+Base64: CkRERERERERERERERERERERERERERERERERERERERAoK
+MS: 4 ChangeByte-Custom-InsertRepeatedBytes-Custom-; base unit: adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0x79,0xb5,
+yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\265
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-f4e7738b0cc28a5f12aac543cf415956e83a2bfc
+Base64: eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5tQ==
+MS: 10 EraseBytes-Custom-ChangeByte-Custom-ShuffleBytes-Custom-ChangeBit-Custom-InsertByte-Custom-; base unit: 71853c6197a6a7f222db0f1978c7cb232b87c5ee
+0x63,0x63,
+cc
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-bdb480de655aa6ec75ca058c849c4faf3c0f75b1
+Base64: Y2M=
+#8876	NEW    cov: 318 ft: 327 corp: 3/6b lim: 86 exec/s: 0 rss: 1654Mb L: 3/3 MS: 6 InsertByte-Custom-ChangeByte-Custom-ChangeBit-Custom-
+#8880	NEW    cov: 398 ft: 523 corp: 4/12b lim: 86 exec/s: 8880 rss: 1658Mb L: 6/6 MS: 8 ShuffleBytes-Custom-CrossOver-Custom-ChangeByte-Custom-InsertByte-Custom-
+#8903	NEW    cov: 398 ft: 524 corp: 5/17b lim: 86 exec/s: 8903 rss: 1658Mb L: 5/6 MS: 6 CopyPart-Custom-CopyPart-Custom-InsertByte-Custom-
+#8907	NEW    cov: 398 ft: 578 corp: 6/22b lim: 86 exec/s: 8907 rss: 1658Mb L: 5/6 MS: 8 CopyPart-Custom-ShuffleBytes-Custom-ShuffleBytes-Custom-CopyPart-Custom-
+#8911	NEW    cov: 398 ft: 711 corp: 7/27b lim: 86 exec/s: 8911 rss: 1658Mb L: 5/6 MS: 8 ChangeBit-Custom-CopyPart-Custom-EraseBytes-Custom-CrossOver-Custom-
+#8912	NEW    cov: 456 ft: 769 corp: 8/32b lim: 86 exec/s: 8912 rss: 1662Mb L: 5/6 MS: 2 ChangeBinInt-Custom-
+#8914	NEW    cov: 534 ft: 894 corp: 9/38b lim: 86 exec/s: 8914 rss: 1664Mb L: 6/6 MS: 4 InsertByte-Custom-ChangeByte-Custom-
+#8915	NEW    cov: 534 ft: 920 corp: 10/43b lim: 86 exec/s: 8915 rss: 1664Mb L: 5/6 MS: 2 ChangeBinInt-Custom-
+#8927	NEW    cov: 542 ft: 1002 corp: 11/48b lim: 86 exec/s: 8927 rss: 1664Mb L: 5/6 MS: 4 ChangeASCIIInt-Custom-ChangeASCIIInt-Custom-
+#8929	NEW    cov: 544 ft: 1065 corp: 12/58b lim: 86 exec/s: 8929 rss: 1665Mb L: 10/10 MS: 4 CopyPart-Custom-CrossOver-Custom-
+#8935	NEW    cov: 544 ft: 1072 corp: 13/63b lim: 86 exec/s: 8935 rss: 1665Mb L: 5/10 MS: 2 ShuffleBytes-Custom-
+#8937	NEW    cov: 544 ft: 1073 corp: 14/68b lim: 86 exec/s: 8937 rss: 1665Mb L: 5/10 MS: 4 ChangeBit-Custom-ChangeBinInt-Custom-
+#8953	NEW    cov: 544 ft: 1152 corp: 15/73b lim: 86 exec/s: 8953 rss: 1665Mb L: 5/10 MS: 2 EraseBytes-Custom-
+MS: 10 InsertByte-Custom-InsertByte-Custom-CrossOver-Custom-ShuffleBytes-Custom-InsertRepeatedBytes-Custom-; base unit: 652842a592e6a6e4d46d53b11c877063b4fcdec8
+0x39,0xe0,0x59,0xf0,0x5c,0xa,0xd5,0x5c,0xa,0xb4,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xa,0x39,0x29,
+9\340Y\360\\\012\325\\\012\264\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\0129)
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-6ae7ac37dc82957af444d8774028b8e9c309ff9f
+Base64: OeBZ8FwK1VwKtLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLgKOSk=
+Slowest unit: 90 s:
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/slow-unit-6ae7ac37dc82957af444d8774028b8e9c309ff9f
+Base64: OeBZ8FwK1VwKtLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLgKOSk=
+#8963	NEW    cov: 576 ft: 1320 corp: 16/132b lim: 86 exec/s: 98 rss: 4592Mb L: 59/59 MS: 10 InsertByte-Custom-InsertByte-Custom-CrossOver-Custom-ShuffleBytes-Custom-InsertRepeatedBytes-Custom-
+#8974	NEW    cov: 576 ft: 1391 corp: 17/138b lim: 86 exec/s: 98 rss: 4592Mb L: 6/59 MS: 2 CopyPart-Custom-
+MS: 2 ChangeBinInt-Custom-; base unit: 6ae7ac37dc82957af444d8774028b8e9c309ff9f
+0x39,0xe0,0x59,0xf0,0x5c,0xa,0xd5,0x5c,0x3b,0xb4,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xa,0x39,0x29,
+9\340Y\360\\\012\325\\;\264\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\0129)
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-dd4d10ab4ba64c20a0865a7af7dee0b4a2a93471
+Base64: OeBZ8FwK1Vw7tLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLgKOSk=
+#8980	NEW    cov: 576 ft: 1445 corp: 18/197b lim: 86 exec/s: 53 rss: 4600Mb L: 59/59 MS: 2 ChangeBinInt-Custom-
+#8981	NEW    cov: 576 ft: 1506 corp: 19/208b lim: 86 exec/s: 53 rss: 4600Mb L: 11/59 MS: 2 InsertByte-Custom-
+#8982	REDUCE cov: 576 ft: 1506 corp: 19/207b lim: 86 exec/s: 53 rss: 4600Mb L: 4/59 MS: 2 EraseBytes-Custom-
+#8985	NEW    cov: 576 ft: 1508 corp: 20/215b lim: 86 exec/s: 53 rss: 4600Mb L: 8/59 MS: 6 ChangeASCIIInt-Custom-ChangeByte-Custom-CrossOver-Custom-
+#8986	NEW    cov: 576 ft: 1590 corp: 21/225b lim: 86 exec/s: 53 rss: 4600Mb L: 10/59 MS: 2 CMP-Custom- DE: "\001\010"-
+#8991	NEW    cov: 576 ft: 1607 corp: 22/239b lim: 86 exec/s: 53 rss: 4600Mb L: 14/59 MS: 10 InsertByte-Custom-ShuffleBytes-Custom-ChangeBinInt-Custom-InsertByte-Custom-CopyPart-Custom-
+#8998	NEW    cov: 576 ft: 1634 corp: 23/271b lim: 86 exec/s: 53 rss: 4600Mb L: 32/59 MS: 4 PersAutoDict-Custom-InsertRepeatedBytes-Custom- DE: "\001\010"-
+MS: 2 CrossOver-Custom-; base unit: 74bc2567c69e3fb0c3757d1c305b6377112d9790
+0x5c,0xd3,0xa3,0xe5,0xc6,0xb4,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,0xb8,
+\\\323\243\345\306\264\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270\270
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateFormatTestsInputs/randomFormatAndParse/crash-6bf94fe4b71e96508d38f4d367fe80e37649a4ec
+Base64: XNOj5ca0uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLg=
+#8999	NEW    cov: 576 ft: 1678 corp: 24/315b lim: 86 exec/s: 37 rss: 4600Mb L: 44/59 MS: 2 CrossOver-Custom-
+#9000	NEW    cov: 576 ft: 1705 corp: 25/355b lim: 86 exec/s: 29 rss: 4600Mb L: 40/59 MS: 2 EraseBytes-Custom-
+#9004	NEW    cov: 576 ft: 1765 corp: 26/368b lim: 86 exec/s: 29 rss: 4600Mb L: 13/59 MS: 8 EraseBytes-Custom-CrossOver-Custom-EraseBytes-Custom-CopyPart-Custom-
+#9005	NEW    cov: 576 ft: 1766 corp: 27/375b lim: 86 exec/s: 29 rss: 4600Mb L: 7/59 MS: 2 PersAutoDict-Custom- DE: "\001\010"-
+#9006	NEW    cov: 576 ft: 1774 corp: 28/384b lim: 86 exec/s: 29 rss: 4600Mb L: 9/59 MS: 2 PersAutoDict-Custom- DE: "\001\010"-
+#9012	NEW    cov: 576 ft: 1779 corp: 29/443b lim: 86 exec/s: 24 rss: 4600Mb L: 59/59 MS: 2 ChangeBit-Custom-
+#9018	NEW    cov: 576 ft: 1834 corp: 30/454b lim: 86 exec/s: 24 rss: 4600Mb L: 11/59 MS: 2 CrossOver-Custom-
+#9025	NEW    cov: 576 ft: 1841 corp: 31/534b lim: 86 exec/s: 18 rss: 4601Mb L: 80/80 MS: 4 ShuffleBytes-Custom-InsertRepeatedBytes-Custom-
+#9031	NEW    cov: 657 ft: 1990 corp: 32/553b lim: 86 exec/s: 18 rss: 4604Mb L: 19/80 MS: 2 CrossOver-Custom-
+#9052	NEW    cov: 657 ft: 2015 corp: 33/624b lim: 86 exec/s: 18 rss: 4604Mb L: 71/80 MS: 2 InsertRepeatedBytes-Custom-
+#9053	NEW    cov: 657 ft: 2019 corp: 34/706b lim: 86 exec/s: 15 rss: 4604Mb L: 82/82 MS: 2 CopyPart-Custom-
+#9074	NEW    cov: 657 ft: 2029 corp: 35/786b lim: 86 exec/s: 14 rss: 4605Mb L: 80/82 MS: 2 CopyPart-Custom-
+#9076	NEW    cov: 657 ft: 2076 corp: 36/795b lim: 86 exec/s: 14 rss: 4605Mb L: 9/82 MS: 4 CrossOver-Custom-EraseBytes-Custom-
+#9087	NEW    cov: 657 ft: 2110 corp: 37/823b lim: 86 exec/s: 14 rss: 4605Mb L: 28/82 MS: 2 EraseBytes-Custom-
+#9088	NEW    cov: 657 ft: 2114 corp: 38/864b lim: 86 exec/s: 12 rss: 4606Mb L: 41/82 MS: 2 InsertByte-Custom-
+#9089	NEW    cov: 657 ft: 2119 corp: 39/908b lim: 86 exec/s: 11 rss: 4607Mb L: 44/82 MS: 2 ShuffleBytes-Custom-
+#9090	NEW    cov: 658 ft: 2120 corp: 40/948b lim: 86 exec/s: 10 rss: 4608Mb L: 40/82 MS: 2 ChangeASCIIInt-Custom-
+#9097	NEW    cov: 658 ft: 2163 corp: 41/960b lim: 86 exec/s: 10 rss: 4608Mb L: 12/82 MS: 4 CrossOver-Custom-PersAutoDict-Custom- DE: "\001\010"-
+#9098	NEW    cov: 658 ft: 2209 corp: 42/988b lim: 86 exec/s: 10 rss: 4608Mb L: 28/82 MS: 2 ChangeBit-Custom-
+#9099	NEW    cov: 658 ft: 2211 corp: 43/1048b lim: 86 exec/s: 10 rss: 4608Mb L: 60/82 MS: 2 InsertByte-Custom-
+#9103	NEW    cov: 658 ft: 2268 corp: 44/1079b lim: 86 exec/s: 10 rss: 4608Mb L: 31/82 MS: 8 InsertByte-Custom-ChangeBit-Custom-PersAutoDict-Custom-InsertRepeatedBytes-Custom- DE: "\001\010"-
+#9108	NEW    cov: 658 ft: 2270 corp: 45/1132b lim: 86 exec/s: 10 rss: 4608Mb L: 53/82 MS: 10 InsertRepeatedBytes-Custom-ChangeBit-Custom-EraseBytes-Custom-InsertByte-Custom-ChangeBit-Custom-
+#9109	NEW    cov: 663 ft: 2312 corp: 46/1160b lim: 86 exec/s: 10 rss: 4608Mb L: 28/82 MS: 2 InsertRepeatedBytes-Custom-
+#9120	NEW    cov: 663 ft: 2320 corp: 47/1219b lim: 86 exec/s: 10 rss: 4610Mb L: 59/82 MS: 2 ChangeASCIIInt-Custom-
+#9122	NEW    cov: 664 ft: 2329 corp: 48/1256b lim: 86 exec/s: 10 rss: 4610Mb L: 37/82 MS: 4 CopyPart-Custom-ChangeBit-Custom-
+#9126	REDUCE cov: 664 ft: 2329 corp: 48/1243b lim: 86 exec/s: 10 rss: 4610Mb L: 58/82 MS: 8 InsertByte-Custom-ChangeByte-Custom-InsertRepeatedBytes-Custom-EraseBytes-Custom-
+#9127	NEW    cov: 664 ft: 2330 corp: 49/1284b lim: 86 exec/s: 9 rss: 4611Mb L: 41/82 MS: 2 ChangeBinInt-Custom-
+#9128	NEW    cov: 664 ft: 2340 corp: 50/1300b lim: 86 exec/s: 9 rss: 4611Mb L: 16/82 MS: 2 CrossOver-Custom-
+#9144	NEW    cov: 664 ft: 2374 corp: 51/1363b lim: 86 exec/s: 8 rss: 4612Mb L: 63/82 MS: 2 InsertRepeatedBytes-Custom-
+#9155	NEW    cov: 664 ft: 2379 corp: 52/1422b lim: 86 exec/s: 8 rss: 4612Mb L: 59/82 MS: 2 ChangeBit-Custom-
+#9171	NEW    cov: 669 ft: 2430 corp: 53/1485b lim: 86 exec/s: 7 rss: 4612Mb L: 63/82 MS: 2 ChangeASCIIInt-Custom-
+#9172	NEW    cov: 669 ft: 2462 corp: 54/1548b lim: 86 exec/s: 7 rss: 4612Mb L: 63/82 MS: 2 PersAutoDict-Custom- DE: "\001\010"-
+#9173	NEW    cov: 669 ft: 2533 corp: 55/1573b lim: 86 exec/s: 7 rss: 4612Mb L: 25/82 MS: 2 CrossOver-Custom-
+#9179	NEW    cov: 669 ft: 2537 corp: 56/1653b lim: 86 exec/s: 7 rss: 4614Mb L: 80/82 MS: 2 ChangeBit-Custom-
+#9180	REDUCE cov: 669 ft: 2537 corp: 56/1647b lim: 86 exec/s: 7 rss: 4614Mb L: 31/82 MS: 2 EraseBytes-Custom-
+#9183	NEW    cov: 669 ft: 2545 corp: 57/1678b lim: 86 exec/s: 7 rss: 4614Mb L: 31/82 MS: 6 ChangeBit-Custom-ChangeBit-Custom-CopyPart-Custom-
+#9184	NEW    cov: 669 ft: 2546 corp: 58/1719b lim: 86 exec/s: 6 rss: 4615Mb L: 41/82 MS: 2 ChangeBinInt-Custom-
+#9188	NEW    cov: 669 ft: 2547 corp: 59/1780b lim: 86 exec/s: 5 rss: 4617Mb L: 61/82 MS: 8 ChangeBit-Custom-CMP-Custom-ChangeASCIIInt-Custom-CMP-Custom- DE: "\000\000\000\000\000\000\000\000"-"\031\000"-
+#9190	NEW    cov: 669 ft: 2548 corp: 60/1822b lim: 86 exec/s: 5 rss: 4617Mb L: 42/82 MS: 4 PersAutoDict-Custom-InsertRepeatedBytes-Custom- DE: "\031\000"-
+#9191	NEW    cov: 669 ft: 2549 corp: 61/1863b lim: 86 exec/s: 5 rss: 4617Mb L: 41/82 MS: 2 ChangeByte-Custom-
+#9192	NEW    cov: 669 ft: 2596 corp: 62/1914b lim: 86 exec/s: 5 rss: 4617Mb L: 51/82 MS: 2 InsertRepeatedBytes-Custom-
+#9193	NEW    cov: 669 ft: 2606 corp: 63/1925b lim: 86 exec/s: 5 rss: 4617Mb L: 11/82 MS: 2 CMP-Custom- DE: "\377\037"-
+#9214	NEW    cov: 669 ft: 2610 corp: 64/1990b lim: 86 exec/s: 5 rss: 4617Mb L: 65/82 MS: 2 PersAutoDict-Custom- DE: "\377\037"-
+#9215	NEW    cov: 669 ft: 2621 corp: 65/2049b lim: 86 exec/s: 5 rss: 4617Mb L: 59/82 MS: 2 ChangeBinInt-Custom-
+#9216	NEW    cov: 669 ft: 2630 corp: 66/2098b lim: 86 exec/s: 5 rss: 4617Mb L: 49/82 MS: 2 CMP-Custom- DE: "\000\000\000\000\000\000\000\000"-
+#9219	NEW    cov: 669 ft: 2658 corp: 67/2134b lim: 86 exec/s: 4 rss: 4617Mb L: 36/82 MS: 6 InsertRepeatedBytes-Custom-ChangeASCIIInt-Custom-CrossOver-Custom-
+#9225	NEW    cov: 669 ft: 2662 corp: 68/2153b lim: 86 exec/s: 4 rss: 4617Mb L: 19/82 MS: 2 ShuffleBytes-Custom-
+#9227	NEW    cov: 684 ft: 2677 corp: 69/2165b lim: 86 exec/s: 4 rss: 4617Mb L: 12/82 MS: 4 ChangeBit-Custom-InsertRepeatedBytes-Custom-
+#9228	REDUCE cov: 684 ft: 2677 corp: 69/2146b lim: 86 exec/s: 4 rss: 4617Mb L: 25/82 MS: 2 EraseBytes-Custom-
+#9241	NEW    cov: 684 ft: 2678 corp: 70/2223b lim: 86 exec/s: 4 rss: 4617Mb L: 77/82 MS: 6 CopyPart-Custom-PersAutoDict-Custom-ShuffleBytes-Custom- DE: "\377\037"-
+#9244	NEW    cov: 684 ft: 2679 corp: 71/2300b lim: 86 exec/s: 4 rss: 4617Mb L: 77/82 MS: 6 InsertRepeatedBytes-Custom-ChangeByte-Custom-CrossOver-Custom-
+#9245	NEW    cov: 684 ft: 2766 corp: 72/2359b lim: 86 exec/s: 4 rss: 4617Mb L: 59/82 MS: 2 InsertRepeatedBytes-Custom-
+#9251	NEW    cov: 684 ft: 2789 corp: 73/2424b lim: 86 exec/s: 4 rss: 4617Mb L: 65/82 MS: 2 CrossOver-Custom-
+#9253	NEW    cov: 684 ft: 2790 corp: 74/2505b lim: 86 exec/s: 4 rss: 4617Mb L: 81/82 MS: 4 InsertByte-Custom-InsertRepeatedBytes-Custom-
+#9254	NEW    cov: 684 ft: 2808 corp: 75/2533b lim: 86 exec/s: 4 rss: 4617Mb L: 28/82 MS: 2 InsertRepeatedBytes-Custom-
+#9266	NEW    cov: 684 ft: 2809 corp: 76/2615b lim: 86 exec/s: 3 rss: 4617Mb L: 82/82 MS: 4 ChangeByte-Custom-ChangeByte-Custom-
+#9277	NEW    cov: 684 ft: 2823 corp: 77/2678b lim: 86 exec/s: 3 rss: 4617Mb L: 63/82 MS: 2 CopyPart-Custom-
+#9283	NEW    cov: 684 ft: 2827 corp: 78/2760b lim: 86 exec/s: 3 rss: 4617Mb L: 82/82 MS: 2 ChangeBit-Custom-
+#9292	NEW    cov: 684 ft: 2843 corp: 79/2841b lim: 86 exec/s: 3 rss: 4617Mb L: 81/82 MS: 8 ChangeBit-Custom-CopyPart-Custom-ChangeASCIIInt-Custom-InsertRepeatedBytes-Custom-
+#9294	NEW    cov: 684 ft: 2846 corp: 80/2903b lim: 86 exec/s: 3 rss: 4617Mb L: 62/82 MS: 4 InsertRepeatedBytes-Custom-InsertRepeatedBytes-Custom-
+#9297	NEW    cov: 684 ft: 2944 corp: 81/2985b lim: 86 exec/s: 3 rss: 4617Mb L: 82/82 MS: 6 CrossOver-Custom-CopyPart-Custom-InsertRepeatedBytes-Custom-
+#9301	NEW    cov: 684 ft: 2945 corp: 82/3040b lim: 86 exec/s: 3 rss: 4617Mb L: 55/82 MS: 8 CrossOver-Custom-InsertByte-Custom-CrossOver-Custom-InsertRepeatedBytes-Custom-
+#9314	NEW    cov: 684 ft: 2977 corp: 83/3087b lim: 86 exec/s: 3 rss: 4617Mb L: 47/82 MS: 6 ChangeByte-Custom-CrossOver-Custom-InsertRepeatedBytes-Custom-
+#9329	NEW    cov: 684 ft: 2979 corp: 84/3131b lim: 86 exec/s: 2 rss: 4617Mb L: 44/82 MS: 10 ShuffleBytes-Custom-EraseBytes-Custom-InsertByte-Custom-CMP-Custom-ChangeByte-Custom- DE: "\004\000\000\000"-
+#9349	NEW    cov: 687 ft: 3059 corp: 85/3161b lim: 86 exec/s: 2 rss: 4617Mb L: 30/82 MS: 10 CrossOver-Custom-ChangeBit-Custom-PersAutoDict-Custom-ChangeBinInt-Custom-InsertRepeatedBytes-Custom- DE: "\031\000"-
+#9351	REDUCE cov: 687 ft: 3059 corp: 85/3160b lim: 86 exec/s: 2 rss: 4617Mb L: 4/82 MS: 4 ShuffleBytes-Custom-EraseBytes-Custom-
+#9372	NEW    cov: 687 ft: 3060 corp: 86/3221b lim: 86 exec/s: 2 rss: 4617Mb L: 61/82 MS: 2 ChangeBit-Custom-
+#9382	NEW    cov: 696 ft: 3119 corp: 87/3296b lim: 86 exec/s: 2 rss: 4617Mb L: 75/82 MS: 10 CrossOver-Custom-CopyPart-Custom-InsertRepeatedBytes-Custom-ShuffleBytes-Custom-CrossOver-Custom-
+#9383	NEW    cov: 731 ft: 3174 corp: 88/3348b lim: 86 exec/s: 2 rss: 4617Mb L: 52/82 MS: 2 InsertByte-Custom-
+#9385	NEW    cov: 731 ft: 3175 corp: 89/3369b lim: 86 exec/s: 2 rss: 4617Mb L: 21/82 MS: 4 CMP-Custom-CMP-Custom- DE: "\022\000\000\000"-"\001\000\000\000\000\000\000\000"-
+#9388	NEW    cov: 731 ft: 3176 corp: 90/3399b lim: 86 exec/s: 2 rss: 4617Mb L: 30/82 MS: 6 ChangeBinInt-Custom-ChangeBit-Custom-CrossOver-Custom-
+#9392	NEW    cov: 732 ft: 3191 corp: 91/3476b lim: 86 exec/s: 2 rss: 4617Mb L: 77/82 MS: 8 CopyPart-Custom-ChangeASCIIInt-Custom-EraseBytes-Custom-InsertRepeatedBytes-Custom-
+#9403	REDUCE cov: 732 ft: 3191 corp: 91/3463b lim: 86 exec/s: 2 rss: 4617Mb L: 38/82 MS: 2 EraseBytes-Custom-
+#9405	NEW    cov: 732 ft: 3196 corp: 92/3532b lim: 86 exec/s: 2 rss: 4617Mb L: 69/82 MS: 4 ShuffleBytes-Custom-CrossOver-Custom-
+#9413	NEW    cov: 732 ft: 3197 corp: 93/3582b lim: 86 exec/s: 2 rss: 4617Mb L: 50/82 MS: 6 ChangeBinInt-Custom-InsertByte-Custom-ChangeBinInt-Custom-
+#9414	NEW    cov: 732 ft: 3199 corp: 94/3641b lim: 86 exec/s: 2 rss: 4617Mb L: 59/82 MS: 2 CMP-Custom- DE: "\000\000\000\000\000\000\000\000"-
+#9437	NEW    cov: 732 ft: 3201 corp: 95/3706b lim: 86 exec/s: 2 rss: 4617Mb L: 65/82 MS: 6 ShuffleBytes-Custom-CMP-Custom-ChangeBinInt-Custom- DE: "\377\377"-
+#9443	NEW    cov: 732 ft: 3207 corp: 96/3787b lim: 86 exec/s: 2 rss: 4617Mb L: 81/82 MS: 2 InsertByte-Custom-
+#9446	NEW    cov: 732 ft: 3208 corp: 97/3840b lim: 86 exec/s: 2 rss: 4617Mb L: 53/82 MS: 6 ShuffleBytes-Custom-ChangeBinInt-Custom-InsertByte-Custom-
+#9449	NEW    cov: 732 ft: 3211 corp: 98/3881b lim: 86 exec/s: 2 rss: 4617Mb L: 41/82 MS: 6 ChangeBinInt-Custom-ShuffleBytes-Custom-ChangeByte-Custom-
+#9452	NEW    cov: 732 ft: 3212 corp: 99/3895b lim: 86 exec/s: 2 rss: 4617Mb L: 14/82 MS: 6 ChangeBinInt-Custom-InsertByte-Custom-PersAutoDict-Custom- DE: "\377\037"-
+#9460	NEW    cov: 732 ft: 3213 corp: 100/3908b lim: 86 exec/s: 2 rss: 4617Mb L: 13/82 MS: 6 EraseBytes-Custom-EraseBytes-Custom-EraseBytes-Custom-
+#9468	NEW    cov: 732 ft: 3223 corp: 101/3956b lim: 86 exec/s: 2 rss: 4617Mb L: 48/82 MS: 6 ChangeBinInt-Custom-CrossOver-Custom-InsertRepeatedBytes-Custom-
+#9481	NEW    cov: 732 ft: 3224 corp: 102/4030b lim: 86 exec/s: 2 rss: 4617Mb L: 74/82 MS: 6 ChangeBit-Custom-InsertByte-Custom-InsertRepeatedBytes-Custom-
+#9483	NEW    cov: 732 ft: 3227 corp: 103/4059b lim: 86 exec/s: 2 rss: 4617Mb L: 29/82 MS: 4 InsertByte-Custom-PersAutoDict-Custom- DE: "\001\010"-
+#9485	NEW    cov: 732 ft: 3231 corp: 104/4137b lim: 86 exec/s: 2 rss: 4617Mb L: 78/82 MS: 4 CopyPart-Custom-InsertByte-Custom-
+#9494	NEW    cov: 732 ft: 3253 corp: 105/4215b lim: 86 exec/s: 2 rss: 4617Mb L: 78/82 MS: 8 InsertRepeatedBytes-Custom-CMP-Custom-CopyPart-Custom-ChangeBinInt-Custom- DE: "\001\011"-
+#9498	NEW    cov: 732 ft: 3260 corp: 106/4295b lim: 86 exec/s: 2 rss: 4617Mb L: 80/82 MS: 8 InsertRepeatedBytes-Custom-CMP-Custom-CopyPart-Custom-ChangeByte-Custom- DE: "\377\001"-
+#9519	NEW    cov: 732 ft: 3288 corp: 107/4341b lim: 86 exec/s: 2 rss: 4617Mb L: 46/82 MS: 2 CrossOver-Custom-
+#9523	REDUCE cov: 732 ft: 3288 corp: 107/4340b lim: 86 exec/s: 2 rss: 4617Mb L: 28/82 MS: 8 CMP-Custom-EraseBytes-Custom-InsertByte-Custom-PersAutoDict-Custom- DE: "\377\016"-"\004\000\000\000"-
+#9533	REDUCE cov: 732 ft: 3290 corp: 108/4388b lim: 86 exec/s: 2 rss: 4617Mb L: 48/82 MS: 10 PersAutoDict-Custom-ChangeByte-Custom-PersAutoDict-Custom-ChangeByte-Custom-ChangeBit-Custom- DE: "\377\016"-"\000\000\000\000\000\000\000\000"-
+#9535	NEW    cov: 732 ft: 3292 corp: 109/4459b lim: 86 exec/s: 2 rss: 4617Mb L: 71/82 MS: 4 CMP-Custom-EraseBytes-Custom- DE: "99"-
+#9558	NEW    cov: 732 ft: 3298 corp: 110/4545b lim: 86 exec/s: 1 rss: 4617Mb L: 86/86 MS: 6 CopyPart-Custom-ChangeBinInt-Custom-PersAutoDict-Custom- DE: "\004\000\000\000"-
+#9569	NEW    cov: 732 ft: 3342 corp: 111/4559b lim: 86 exec/s: 1 rss: 4617Mb L: 14/86 MS: 2 CrossOver-Custom-
+#9591	NEW    cov: 732 ft: 3347 corp: 112/4615b lim: 86 exec/s: 1 rss: 4617Mb L: 56/86 MS: 4 CopyPart-Custom-InsertRepeatedBytes-Custom-
+#9597	NEW    cov: 732 ft: 3354 corp: 113/4646b lim: 86 exec/s: 1 rss: 4617Mb L: 31/86 MS: 2 ChangeBit-Custom-
+#9613	NEW    cov: 732 ft: 3366 corp: 114/4659b lim: 86 exec/s: 1 rss: 4617Mb L: 13/86 MS: 2 InsertRepeatedBytes-Custom-
+#9643	NEW    cov: 732 ft: 3368 corp: 115/4722b lim: 86 exec/s: 1 rss: 4617Mb L: 63/86 MS: 10 InsertByte-Custom-ChangeByte-Custom-InsertByte-Custom-ShuffleBytes-Custom-PersAutoDict-Custom- DE: "\377\001"-
+#9660	NEW    cov: 732 ft: 3372 corp: 116/4729b lim: 86 exec/s: 1 rss: 4617Mb L: 7/86 MS: 4 ChangeBinInt-Custom-PersAutoDict-Custom- DE: "\001\010"-
+#9669	NEW    cov: 732 ft: 3373 corp: 117/4802b lim: 86 exec/s: 1 rss: 4617Mb L: 73/86 MS: 8 ChangeBinInt-Custom-PersAutoDict-Custom-ShuffleBytes-Custom-CMP-Custom- DE: "99"-"\000\000\000\000\000\000\000\000"-
+#9672	NEW    cov: 732 ft: 3374 corp: 118/4844b lim: 86 exec/s: 1 rss: 4617Mb L: 42/86 MS: 6 CrossOver-Custom-CrossOver-Custom-CopyPart-Custom-
+#9681	NEW    cov: 732 ft: 3376 corp: 119/4864b lim: 86 exec/s: 1 rss: 4617Mb L: 20/86 MS: 8 PersAutoDict-Custom-ChangeByte-Custom-InsertByte-Custom-CopyPart-Custom- DE: "99"-
+#9683	NEW    cov: 732 ft: 3377 corp: 120/4907b lim: 86 exec/s: 1 rss: 4617Mb L: 43/86 MS: 4 CrossOver-Custom-CrossOver-Custom-
+#9686	REDUCE cov: 732 ft: 3377 corp: 120/4885b lim: 86 exec/s: 1 rss: 4617Mb L: 30/86 MS: 6 CopyPart-Custom-ChangeByte-Custom-EraseBytes-Custom-
+#9728	NEW    cov: 732 ft: 3422 corp: 121/4891b lim: 86 exec/s: 1 rss: 4617Mb L: 6/86 MS: 4 EraseBytes-Custom-PersAutoDict-Custom- DE: "\377\377"-
+#9732	NEW    cov: 732 ft: 3423 corp: 122/4921b lim: 86 exec/s: 1 rss: 4617Mb L: 30/86 MS: 8 ChangeBinInt-Custom-ShuffleBytes-Custom-ShuffleBytes-Custom-ChangeBit-Custom-
+#9738	NEW    cov: 732 ft: 3426 corp: 123/4976b lim: 86 exec/s: 1 rss: 4617Mb L: 55/86 MS: 2 CopyPart-Custom-
+#9749	REDUCE cov: 732 ft: 3427 corp: 124/5005b lim: 86 exec/s: 1 rss: 4617Mb L: 29/86 MS: 2 CrossOver-Custom-
+#9758	NEW    cov: 732 ft: 3433 corp: 125/5047b lim: 86 exec/s: 1 rss: 4617Mb L: 42/86 MS: 8 ChangeASCIIInt-Custom-CrossOver-Custom-ChangeBit-Custom-InsertByte-Custom-
+#9758	DONE   cov: 732 ft: 3433 corp: 125/5047b lim: 86 exec/s: 1 rss: 4617Mb
+###### Recommended dictionary. ######
+"\001\010" # Uses: 25
+"\000\000\000\000\000\000\000\000" # Uses: 5
+"\031\000" # Uses: 8
+"\377\037" # Uses: 8
+"\004\000\000\000" # Uses: 7
+"\022\000\000\000" # Uses: 1
+"\001\000\000\000\000\000\000\000" # Uses: 2
+"\377\377" # Uses: 2
+"\001\011" # Uses: 1
+"\377\001" # Uses: 1
+"\377\016" # Uses: 2
+"99" # Uses: 2
+###### End of recommended dictionary. ######
+Done 9758 runs in 7208 second(s)
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':test'.
+> A build operation failed.
+      Could not write XML test results for fuzz.LocalDateFormatTests to file /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/test-results/test/TEST-fuzz.LocalDateFormatTests.xml.
+   > Could not write XML test results for fuzz.LocalDateFormatTests to file /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/test-results/test/TEST-fuzz.LocalDateFormatTests.xml.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 2h 27s

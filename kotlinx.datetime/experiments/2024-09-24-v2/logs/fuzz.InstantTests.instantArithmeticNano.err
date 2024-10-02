@@ -1,0 +1,51 @@
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: found LLVMFuzzerCustomMutator (0x7ffa5576ea00). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 2926960260
+INFO: Loaded 1 modules   (512 inline 8-bit counters): 512 [0x7ffa88b8a8a0, 0x7ffa88b8aaa0), 
+INFO: Loaded 1 PC tables (512 PCs): 512 [0x7ffa88694790,0x7ffa88696790), 
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.InstantTests/instantArithmeticNano
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/InstantTestsInputs/instantArithmeticNano
+INFO:        0 files found in /tmp/jazzer-java-seeds12307109252098116672
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+MS: 0 ; base unit: 0000000000000000000000000000000000000000
+
+
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/InstantTestsInputs/instantArithmeticNano/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/InstantTestsInputs/instantArithmeticNano/crash-da39a3ee5e6b4b0d3255bfef95601890afd80709
+Base64: 
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED cov: 14 ft: 14 corp: 1/1b exec/s: 0 rss: 1574Mb
+#16384	pulse  cov: 14 ft: 14 corp: 1/1b lim: 163 exec/s: 8192 rss: 1576Mb
+#32768	pulse  cov: 14 ft: 14 corp: 1/1b lim: 325 exec/s: 10922 rss: 1576Mb
+#44874	NEW    cov: 23 ft: 25 corp: 2/63b lim: 445 exec/s: 11218 rss: 1576Mb L: 62/62 MS: 4 InsertRepeatedBytes-Custom-ChangeBit-Custom-
+#44915	REDUCE cov: 23 ft: 25 corp: 2/33b lim: 445 exec/s: 11228 rss: 1576Mb L: 32/32 MS: 2 EraseBytes-Custom-
+#44923	REDUCE cov: 23 ft: 25 corp: 2/19b lim: 445 exec/s: 11230 rss: 1576Mb L: 18/18 MS: 6 ChangeByte-Custom-ChangeBit-Custom-EraseBytes-Custom-
+#44944	REDUCE cov: 23 ft: 25 corp: 2/12b lim: 445 exec/s: 11236 rss: 1576Mb L: 11/11 MS: 2 EraseBytes-Custom-
+#45647	REDUCE cov: 23 ft: 25 corp: 2/11b lim: 445 exec/s: 11411 rss: 1576Mb L: 10/10 MS: 6 ChangeBit-Custom-CrossOver-Custom-EraseBytes-Custom-
+#65536	pulse  cov: 23 ft: 25 corp: 2/11b lim: 634 exec/s: 10922 rss: 1576Mb
+#131072	pulse  cov: 23 ft: 25 corp: 2/11b lim: 1290 exec/s: 13107 rss: 1576Mb
+#262144	pulse  cov: 23 ft: 25 corp: 2/11b lim: 2589 exec/s: 13107 rss: 1576Mb
+#524288	pulse  cov: 23 ft: 25 corp: 2/11b lim: 4096 exec/s: 13107 rss: 1576Mb
+#1048576	pulse  cov: 23 ft: 25 corp: 2/11b lim: 4096 exec/s: 16131 rss: 1579Mb
+#2097152	pulse  cov: 23 ft: 25 corp: 2/11b lim: 4096 exec/s: 19239 rss: 1579Mb
+#4194304	pulse  cov: 23 ft: 25 corp: 2/11b lim: 4096 exec/s: 21183 rss: 1579Mb
+#8388608	pulse  cov: 23 ft: 25 corp: 2/11b lim: 4096 exec/s: 22017 rss: 1579Mb
+#16777216	pulse  cov: 23 ft: 25 corp: 2/11b lim: 4096 exec/s: 23464 rss: 1581Mb
+#33554432	pulse  cov: 23 ft: 25 corp: 2/11b lim: 4096 exec/s: 23780 rss: 1581Mb
+#67108864	pulse  cov: 23 ft: 25 corp: 2/11b lim: 4096 exec/s: 23899 rss: 1581Mb
+#134217728	pulse  cov: 23 ft: 25 corp: 2/11b lim: 4096 exec/s: 23505 rss: 1581Mb
+#170786382	DONE   cov: 23 ft: 25 corp: 2/11b lim: 4096 exec/s: 23717 rss: 1581Mb
+Done 170786382 runs in 7201 second(s)
+
+2 tests completed, 1 failed
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':test'.
+> There were failing tests. See the report at: file:///home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/reports/tests/test/index.html
+
+* Try:
+> Run with --scan to get full insights.
+
+BUILD FAILED in 2h 40s

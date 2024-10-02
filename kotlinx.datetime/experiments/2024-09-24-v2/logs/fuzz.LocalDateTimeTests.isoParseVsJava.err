@@ -1,0 +1,25 @@
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: found LLVMFuzzerCustomMutator (0x789b2a771a00). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 4265412939
+INFO: Loaded 3 modules   (2048 inline 8-bit counters): 512 [0x789b60bdf5b0, 0x789b60bdf7b0), 512 [0x789b60bdf7b0, 0x789b60bdf9b0), 1024 [0x789b60bdf9b0, 0x789b60bdfdb0), 
+INFO: Loaded 3 PC tables (2048 PCs): 512 [0x789b60b67410,0x789b60b69410), 512 [0x789b60d0c6c0,0x789b60d0e6c0), 1024 [0x789b60d38680,0x789b60d3c680), 
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.LocalDateTimeTests/isoParseVsJava
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalDateTimeTestsInputs/isoParseVsJava
+INFO:        0 files found in /tmp/jazzer-java-seeds5069560348281312157
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED cov: 11 ft: 11 corp: 1/1b exec/s: 0 rss: 1728Mb
+#131072	pulse  cov: 11 ft: 11 corp: 1/1b lim: 1300 exec/s: 65536 rss: 1752Mb
+#262144	pulse  cov: 11 ft: 11 corp: 1/1b lim: 2611 exec/s: 65536 rss: 1752Mb
+#524288	pulse  cov: 11 ft: 11 corp: 1/1b lim: 4096 exec/s: 52428 rss: 1752Mb
+#1048576	pulse  cov: 11 ft: 11 corp: 1/1b lim: 4096 exec/s: 43690 rss: 1752Mb
+#2097152	pulse  cov: 11 ft: 11 corp: 1/1b lim: 4096 exec/s: 41120 rss: 1762Mb
+#4194304	pulse  cov: 11 ft: 11 corp: 1/1b lim: 4096 exec/s: 39568 rss: 1762Mb
+#8388608	pulse  cov: 11 ft: 11 corp: 1/1b lim: 4096 exec/s: 35544 rss: 1762Mb
+#16777216	pulse  cov: 11 ft: 11 corp: 1/1b lim: 4096 exec/s: 34379 rss: 1762Mb
+#33554432	pulse  cov: 11 ft: 11 corp: 1/1b lim: 4096 exec/s: 33026 rss: 1762Mb
+#67108864	pulse  cov: 11 ft: 11 corp: 1/1b lim: 4096 exec/s: 32124 rss: 1762Mb
+#134217728	pulse  cov: 11 ft: 11 corp: 1/1b lim: 4096 exec/s: 30026 rss: 1762Mb
+#209084897	DONE   cov: 11 ft: 11 corp: 1/1b lim: 4096 exec/s: 29035 rss: 1762Mb
+Done 209084897 runs in 7201 second(s)

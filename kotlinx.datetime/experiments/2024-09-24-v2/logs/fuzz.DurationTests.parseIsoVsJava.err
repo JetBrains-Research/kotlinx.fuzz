@@ -1,0 +1,62 @@
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: found LLVMFuzzerCustomMutator (0x744d60371a00). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 4289107342
+INFO: Loaded 1 modules   (512 inline 8-bit counters): 512 [0x744d94b24510, 0x744d94b24710), 
+INFO: Loaded 1 PC tables (512 PCs): 512 [0x744d94713790,0x744d94715790), 
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.DurationTests/parseIsoVsJava
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/DurationTestsInputs/parseIsoVsJava
+INFO:        0 files found in /tmp/jazzer-java-seeds9192230211231706031
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED exec/s: 0 rss: 1216Mb
+WARNING: no interesting inputs were found so far. Is the code instrumented for coverage?
+This may also happen if the target rejected all inputs we tried so far
+#131072	pulse  corp: 1/1b lim: 1300 exec/s: 43690 rss: 1266Mb
+#262144	pulse  corp: 1/1b lim: 2611 exec/s: 37449 rss: 1267Mb
+#524288	pulse  corp: 1/1b lim: 4096 exec/s: 43690 rss: 1267Mb
+MS: 6 ChangeByte-Custom-ChangeBit-Custom-CMP-Custom- DE: "PT8,"-; base unit: adc83b19e793491b1c6ea0fd8b46cd9f32e592fc
+0x50,0x54,0x38,0x2c,0x53,
+PT8,S
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/DurationTestsInputs/parseIsoVsJava/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/DurationTestsInputs/parseIsoVsJava/crash-b3f075f6ab217587ae34d4777a6f18df2f1e359b
+Base64: UFQ4LFM=
+#1025460	NEW    cov: 65 ft: 65 corp: 2/7b lim: 4096 exec/s: 42727 rss: 1280Mb L: 6/6 MS: 6 ChangeBit-Custom-ChangeBit-Custom-CMP-Custom- DE: "PT+04"-
+MS: 2 InsertRepeatedBytes-Custom-; base unit: 9d22380be40d5e966269d35b9e5c518c75085368
+0x50,0x54,0x2b,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x34,0x48,
+PT+0000000000000000000000000004H
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/DurationTestsInputs/parseIsoVsJava/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/DurationTestsInputs/parseIsoVsJava/crash-5d4e1089e9e624d89cf072c47cc5ca1f90acecfc
+Base64: UFQrMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNEg=
+#1048576	pulse  cov: 65 ft: 65 corp: 2/7b lim: 4096 exec/s: 41943 rss: 1281Mb
+MS: 10 PersAutoDict-Custom-InsertByte-Custom-CrossOver-Custom-ShuffleBytes-Custom-CMP-Custom- DE: "PT+04"-"66666666666"-; base unit: 9d22380be40d5e966269d35b9e5c518c75085368
+0x50,0x54,0x2b,0x30,0x36,0x36,0x36,0x36,0x36,0x36,0x36,0x36,0x36,0x36,0x36,0x34,0x34,0x48,
+PT+06666666666644H
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/DurationTestsInputs/parseIsoVsJava/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/DurationTestsInputs/parseIsoVsJava/crash-6c566dae85a046e60eea9c2c95f682d5187e383c
+Base64: UFQrMDY2NjY2NjY2NjY2NDRI
+#2097152	pulse  cov: 65 ft: 65 corp: 2/7b lim: 4096 exec/s: 38836 rss: 1299Mb
+#4194304	pulse  cov: 65 ft: 65 corp: 2/7b lim: 4096 exec/s: 36792 rss: 1303Mb
+#8388608	pulse  cov: 65 ft: 65 corp: 2/7b lim: 4096 exec/s: 36157 rss: 1303Mb
+#16777216	pulse  cov: 65 ft: 65 corp: 2/7b lim: 4096 exec/s: 35172 rss: 1303Mb
+#33554432	pulse  cov: 65 ft: 65 corp: 2/7b lim: 4096 exec/s: 33387 rss: 1303Mb
+#67108864	pulse  cov: 65 ft: 65 corp: 2/7b lim: 4096 exec/s: 32372 rss: 1303Mb
+#134217728	pulse  cov: 65 ft: 65 corp: 2/7b lim: 4096 exec/s: 29932 rss: 1303Mb
+#208410355	DONE   cov: 65 ft: 65 corp: 2/7b lim: 4096 exec/s: 28941 rss: 1303Mb
+###### Recommended dictionary. ######
+"PT+04" # Uses: 17886940
+###### End of recommended dictionary. ######
+Done 208410355 runs in 7201 second(s)
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':test'.
+> A build operation failed.
+      Could not write XML test results for fuzz.DurationTests to file /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/test-results/test/TEST-fuzz.DurationTests.xml.
+   > Could not write XML test results for fuzz.DurationTests to file /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/test-results/test/TEST-fuzz.DurationTests.xml.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 2h 51s

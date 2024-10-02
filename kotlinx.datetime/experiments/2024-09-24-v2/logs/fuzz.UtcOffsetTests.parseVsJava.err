@@ -1,0 +1,54 @@
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: found LLVMFuzzerCustomMutator (0x766d62b71a00). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 2920369995
+INFO: Loaded 3 modules   (2048 inline 8-bit counters): 512 [0x766d98abaa40, 0x766d98abac40), 512 [0x766d98abac40, 0x766d98abae40), 1024 [0x766d98abae40, 0x766d98abb240), 
+INFO: Loaded 3 PC tables (2048 PCs): 512 [0x766d98a897a0,0x766d98a8b7a0), 512 [0x766d98bc9b50,0x766d98bcbb50), 1024 [0x766d98c264c0,0x766d98c2a4c0), 
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.UtcOffsetTests/parseVsJava
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/UtcOffsetTestsInputs/parseVsJava
+INFO:        0 files found in /tmp/jazzer-java-seeds4907640857621755205
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED cov: 14 ft: 14 corp: 1/1b exec/s: 0 rss: 1717Mb
+#2632	NEW    cov: 29 ft: 29 corp: 2/4b lim: 29 exec/s: 0 rss: 1732Mb L: 3/3 MS: 10 ChangeByte-Custom-InsertByte-Custom-CMP-Custom-ChangeBit-Custom-InsertByte-Custom- DE: "\377\377"-
+#2649	REDUCE cov: 29 ft: 29 corp: 2/3b lim: 29 exec/s: 0 rss: 1732Mb L: 2/2 MS: 4 CrossOver-Custom-EraseBytes-Custom-
+MS: 8 ChangeBinInt-Custom-EraseBytes-Custom-ChangeByte-Custom-InsertByte-Custom-; base unit: dfe79ab7bab2976ede36b044d47b0e1c402b959d
+0x2b,0x32,
++2
+artifact_prefix='/home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/UtcOffsetTestsInputs/parseVsJava/'; Test unit written to /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/UtcOffsetTestsInputs/parseVsJava/crash-bf8bf1a08e9e7528b036dc22bf18a0053f3b4cc1
+Base64: KzI=
+#32768	pulse  cov: 29 ft: 29 corp: 2/3b lim: 325 exec/s: 16384 rss: 1774Mb
+#65536	pulse  cov: 29 ft: 29 corp: 2/3b lim: 652 exec/s: 21845 rss: 1786Mb
+#131072	pulse  cov: 29 ft: 29 corp: 2/3b lim: 1300 exec/s: 18724 rss: 1791Mb
+#262144	pulse  cov: 29 ft: 29 corp: 2/3b lim: 2600 exec/s: 21845 rss: 1791Mb
+#524288	pulse  cov: 29 ft: 29 corp: 2/3b lim: 4096 exec/s: 19418 rss: 1791Mb
+#1048576	pulse  cov: 29 ft: 29 corp: 2/3b lim: 4096 exec/s: 19418 rss: 1791Mb
+#2097152	pulse  cov: 29 ft: 29 corp: 2/3b lim: 4096 exec/s: 25575 rss: 1791Mb
+#4194304	pulse  cov: 29 ft: 29 corp: 2/3b lim: 4096 exec/s: 32017 rss: 1791Mb
+#8388608	pulse  cov: 29 ft: 29 corp: 2/3b lim: 4096 exec/s: 34663 rss: 1791Mb
+#16777216	pulse  cov: 29 ft: 29 corp: 2/3b lim: 4096 exec/s: 36954 rss: 1791Mb
+#33554432	pulse  cov: 29 ft: 29 corp: 2/3b lim: 4096 exec/s: 39475 rss: 1791Mb
+#67108864	pulse  cov: 29 ft: 29 corp: 2/3b lim: 4096 exec/s: 39522 rss: 1791Mb
+#134217728	pulse  cov: 29 ft: 29 corp: 2/3b lim: 4096 exec/s: 38524 rss: 1791Mb
+#268435456	pulse  cov: 29 ft: 29 corp: 2/3b lim: 4096 exec/s: 37845 rss: 1791Mb
+#272245194	DONE   cov: 29 ft: 29 corp: 2/3b lim: 4096 exec/s: 37806 rss: 1791Mb
+###### Recommended dictionary. ######
+"\377\377" # Uses: 25011097
+###### End of recommended dictionary. ######
+Done 272245194 runs in 7201 second(s)
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':test'.
+> A build operation failed.
+      Could not write XML test results for fuzz.UtcOffsetTests to file /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/test-results/test/TEST-fuzz.UtcOffsetTests.xml.
+   > Could not write XML test results for fuzz.UtcOffsetTests to file /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/test-results/test/TEST-fuzz.UtcOffsetTests.xml.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 2h 36s

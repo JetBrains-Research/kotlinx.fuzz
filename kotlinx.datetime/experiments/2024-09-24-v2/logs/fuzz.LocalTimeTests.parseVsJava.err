@@ -1,0 +1,26 @@
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: found LLVMFuzzerCustomMutator (0x79b74f170a00). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 312292390
+INFO: Loaded 3 modules   (2048 inline 8-bit counters): 512 [0x79b784b178f0, 0x79b784b17af0), 512 [0x79b784b17af0, 0x79b784b17cf0), 1024 [0x79b784b17cf0, 0x79b784b180f0), 
+INFO: Loaded 3 PC tables (2048 PCs): 512 [0x79b784aa10b0,0x79b784aa30b0), 512 [0x79b784c4bd80,0x79b784c4dd80), 1024 [0x79b784cb27a0,0x79b784cb67a0), 
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.LocalTimeTests/parseVsJava
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/LocalTimeTestsInputs/parseVsJava
+INFO:        0 files found in /tmp/jazzer-java-seeds14608332327909757217
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED cov: 12 ft: 12 corp: 1/1b exec/s: 0 rss: 1581Mb
+#262144	pulse  cov: 12 ft: 12 corp: 1/1b lim: 2611 exec/s: 87381 rss: 1603Mb
+#524288	pulse  cov: 12 ft: 12 corp: 1/1b lim: 4096 exec/s: 74898 rss: 1603Mb
+#1048576	pulse  cov: 12 ft: 12 corp: 1/1b lim: 4096 exec/s: 69905 rss: 1603Mb
+#2097152	pulse  cov: 12 ft: 12 corp: 1/1b lim: 4096 exec/s: 69905 rss: 1620Mb
+#4194304	pulse  cov: 12 ft: 12 corp: 1/1b lim: 4096 exec/s: 71089 rss: 1622Mb
+#8388608	pulse  cov: 12 ft: 12 corp: 1/1b lim: 4096 exec/s: 68759 rss: 1622Mb
+#16777216	pulse  cov: 12 ft: 12 corp: 1/1b lim: 4096 exec/s: 68478 rss: 1622Mb
+#17329136	NEW    cov: 26 ft: 26 corp: 2/6b lim: 4096 exec/s: 67957 rss: 1622Mb L: 5/5 MS: 8 InsertRepeatedBytes-Custom-ChangeASCIIInt-Custom-InsertByte-Custom-CopyPart-Custom-
+#33554432	pulse  cov: 26 ft: 26 corp: 2/6b lim: 4096 exec/s: 66974 rss: 1626Mb
+#67108864	pulse  cov: 26 ft: 26 corp: 2/6b lim: 4096 exec/s: 68408 rss: 1626Mb
+#134217728	pulse  cov: 26 ft: 26 corp: 2/6b lim: 4096 exec/s: 68688 rss: 1626Mb
+#268435456	pulse  cov: 26 ft: 26 corp: 2/6b lim: 4096 exec/s: 68653 rss: 1626Mb
+#491886801	DONE   cov: 26 ft: 26 corp: 2/6b lim: 4096 exec/s: 68308 rss: 1626Mb
+Done 491886801 runs in 7201 second(s)

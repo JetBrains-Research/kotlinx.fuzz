@@ -1,0 +1,93 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.8/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :compileKotlin NO-SOURCE
+> Task :compileJava NO-SOURCE
+> Task :processResources NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :jar UP-TO-DATE
+> Task :compileTestKotlin UP-TO-DATE
+> Task :compileTestJava NO-SOURCE
+> Task :processTestResources
+> Task :testClasses
+
+> Task :test
+
+DateTimePeriodTests > parseCheckExceptions(FuzzedDataProvider) STANDARD_ERROR
+    INFO: Loaded 307 hooks from com.code_intelligence.jazzer.runtime.TraceCmpHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.runtime.TraceDivHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.runtime.TraceIndirHooks
+    INFO: Loaded 4 hooks from com.code_intelligence.jazzer.runtime.NativeLibHooks
+    INFO: Loaded 2 hooks from com.code_intelligence.jazzer.sanitizers.ClojureLangHooks
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.Deserialization
+    INFO: Loaded 5 hooks from com.code_intelligence.jazzer.sanitizers.ExpressionLanguageInjection
+    INFO: Loaded 70 hooks from com.code_intelligence.jazzer.sanitizers.LdapInjection
+    INFO: Loaded 46 hooks from com.code_intelligence.jazzer.sanitizers.NamingContextLookup
+    INFO: Loaded 1 hooks from com.code_intelligence.jazzer.sanitizers.OsCommandInjection
+    INFO: Loaded 92 hooks from com.code_intelligence.jazzer.sanitizers.ReflectiveCall
+    INFO: Loaded 8 hooks from com.code_intelligence.jazzer.sanitizers.RegexInjection
+    INFO: Loaded 16 hooks from com.code_intelligence.jazzer.sanitizers.RegexRoadblocks
+    INFO: Loaded 12 hooks from com.code_intelligence.jazzer.sanitizers.ScriptEngineInjection
+    INFO: Loaded 3 hooks from com.code_intelligence.jazzer.sanitizers.ServerSideRequestForgery
+    INFO: Loaded 19 hooks from com.code_intelligence.jazzer.sanitizers.SqlInjection
+    INFO: Loaded 6 hooks from com.code_intelligence.jazzer.sanitizers.XPathInjection
+
+DateTimePeriodTests > parseCheckExceptions(FuzzedDataProvider) > <empty input> STANDARD_ERROR
+    WARN: JUnit arguments of type(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl with value(s) com.code_intelligence.jazzer.driver.FuzzedDataProviderImpl@5f59185e can not be serialized as fuzzing inputs. Skipped.
+    INFO: Instrumented kotlinx.datetime.DateTimePeriod (took 143 ms, size +18%)
+    INFO: Instrumented kotlinx.datetime.DateTimePeriod$Companion (took 43 ms, size +25%)
+    INFO: Instrumented kotlinx.datetime.DateTimeFormatException (took 8 ms, size +9%)
+
+DateTimePeriodTests > parseCheckExceptions(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.DateTimePeriodTests/parseCheckExceptions
+    INFO: using inputs from: /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/src/test/resources/fuzz/DateTimePeriodTestsInputs/parseCheckExceptions
+    INFO: using inputs from: /tmp/jazzer-java-seeds4734446637793388657
+
+
+> Task :test
+    INFO: Instrumented kotlinx.datetime.DateTimePeriodKt (took 16 ms, size +14%)
+    INFO: Instrumented kotlinx.datetime.internal.MathKt (took 7 ms, size +16%)
+    INFO: Instrumented kotlinx.datetime.internal.MathJvmKt (took 1 ms, size +12%)
+    INFO: Instrumented kotlinx.datetime.DatePeriod (took 3 ms, size +14%)
+    INFO: Instrumented kotlinx.datetime.DatePeriod$Companion (took 2 ms, size +10%)
+
+    == Java Exception: java.lang.StringIndexOutOfBoundsException: String index out of range: 2
+    	at java.base/java.lang.StringLatin1.charAt(StringLatin1.java:48)
+    	at java.base/java.lang.String.charAt(String.java:1517)
+    	at kotlinx.datetime.DateTimePeriod$Companion.parse(DateTimePeriod.kt:299)
+    	at fuzz.DateTimePeriodTests.parseCheckExceptions(DateTimePeriodTests.kt:12)
+
+DateTimePeriodTests > parseCheckExceptions(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: 2d9cb59297f4a73e
+
+DateTimePeriodTests > parseCheckExceptions(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+
+    == Java Exception: java.lang.StringIndexOutOfBoundsException: String index out of range: 4
+    	at java.base/java.lang.StringLatin1.charAt(StringLatin1.java:48)
+    	at java.base/java.lang.String.charAt(String.java:1517)
+    	at kotlinx.datetime.DateTimePeriod$Companion.parse(DateTimePeriod.kt:386)
+    	at fuzz.DateTimePeriodTests.parseCheckExceptions(DateTimePeriodTests.kt:12)
+
+DateTimePeriodTests > parseCheckExceptions(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: b6140061e4333981
+
+DateTimePeriodTests > parseCheckExceptions(FuzzedDataProvider) > Fuzzing... STANDARD_ERROR
+    INFO: Instrumented kotlinx.datetime.DateTimePeriodImpl (took 11 ms, size +9%)
+
+
+> Task :test
+
+    == Java Exception: java.lang.StringIndexOutOfBoundsException: index 12, length 12
+    	at java.base/java.lang.String.checkIndex(String.java:4565)
+    	at java.base/java.lang.StringUTF16.checkIndex(StringUTF16.java:1624)
+    	at java.base/java.lang.StringUTF16.charAt(StringUTF16.java:1421)
+    	at java.base/java.lang.String.charAt(String.java:1519)
+    	at kotlinx.datetime.DateTimePeriod$Companion.parse(DateTimePeriod.kt:299)
+    	at fuzz.DateTimePeriodTests.parseCheckExceptions(DateTimePeriodTests.kt:12)
+
+DateTimePeriodTests > parseCheckExceptions(FuzzedDataProvider) > Fuzzing... STANDARD_OUT
+    DEDUP_TOKEN: fbb2a26a9aead053
+
+
+> Task :test FAILED
+4 actionable tasks: 2 executed, 2 up-to-date

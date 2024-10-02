@@ -1,0 +1,44 @@
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+INFO: found LLVMFuzzerCustomMutator (0x7e5bf4862a00). Disabling -len_control by default.
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 1575736062
+INFO: Loaded 3 modules   (2048 inline 8-bit counters): 512 [0x7e5c28b00de0, 0x7e5c28b00fe0), 512 [0x7e5c28b00fe0, 0x7e5c28b011e0), 1024 [0x7e5c28b011e0, 0x7e5c28b015e0), 
+INFO: Loaded 3 PC tables (2048 PCs): 512 [0x7e5c28a04e30,0x7e5c28a06e30), 512 [0x7e5c28ac7920,0x7e5c28ac9920), 1024 [0x7e5c28c0e0a0,0x7e5c28c120a0), 
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/.cifuzz-corpus/fuzz.UtcOffsetTests/parseCheckExceptions
+INFO:        0 files found in /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/resources/test/fuzz/UtcOffsetTestsInputs/parseCheckExceptions
+INFO:        0 files found in /tmp/jazzer-java-seeds6108101190259049123
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+INFO: A corpus is not provided, starting from an empty corpus
+#2	INITED cov: 14 ft: 14 corp: 1/1b exec/s: 0 rss: 1649Mb
+#17712	NEW    cov: 22 ft: 22 corp: 2/3b lim: 177 exec/s: 0 rss: 1670Mb L: 2/2 MS: 10 CrossOver-Custom-ChangeByte-Custom-ChangeByte-Custom-ChangeBit-Custom-ChangeBit-Custom-
+#65536	pulse  cov: 22 ft: 22 corp: 2/3b lim: 652 exec/s: 32768 rss: 1670Mb
+#131072	pulse  cov: 22 ft: 22 corp: 2/3b lim: 1300 exec/s: 32768 rss: 1681Mb
+#262144	pulse  cov: 22 ft: 22 corp: 2/3b lim: 2600 exec/s: 32768 rss: 1681Mb
+#524288	pulse  cov: 22 ft: 22 corp: 2/3b lim: 4096 exec/s: 37449 rss: 1681Mb
+#1048576	pulse  cov: 22 ft: 22 corp: 2/3b lim: 4096 exec/s: 40329 rss: 1681Mb
+#2097152	pulse  cov: 22 ft: 22 corp: 2/3b lim: 4096 exec/s: 35544 rss: 1704Mb
+#4194304	pulse  cov: 22 ft: 22 corp: 2/3b lim: 4096 exec/s: 41527 rss: 1705Mb
+#8388608	pulse  cov: 22 ft: 22 corp: 2/3b lim: 4096 exec/s: 47127 rss: 1705Mb
+#16777216	pulse  cov: 22 ft: 22 corp: 2/3b lim: 4096 exec/s: 50686 rss: 1705Mb
+#33554432	pulse  cov: 22 ft: 22 corp: 2/3b lim: 4096 exec/s: 52428 rss: 1705Mb
+#67108864	pulse  cov: 22 ft: 22 corp: 2/3b lim: 4096 exec/s: 52924 rss: 1705Mb
+#134217728	pulse  cov: 22 ft: 22 corp: 2/3b lim: 4096 exec/s: 54032 rss: 1705Mb
+#268435456	pulse  cov: 22 ft: 22 corp: 2/3b lim: 4096 exec/s: 54526 rss: 1705Mb
+#397370757	DONE   cov: 22 ft: 22 corp: 2/3b lim: 4096 exec/s: 55182 rss: 1705Mb
+Done 397370757 runs in 7201 second(s)
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':test'.
+> A build operation failed.
+      Could not write XML test results for fuzz.UtcOffsetTests to file /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/test-results/test/TEST-fuzz.UtcOffsetTests.xml.
+   > Could not write XML test results for fuzz.UtcOffsetTests to file /home/malakhov/kotlinx-fuzz/kotlinx-datetime-fuzzing/build/test-results/test/TEST-fuzz.UtcOffsetTests.xml.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 2h 24s
