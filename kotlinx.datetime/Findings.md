@@ -28,6 +28,23 @@ assertThrows<Exception> { kotlinx.datetime.LocalDateTime.parse(s) }
 assertDoesNotThrow { kotlinx.datetime.LocalDateTime.Formats.ISO.parse(s) }
 ```
 
+# `LocalDateFormatBuilder.byUnicodePattern` throws `NoSuchElementException`
+
+## Code
+```kotlin
+val s = "g]"
+LocalDate.Format { byUnicodePattern(s) } 
+```
+
+## Expected behavior
+
+`IllegalArgumentException` is thrown
+
+## Actual behavior
+
+`NoSuchElementException` is thrown
+
+
 # `kotlinx.datetime.DatePeriod` is always normalized unlike `java.time.Duration`
 
 ## Code:
