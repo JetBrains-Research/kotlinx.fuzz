@@ -76,7 +76,7 @@ First 2 asserts fails
 ## Actual behavior
 All asserts passes
 
-# `kotlinx.datetime.Instant.parse`
+# `kotlinx.datetime.Instant.parse` vs `java.time.Instant.parse`
 
 ## Code:
 ```kotlin
@@ -88,8 +88,10 @@ assertThrows<Throwable> { java.time.Instant.parse(s) }
 First assert fails
 ## Actual behavior
 All asserts passes
+## Also
+May be related to https://github.com/Kotlin/kotlinx-datetime/issues/332
 
-# `kotlinx.datetime.LocalDate.periodUntil`
+# `kotlinx.datetime.LocalDate.periodUntil` vs `java.time.LocalDate.periodUntil`
 
 ## Code
 ```kotlin
@@ -112,18 +114,18 @@ println(jvPeriod) // P-1M-30D
 
 `jvPeriod` is negative 1 month 30 days
 
+----
+----
 
-# `kotlin.datetime.Duration` max value
+Below are some findings is `kotlin.time.Duration` which is not part of `kotlinx.datetime` but still related.
+
+# `kotlin.time.Duration` max value
 
 ## Difference
 
 - `java.time.Duration` allows seconds from `Long.MIN_VALUE` to `Long.MAX_VALUE`
 - `kotlin.time.Duraiton` allows only from `Long.MIN_VALUE / 2` to `Long.MAX_VALUE / 2`
 
-----
-----
-
-Below are some findings is `kotlin.time.Duration` which is not part of `kotlinx.datetime` but still related.
 
 # `kotlin.time.Duration.parseIsoString` with too many digits
 
