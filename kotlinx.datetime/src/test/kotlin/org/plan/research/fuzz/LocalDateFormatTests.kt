@@ -13,7 +13,7 @@ import org.plan.research.fuzz.utils.isFine
 
 class LocalDateFormatTests {
     @OptIn(FormatStringsInDatetimeFormats::class)
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun byUnicodePatternCheckExceptions(data: FuzzedDataProvider): Unit = with(data) {
         val s = consumeString(100)
         try {
@@ -25,7 +25,7 @@ class LocalDateFormatTests {
 
 
     @OptIn(FormatStringsInDatetimeFormats::class)
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun byUnicodePatternVsJava(data: FuzzedDataProvider): Unit = with(data) {
         val pattern = consumeString(20)
         val inputs = List(10) { consumeString(100) }
@@ -44,7 +44,7 @@ class LocalDateFormatTests {
     }
 
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun randomFormatAndParse(data: FuzzedDataProvider): Unit = with(data) {
         val s = consumeString(100)
         java.time.format.DateTimeFormatter.ofPattern(s)

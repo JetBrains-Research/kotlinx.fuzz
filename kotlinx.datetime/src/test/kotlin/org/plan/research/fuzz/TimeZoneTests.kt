@@ -9,7 +9,7 @@ import org.plan.research.fuzz.utils.isFine
 import java.time.ZoneId
 
 class TimeZoneTests {
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun parseVsJava(data: FuzzedDataProvider) = with(data) {
         val s = consumeString(100)
         compareTest(
@@ -20,7 +20,7 @@ class TimeZoneTests {
         )
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun parseCheckExceptions(data: FuzzedDataProvider) = with(data) {
         val s = consumeString(100)
         isFine { TimeZone.of(s) }

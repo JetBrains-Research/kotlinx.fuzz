@@ -6,7 +6,7 @@ import kotlinx.datetime.DateTimePeriod
 import org.plan.research.fuzz.utils.isFine
 
 class DateTimePeriodTests {
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun parseCheckExceptions(data: FuzzedDataProvider) = with(data) {
         val s = consumeString(100)
         isFine { DateTimePeriod.parse(s) }

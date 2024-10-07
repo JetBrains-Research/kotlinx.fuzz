@@ -14,7 +14,7 @@ import org.plan.research.fuzz.utils.isFine
 
 class LocalTimeTests {
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun convertToJava(data: FuzzedDataProvider) {
         fun test(ktTime: LocalTime) {
             val jtTime =
@@ -30,7 +30,7 @@ class LocalTimeTests {
         test(data.consumeTime())
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun parseVsJava(data: FuzzedDataProvider): Unit = with(data) {
         val s = consumeString(100)
         compareTest(
@@ -41,7 +41,7 @@ class LocalTimeTests {
         )
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun isoParseVsJava(data: FuzzedDataProvider): Unit = with(data) {
         val s = consumeString(100)
         compareTest(
@@ -52,19 +52,19 @@ class LocalTimeTests {
         )
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun parseCheckExceptions(data: FuzzedDataProvider): Unit = with(data) {
         val s = consumeString(100)
         isFine { LocalTime.parse(s) }
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun isoParseCheckExceptions(data: FuzzedDataProvider): Unit = with(data) {
         val s = consumeString(100)
         isFine { LocalTime.Formats.ISO.parse(s) }
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun atDateCheckExceptions(data: FuzzedDataProvider): Unit = with(data) {
         val time = consumeTime()
         val date = consumeDate()

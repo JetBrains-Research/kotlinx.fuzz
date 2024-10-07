@@ -11,8 +11,9 @@ repositories {
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 
-    testImplementation("com.code-intelligence:jazzer-api:0.0.0-dev")
-    testImplementation("com.code-intelligence:jazzer-junit:0.0.0-dev")
+    val jazzerVersion = "0.22.1"
+    testImplementation("com.code-intelligence:jazzer-api:${jazzerVersion}")
+    testImplementation("com.code-intelligence:jazzer-junit:${jazzerVersion}")
 
     testImplementation(kotlin("reflect"))
     implementation("org.reflections:reflections:0.10.2")

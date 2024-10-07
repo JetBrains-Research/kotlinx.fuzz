@@ -10,7 +10,7 @@ import org.plan.research.fuzz.utils.compareTest
 import java.time.Period
 
 class DatePeriodTests {
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun convertToJava(data: FuzzedDataProvider) {
 
         fun assertJtPeriodNormalizedEquals(a: Period, b: Period) {
@@ -36,7 +36,7 @@ class DatePeriodTests {
         )
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun parseVsJava(data: FuzzedDataProvider) = with(data) {
         val s = consumeString(100)
         compareTest(

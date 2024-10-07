@@ -20,7 +20,7 @@ private const val billiard = 1_000_000_000L
 
 class InstantTests {
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun instantArithmetic(data: FuzzedDataProvider) = with(data) {
         val instant = Instant.fromEpochMilliseconds(consumeInstant().toEpochMilliseconds())
         val diffMillis = consumeLong(-1_000_000_000, 1_000_000_000)
@@ -34,7 +34,7 @@ class InstantTests {
         assertEquals(instant, nextInstant - diff)
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun instantArithmeticCombined(data: FuzzedDataProvider) = with(data) {
         val instant = Instant.fromEpochMilliseconds(consumeInstant().toEpochMilliseconds())
         val diffSeconds = consumeLong(-billiard, billiard)
@@ -54,7 +54,7 @@ class InstantTests {
         assertEquals(instant, nextInstant - diff)
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun instantArithmeticNano(data: FuzzedDataProvider) = with(data) {
         val instant = consumeInstant()
         val diffMillis = consumeLong(1000, 1_000_000_000)
@@ -70,7 +70,7 @@ class InstantTests {
 //            println("this: $instant, next: $nextInstant, diff: ${diff.toIsoString()}")
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun diffInvariant(data: FuzzedDataProvider) = with(data) {
         val millis1 = consumeLong(-2_000_000_000_000L, 2_000_000_000_000L)
         val millis2 = consumeLong(-2_000_000_000_000L, 2_000_000_000_000L)
@@ -83,7 +83,7 @@ class InstantTests {
         assertEquals(instant2, instant3)
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun diffInvariantSameAsDate(data: FuzzedDataProvider) = with(data) {
         val millis1 = consumeLong(-2_000_000_000_000L, 2_000_000_000_000L)
         val millis2 = consumeLong(-2_000_000_000_000L, 2_000_000_000_000L)
@@ -101,7 +101,7 @@ class InstantTests {
         }
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun convertToJava(data: FuzzedDataProvider) {
         fun test(seconds: Long, nanosecond: Int) {
             val ktInstant = Instant.fromEpochSeconds(seconds, nanosecond.toLong())
@@ -119,7 +119,7 @@ class InstantTests {
         test(seconds, nanos)
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun diffVsJavaDiff(data: FuzzedDataProvider) = with(data) {
         val kfirst = consumeInstant()
         val ksecond = consumeInstant()
@@ -133,7 +133,7 @@ class InstantTests {
         )
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun diffVsJavaDiffWithZoneId(data: FuzzedDataProvider) = with(data) {
         val kfirst = consumeInstant()
         val ksecond = consumeInstant()
@@ -151,7 +151,7 @@ class InstantTests {
         )
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun diffNoNanos(data: FuzzedDataProvider) = with(data) {
         val first = consumeInstant(nanoFrom = 0, nanoTo = 0)
         val second = consumeInstant(nanoFrom = 0, nanoTo = 0)
@@ -164,13 +164,13 @@ class InstantTests {
         )
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun parseCheckException(data: FuzzedDataProvider): Unit = with(data) {
         val s = consumeString(100)
         isFine { Instant.parse(s) }
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun fromMillisecondsVsJava(data: FuzzedDataProvider) {
         val milliseconds = data.consumeLong()
         compareTest(
@@ -181,7 +181,7 @@ class InstantTests {
         )
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun fromSecondsVsJava(data: FuzzedDataProvider) {
         val seconds = data.consumeLong(Long.MIN_VALUE / 1000L, Long.MAX_VALUE / 1000L)
         val nanos = data.consumeLong()
@@ -193,7 +193,7 @@ class InstantTests {
         )
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun parseVsJava(data: FuzzedDataProvider) {
         val s = data.consumeString(100)
         compareTest(

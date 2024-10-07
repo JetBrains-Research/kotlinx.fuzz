@@ -24,7 +24,7 @@ class UselessTests {
         }
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun testEmpty(list: PersistentList<*>?) {
         if (list == null) return
 
@@ -34,14 +34,14 @@ class UselessTests {
     }
 
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun test(a: Int) {
         if (a * (1e9 + 7).toInt() + 31 == 42) {
             throw IllegalArgumentException()
         }
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun a(list: List<Int>?) {
         if (list === null) return
         val persistent = list.toPersistentList()
@@ -70,7 +70,7 @@ class UselessTests {
         }
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun persistentMap(persistentMap: PersistentMap<Int, Int>?) = ignoreExceptions {
         if (persistentMap == null) return
         for (key in persistentMap.keys) {
@@ -78,21 +78,21 @@ class UselessTests {
         }
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun map2Persistent(map: Map<String, String>?) {
         if (map == null) return
         val persistent = map.toPersistentMap()
         assertTrue(map.entries.all { (k, v) -> persistent[k] == v })
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun mapEmptyString(map: Map<String, String>?) {
         if (map == null) return
         val persistent = map.toPersistentMap()
         assertTrue(persistent.mutate { it.clear() }.isEmpty())
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun mapEmptyInt(map: Map<Int, Int>?) {
         if (map == null) return
         val persistent = map.toPersistentMap()
@@ -100,7 +100,7 @@ class UselessTests {
     }
 
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun map2PersistentProvider(data: FuzzedDataProvider) {
         val size = data.consumeInt(0, 1000)
         val list = List(size) { data.consumeString(10) }
@@ -202,7 +202,7 @@ class UselessTests {
     }
 
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun randomOps(data: FuzzedDataProvider) {
         val operationsNumber = data.consumeInt(0, 100)
         val current = persistentSetOf<Int>().builder()

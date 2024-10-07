@@ -11,7 +11,7 @@ import org.plan.research.fuzz.utils.isFine
 import java.time.Period
 
 class LocalDateTests {
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun fromDaysVsJava(data: FuzzedDataProvider) {
         val epochDay = data.consumeInt()
         compareTest(
@@ -22,7 +22,7 @@ class LocalDateTests {
         )
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun convertToJava(data: FuzzedDataProvider) {
         fun test(ktDate: LocalDate) {
             val jtDate = with(ktDate) { java.time.LocalDate.of(year, month, dayOfMonth) }
@@ -37,20 +37,20 @@ class LocalDateTests {
         test(data.consumeDate())
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun parseCheckExceptions(data: FuzzedDataProvider) = with(data) {
         val s = consumeString(100)
         isFine { LocalDate.Formats.ISO.parse(s) }
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun parseIsoBasicCheckExceptions(data: FuzzedDataProvider): Unit = with(data) {
         val s = consumeString(100)
         val format = LocalDate.Formats.ISO_BASIC
         isFine { format.parseOrNull(s) }
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun parseWithDictVsJava(data: FuzzedDataProvider) {
         val len = data.consumeInt(1, 20)
         val chars = (0..9).toList().map { it.toString() } + "-"
@@ -64,7 +64,7 @@ class LocalDateTests {
         )
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun isoParseVsJava(data: FuzzedDataProvider) {
         val s = data.consumeString(100)
         compareTest(
@@ -75,7 +75,7 @@ class LocalDateTests {
         )
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun parseVsJava(data: FuzzedDataProvider) {
         val s = data.consumeAsciiString(100)
         compareTest(
@@ -86,7 +86,7 @@ class LocalDateTests {
         )
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun periodUntilVsJava(data: FuzzedDataProvider) {
         val mod = 0 //5000
         val a = data.consumeDate(-mod, mod)
@@ -109,7 +109,7 @@ class LocalDateTests {
         assertEquals(javaVal, javaFromKotlin)
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun periodUntilNonNegativeVsJava(data: FuzzedDataProvider) {
         val aa = data.consumeDate()
         val bb = data.consumeDate()

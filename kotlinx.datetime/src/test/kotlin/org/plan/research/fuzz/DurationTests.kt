@@ -9,7 +9,7 @@ import kotlin.time.Duration
 import kotlin.time.toKotlinDuration
 
 class DurationTests {
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun parseVsJava(data: FuzzedDataProvider) = with(data) {
         val s = consumeString(100).uppercase()
         compareTest(
@@ -20,7 +20,7 @@ class DurationTests {
         )
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun parseIsoVsJava(data: FuzzedDataProvider) = with(data) {
         val s = consumeString(100).uppercase()
         compareTest(
@@ -31,13 +31,13 @@ class DurationTests {
         )
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun parseCheckExceptions(data: FuzzedDataProvider) = with(data) {
         val s = consumeString(100)
         isFine { Duration.parse(s) }
     }
 
-    @FuzzTest(maxDuration = "30s")
+    @FuzzTest(maxDuration = "2h")
     fun parseIsoCheckExceptions(data: FuzzedDataProvider) = with(data) {
         val s = consumeString(100)
         isFine { Duration.parseIsoString(s) }
