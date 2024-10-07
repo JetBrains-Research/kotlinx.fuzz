@@ -55,8 +55,7 @@ println(kotlinDatePeriod) // P7Y4M
 println(javaDatePeriod) // P88M
 println(kotlinDatePeriod.toJavaPeriod()) // P7Y4M
 ```
-
-Most likely not a bug, just an implementation detail.
+Intentional [decision](https://github.com/Kotlin/kotlinx-datetime/issues/81)
 
 # `DatePeriod.parse` and `DateTimePeriod.parse`
 
