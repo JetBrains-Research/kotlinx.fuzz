@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "2.0.10"
-    jacoco
+//    jacoco
 }
 
 repositories {
@@ -25,11 +25,11 @@ tasks.test {
     useJUnitPlatform()
     testLogging.showStandardStreams = true
     maxHeapSize = "${1024 * 4}m"
-    val jacocoDest = properties["jacocoDest"]
-    configure<JacocoTaskExtension> {
-        includes = listOf("kotlinx.collections.immutable.**")
-        destinationFile = layout.buildDirectory.file("jacoco/$jacocoDest.exec").get().asFile
-    }
+//    val jacocoDest = properties["jacocoDest"]
+//    configure<JacocoTaskExtension> {
+//        includes = listOf("kotlinx.collections.immutable.**")
+//        destinationFile = layout.buildDirectory.file("jacoco/$jacocoDest.exec").get().asFile
+//    }
 }
 
 kotlin {
