@@ -136,9 +136,14 @@ class MethodFeature(
 
         if (modifier == FunctionModifier.TAILREC) {
             parameters.add(ParameterFeature(INT, MutabilityQualifier.EMPTY, "n_"))
-            parameters.add(ParameterFeature(returnType, MutabilityQualifier.EMPTY, "accumulator_"))
-            body =
-                "{ return if (n_ <= 1) { accumulator_ } else { $name(${parameters.joinToString(", ") { if (it.name == "n_") "n_=n_ - 1" else "${it.name} = ${it.name}" }}) } }"
+            if (returnType != VOID) {
+                parameters.add(ParameterFeature(returnType, MutabilityQualifier.EMPTY, "accumulator_"))
+                body =
+                    "{ return if (n_ <= 1) { accumulator_ } else { $name(${parameters.joinToString(", ") { if (it.name == "n_") "n_=n_ - 1" else "${it.name} = ${it.name}" }}) } }"
+            } else {
+                body =
+                    "{ return if (n_ <= 1) { println(n) } else { $name(${parameters.joinToString(", ") { if (it.name == "n_") "n_=n_ - 1" else "${it.name} = ${it.name}" }}) } }"
+            }
         }
 
         if (modifier == FunctionModifier.ABSTRACT) {
@@ -355,7 +360,11 @@ class FieldFeature(
         if (modifier !is ParameterModifier) throw IllegalArgumentException("Modifier must be a ParameterModifier")
 
         if ((modifier.modifierType != ModifierType.DEFAULT || hasModifier { m -> m == modifier }) &&
-            hasModifier { m -> m.modifierType == modifier.modifierType } || modifier.modifierType == ModifierType.INLINE
+            hasModifier { m -> m.modifierType == modifier.modifierType } || modifier.modifierType == ModifierType.INLINE ||
+            modifier == ParameterModifier.LATEINIT && primitiveTypes.contains(type) ||
+            modifier == ParameterModifier.LATEINIT && mutability != MutabilityQualifier.VAL ||
+            mutability == MutabilityQualifier.EMPTY ||
+            mutability == MutabilityQualifier.VARARG
         )
             return
 
@@ -1033,9 +1042,18 @@ private fun FuzzedDataProvider.generatePrimaryConstructorFeature(
     return primaryConstructorFeature
 }
 
-private fun FuzzedDataProvider.generateFieldFeature(availableAnnotations: List<String>, declaredClasses: List<String>): FieldFeature? {
+private fun FuzzedDataProvider.generateFieldFeature(
+    availableAnnotations: List<String>,
+    declaredClasses: List<String>
+): FieldFeature? {
     try {
-        val fieldFeature = FieldFeature(generateType(), generateMutabilityQualifier(), "${if (consumeBoolean()) "${pickFromArray(declaredClasses.toTypedArray())}." else ""}${generateName()}", consumeBoolean(), consumeBoolean())
+        val fieldFeature = FieldFeature(
+            generateType(),
+            generateMutabilityQualifier(),
+            "${if (consumeBoolean()) "${pickFromArray(declaredClasses.toTypedArray())}." else ""}${generateName()}",
+            consumeBoolean(),
+            consumeBoolean()
+        )
         val modifiersNumber = consumeInt(0, MAX_MODIFIERS_NUMBER)
         for (i in 0 until modifiersNumber) {
             fieldFeature.addModifier(generateModifier(ParameterModifier::class.java) as Modifier)
@@ -1106,7 +1124,7 @@ private fun FuzzedDataProvider.generateClassFeature(
 ): ClassFeature {
     val name = generateClassName(namePrefix)
     classNames.add("$namePrefix$name")
-    possibleTypes.add(Type("$namePrefix$name", ""))
+
     val classFeature = ClassFeature(maxDepth != MAX_DEPTH, name)
 
     if (isAnnotation) classFeature.addModifier(ClassModifier.ANNOTATION)
@@ -1124,17 +1142,6 @@ private fun FuzzedDataProvider.generateClassFeature(
         classFeature.addSuperClass(superClass)
     }
 
-    if (maxDepth != 0) {
-        val innerClassesNumber = consumeInt(0, MAX_INNER_CLASSES_NUMBER)
-        for (i in 0 until innerClassesNumber) {
-            val innerClass =
-                generateClassFeature(maxDepth - 1, consumeBoolean(), availableAnnotations, "$namePrefix$name.")
-            classFeature.addInnerClass(innerClass)
-        }
-    }
-
-    val isClassSealed = classFeature.hasModifier { m -> m == ClassModifier.SEALED }
-
     val primaryConstructor =
         generatePrimaryConstructorFeature(
             if (classFeature.hasModifier { m -> m == ClassModifier.DATA || m == ClassModifier.VALUE }) 1 else 0,
@@ -1148,11 +1155,25 @@ private fun FuzzedDataProvider.generateClassFeature(
     for (i in 0 until constructorsNumber) {
         classFeature.addSecondaryConstructor(
             generateSecondaryConstructorFeature(
-                isClassSealed,
+                classFeature.hasModifier { m -> m == ClassModifier.SEALED },
                 primaryConstructor.getParameterTypes(),
                 availableAnnotations
             )
         )
+    }
+
+    if (!isAnnotation)
+        possibleTypes.add(Type("$namePrefix$name", "$namePrefix$name(${
+            primaryConstructor.getParameterTypes().joinToString(", ") { t -> t.defaultValue }
+        })"))
+
+    if (maxDepth != 0) {
+        val innerClassesNumber = consumeInt(0, MAX_INNER_CLASSES_NUMBER)
+        for (i in 0 until innerClassesNumber) {
+            val innerClass =
+                generateClassFeature(maxDepth - 1, consumeBoolean(), availableAnnotations, "$namePrefix$name.")
+            classFeature.addInnerClass(innerClass)
+        }
     }
 
     val declaredClasses = classFeature.getDeclaredClasses()

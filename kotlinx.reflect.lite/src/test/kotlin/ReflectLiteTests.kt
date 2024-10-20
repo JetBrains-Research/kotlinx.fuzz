@@ -39,25 +39,33 @@ object ReflectLiteTests {
     var count2 = 0
     val counters = WeakHashMap<String, Int>()
 
+    fun <T> handle(member: KProperty<*>, kClass: KClass<T>) {
+        if (member is KProperty1<*, *>) {
+            println("hello")
+        }
+    }
+
     @FuzzTest(maxDuration = MAX_DURATION)
     fun test(data: FuzzedDataProvider) {
         try {
             count1 += 1
-            if (count1 % 1000 == 0) {
+            if (count1 % 10000 == 0) {
                 System.err.println("$count2 / $count1")
                 System.err.println("$counters")
             }
-            // val (nameToFeature, className_sourceCode) = data.generateSourceCode()
-            // val (className, sourceCode) = className_sourceCode
-            // val kClass = compileAndLoad(className, sourceCode)
-            val kClass = AllFeaturesClass::class.java.kotlin
-            kClass.members.forEach { member ->
-                if (member is KProperty) {
-                    // assertTrue { nameToFeature.contains("${className}.${member.name}") } // solve problem with extensions
-                    member.isAccessible = true
-                    assertTrue { member.getter.property.name == member.name }
-                }
-            }
+            val (nameToFeature, className_sourceCode) = data.generateSourceCode()
+            val (className, sourceCode) = className_sourceCode
+            val kClass = compileAndLoad(className, sourceCode)
+            assertTrue { KClass::class.isInstance(kClass) }
+            // val kClass = AllFeaturesClass::class.java.kotlin
+//            kClass.members.forEach { member ->
+//                if (member is KProperty) {
+//                    handle(member, kClass)
+//                    // assertTrue { nameToFeature.contains("${className}.${member.name}") } // solve problem with extensions
+//                    member.isAccessible = true
+//                    assertTrue { member.getter.property.name == member.name }
+//                }
+//            }
         } catch (e: FuzzingStateException) {
             count2 += 1
             counters[e.message] = counters.getOrPut(e.message) { 0 } + 1
