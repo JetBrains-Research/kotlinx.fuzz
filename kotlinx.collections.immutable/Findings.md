@@ -1,4 +1,4 @@
-## equal `PersistentOrderedMaps` are not equal
+## equal `PersistentOrderedSets` are not equal
 
 ### Code:
 
