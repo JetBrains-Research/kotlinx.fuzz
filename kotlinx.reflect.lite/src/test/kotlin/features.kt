@@ -1,6 +1,7 @@
 package org.plan.research
 
 import com.code_intelligence.jazzer.api.FuzzedDataProvider
+import kotlin.random.Random
 
 enum class MutabilityQualifier(val qualifier: String) {
     EMPTY(""),
@@ -18,11 +19,13 @@ val FLOAT = Type("Float", "0f")
 val LONG = Type("Long", "0L")
 val DOUBLE = Type("Double", "0.0")
 val STRING = Type("String", "\"\"")
-val GENERIC = Type("T?", "null")
+val NULLABLE_GENERIC = Type("T?", "null")
+val GENERIC = Type("T", "")
 val LAMBDA = Type("(Int) -> Int", "{ x -> x }")
 val SUSPEND_LAMBDA = Type("suspend (Int) -> Int", "{ x -> x }")
 
-private val primitiveTypes = listOf(INT, LONG, DOUBLE, FLOAT, STRING, VOID, GENERIC, LAMBDA, SUSPEND_LAMBDA)
+private val primitiveTypes =
+    listOf(INT, LONG, DOUBLE, FLOAT, STRING, VOID, NULLABLE_GENERIC, GENERIC, LAMBDA, SUSPEND_LAMBDA)
 
 interface Modifier {
     val modifierName: String
@@ -82,8 +85,8 @@ enum class ClassModifier(override val modifierName: String, override val modifie
 }
 
 abstract class Feature(open val name: String) {
-    protected val modifiers: MutableList<Modifier> = mutableListOf()
-    protected val annotations: MutableList<String> = mutableListOf()
+    internal val modifiers: MutableList<Modifier> = mutableListOf()
+    internal val annotations: MutableList<String> = mutableListOf()
 
     abstract fun addModifier(modifier: Modifier)
     fun addAnnotation(annotation: String) {
@@ -93,6 +96,7 @@ abstract class Feature(open val name: String) {
 
     fun hasModifier(predicate: (Modifier) -> Boolean) = modifiers.any(predicate)
     abstract override fun toString(): String
+    abstract fun toShortString(): String
 }
 
 class MethodFeature(
@@ -104,6 +108,16 @@ class MethodFeature(
 ) : Feature(name) {
     private val parameters = mutableListOf<ParameterFeature>()
     private var body: String = "{ return ${returnType.defaultValue} }"
+    private val hiddenParameters = mutableListOf<ParameterFeature>()
+
+    fun addHiddenParameter(parameter: ParameterFeature) {
+        hiddenParameters.add(parameter)
+    }
+
+    override fun toShortString(): String {
+        val parametersString = (hiddenParameters + parameters).joinToString(", ") { it.toShortString() }
+        return "$name($parametersString)"
+    }
 
     fun getParameterTypes() = parameters.map { p -> p.type }
 
@@ -114,7 +128,6 @@ class MethodFeature(
             parameter.mutability == MutabilityQualifier.VAL || parameter.mutability == MutabilityQualifier.VAR) return
         parameters.add(parameter)
     }
-
 
     override fun addModifier(modifier: Modifier) {
         if (modifier !is FunctionModifier) throw IllegalArgumentException("Modifier must be a FunctionModifier")
@@ -158,9 +171,9 @@ class MethodFeature(
         val modifiersString = modifiers.joinToString(" ") { it.modifierName }
         val parametersString = parameters.joinToString(", ") { it.toString() }
         val genericString =
-            if ((returnType == GENERIC || parameters.any { p -> p.type == GENERIC }) && genericIfNeeded) {
-                if (hasModifier { m -> m == FunctionModifier.INLINE } && reifiedIfNeeded) "<reified T>"
-                else "<T>"
+            if ((returnType == NULLABLE_GENERIC || returnType == GENERIC || parameters.any { it.type == NULLABLE_GENERIC || it.type == GENERIC }) && genericIfNeeded) {
+                if (hasModifier { m -> m == FunctionModifier.INLINE } && reifiedIfNeeded) "<reified T: Any>"
+                else "<T: Any>"
             } else ""
         return "$annotationsString\n$modifiersString fun $genericString $name($parametersString) ${if (returnType == VOID) "" else ": ${returnType.typeName}"} $body"
 
@@ -168,15 +181,25 @@ class MethodFeature(
 }
 
 class OperatorFeature(
-    private val extends: String?,
+    val extends: String?,
     private val reifiedIfNeeded: Boolean,
     private val genericIfNeeded: Boolean,
     private val superClasses: List<ClassFeature>,
     private var body: String,
-    private val returnType: Type,
+    val returnType: Type,
     override val name: String,
 ) : Feature(name) {
     private val parameters = mutableListOf<ParameterFeature>()
+    private val hiddenParameters = mutableListOf<ParameterFeature>()
+
+    fun addHiddenParameter(parameter: ParameterFeature) {
+        hiddenParameters.add(parameter)
+    }
+
+    override fun toShortString(): String {
+        val parametersString = (hiddenParameters + parameters).joinToString(", ") { it.toShortString() }
+        return "${if (extends != null) "$extends." else ""}$name($parametersString)"
+    }
 
     fun getParameterTypes() = parameters.map { p -> p.type }
 
@@ -213,11 +236,11 @@ class OperatorFeature(
             if (returnType != VOID) {
                 parameters.add(ParameterFeature(returnType, MutabilityQualifier.EMPTY, "accumulator_"))
                 body =
-                    "{ return if (n <= 1) { accumulator_ } else { $name(${parameters.joinToString(", ") { if (it.name == "n_") "n_=n_ - 1" else "${it.name} = ${it.name}" }}) } }"
+                    " = if (n <= 1) { accumulator_ } else { $name(${parameters.joinToString(", ") { if (it.name == "n_") "n_=n_ - 1" else "${it.name} = ${it.name}" }}) }"
             } else {
                 parameters.add(ParameterFeature(INT, MutabilityQualifier.EMPTY, "accumulator_"))
                 body =
-                    "{ return if (n <= 1) { println(accumulator_) } else { $name(${parameters.joinToString(", ") { if (it.name == "n_") "n_=n_ - 1" else "${it.name} = ${it.name}" }}) } }"
+                    " = if (n <= 1) { println(accumulator_) } else { $name(${parameters.joinToString(", ") { if (it.name == "n_") "n_=n_ - 1" else "${it.name} = ${it.name}" }}) }"
             }
         }
 
@@ -233,9 +256,9 @@ class OperatorFeature(
         val modifiersString = modifiers.joinToString(" ") { it.modifierName }
         val parametersString = parameters.joinToString(", ") { it.toString() }
         val genericString =
-            if ((returnType == GENERIC || parameters.any { p -> p.type == GENERIC }) && genericIfNeeded) {
-                if (hasModifier { m -> m == FunctionModifier.INLINE } && reifiedIfNeeded) "<reified T>"
-                else "<T>"
+            if ((returnType == NULLABLE_GENERIC || returnType == GENERIC || parameters.any { it.type == NULLABLE_GENERIC || it.type == GENERIC }) && genericIfNeeded) {
+                if (hasModifier { m -> m == FunctionModifier.INLINE } && reifiedIfNeeded) "<reified T: Any>"
+                else "<T: Any>"
             } else ""
         return "$annotationsString\n$modifiersString operator fun $genericString ${if (extends != null) "$extends." else ""}$name($parametersString) $body"
 
@@ -264,10 +287,12 @@ class ParameterFeature(val type: Type, val mutability: MutabilityQualifier, over
         modifiers.add(modifier)
     }
 
+    override fun toShortString() = type.typeName
+
     override fun toString(): String {
         val annotationsString = annotations.joinToString("\n") { "@$it" }
         val modifiersString = modifiers.joinToString(" ") { it.modifierName }
-        return if (primitiveTypes.contains(type))
+        return if (type.defaultValue != "" && mutability != MutabilityQualifier.VARARG)
             "$annotationsString $modifiersString ${mutability.qualifier} $name: ${type.typeName} = ${type.defaultValue}"
         else
             "$annotationsString $modifiersString ${mutability.qualifier} $name: ${type.typeName}"
@@ -277,14 +302,12 @@ class ParameterFeature(val type: Type, val mutability: MutabilityQualifier, over
 class SecondaryConstructorFeature(
     private val isClassSealed: Boolean,
     private val parameterTypes: List<Type>,
-    override var name: String = "()"
+    override var name: String = ""
 ) : Feature(name) {
-    private val parameters = mutableListOf<ParameterFeature>()
+    internal val parameters = mutableListOf<ParameterFeature>()
     private var body = "{}"
 
-    fun getParameterTypes() = parameters.map { p -> p.type }
-
-    fun isGeneric() = parameters.any { p -> p.type == GENERIC }
+    fun isGeneric() = parameters.any { p -> p.type == NULLABLE_GENERIC || p.type == GENERIC }
 
     fun addParameter(parameter: ParameterFeature) {
         if (parameters.any { p -> p.name == parameter.name } ||
@@ -307,6 +330,11 @@ class SecondaryConstructorFeature(
         name = "(${parameters.joinToString(", ") { it.type.typeName }})"
     }
 
+    override fun toShortString(): String {
+        val parametersString = parameters.joinToString(", ") { it.toShortString() }
+        return "($parametersString)"
+    }
+
     override fun toString(): String {
         val annotationsString = annotations.joinToString("\n") { "@$it" }
         val modifiersString = modifiers.joinToString(" ") { it.modifierName }
@@ -316,24 +344,37 @@ class SecondaryConstructorFeature(
     }
 }
 
-class PrimaryConstructorFeature(private val isAnnotation: Boolean, override var name: String = "()") : Feature(name) {
-    private val parameters = mutableListOf<ParameterFeature>()
+class PrimaryConstructorFeature(private val isAnnotation: Boolean, override var name: String = "") : Feature(name) {
+    internal val parameters = mutableListOf<ParameterFeature>()
+
+    fun getNotEmptyParameters() = parameters.filterNot { it.mutability == MutabilityQualifier.EMPTY }
 
     fun getParameterTypes() = parameters.map { p -> p.type }
 
-    fun isGeneric() = parameters.any { p -> p.type == GENERIC }
+    fun isGeneric() = parameters.any { p -> p.type == NULLABLE_GENERIC || p.type == GENERIC }
 
     fun addParameter(parameter: ParameterFeature) {
         if (parameters.any { p -> p.name == parameter.name } ||
             parameter.hasModifier { m -> m.modifierType == ModifierType.INLINE } ||
-            parameter.mutability == MutabilityQualifier.VARARG ||
-            isAnnotation && parameter.mutability != MutabilityQualifier.VAL) return
+            isAnnotation && parameter.mutability != MutabilityQualifier.VAL ||
+            isAnnotation && parameter.hasModifier { it == ParameterModifier.INTERNAL || it == ParameterModifier.PROTECTED || it == ParameterModifier.PRIVATE } ||
+            isAnnotation && (parameter.type == LAMBDA || parameter.type == SUSPEND_LAMBDA || !primitiveTypes.contains(
+                parameter.type
+            )) ||
+            isAnnotation && (parameter.type == NULLABLE_GENERIC) ||
+            isAnnotation && (parameter.type == GENERIC)) return
         parameters.add(parameter)
         name = "(${parameters.joinToString(", ") { it.type.typeName }})"
     }
 
     override fun addModifier(modifier: Modifier) {
         throw RuntimeException("addModifier should not be called for PrimaryConstructor")
+    }
+
+
+    override fun toShortString(): String {
+        val parametersString = parameters.joinToString(", ") { it.toShortString() }
+        return "($parametersString)"
     }
 
     override fun toString(): String {
@@ -343,16 +384,20 @@ class PrimaryConstructorFeature(private val isAnnotation: Boolean, override var 
 }
 
 class FieldFeature(
-    private val type: Type,
+    val type: Type,
     private val mutability: MutabilityQualifier,
     override val name: String,
-    private val isLazy: Boolean,
-    private val needsSetter: Boolean,
-) :
-    Feature(name) {
+    val isLazy: Boolean,
+    val isGetterSetter: Boolean
+) : Feature(name) {
     init {
         if (type == VOID || mutability == MutabilityQualifier.EMPTY || mutability == MutabilityQualifier.VARARG) {
-            throw IllegalArgumentException("Field must not be VOID, EMPTY or VARARG")
+            throw IllegalArgumentException("Field must not be VOID, EMPTY, VARARG or not nullable generic")
+        }
+        if (type == GENERIC && mutability == MutabilityQualifier.VAR) {
+            addModifier(ParameterModifier.LATEINIT)
+        } else if (type == GENERIC) {
+            throw IllegalArgumentException("Field must not be VAL and non-nullable generic")
         }
     }
 
@@ -371,15 +416,19 @@ class FieldFeature(
         modifiers.add(modifier)
     }
 
+    override fun toShortString() = name
+
     override fun toString(): String {
         val annotationsString = annotations.joinToString("\n") { "@$it" }
         val modifiersString = modifiers.joinToString(" ") { it.modifierName }
         return if (type == STRING && isLazy)
             "$annotationsString\n$modifiersString ${mutability.qualifier} $name: ${type.typeName} by lazy { ${type.defaultValue} }"
-        else if (!primitiveTypes.contains(type))
-            "$annotationsString\n$modifiersString ${mutability.qualifier} $name: ${type.typeName}\nget() {}"
+        else if (isGetterSetter && !name.contains('.'))
+            "$annotationsString\n$modifiersString ${mutability.qualifier} $name: ${type.typeName} = ${type.defaultValue}"
+        else if (mutability == MutabilityQualifier.VAL)
+            "$annotationsString\n$modifiersString ${mutability.qualifier} $name: ${type.typeName}\nget() = ${type.defaultValue}"
         else
-            "$annotationsString\n$modifiersString ${mutability.qualifier} $name: ${type.typeName}\nget() = ${type.defaultValue}\n${if (needsSetter) "set(value) {}" else ""}"
+            "$annotationsString\n$modifiersString ${mutability.qualifier} $name: ${type.typeName}\nget() = ${type.defaultValue}\nset(value) {}"
     }
 }
 
@@ -416,6 +465,8 @@ class CompanionObjectFeature(override val name: String = "Companion") : Feature(
         throw RuntimeException("addModifier should not be called for CompanionObject")
     }
 
+    override fun toShortString() = "Companion"
+
     override fun toString(): String {
         val annotationsString = annotations.joinToString("\n") { "@$it" }
         val fieldsString = fields.joinToString("\n")
@@ -425,18 +476,28 @@ class CompanionObjectFeature(override val name: String = "Companion") : Feature(
     }
 }
 
-class ClassFeature(private val isInner: Boolean, override val name: String) : Feature(name) {
+class ClassFeature(
+    val isInterface: Boolean,
+    val isFunctionalInterface: Boolean,
+    private val isInner: Boolean,
+    override val name: String
+) : Feature(name) {
     private var primaryConstructor = PrimaryConstructorFeature(false)
     private var companionObject: CompanionObjectFeature? = null
     private val secondaryConstructors: MutableList<SecondaryConstructorFeature> = mutableListOf()
     private val fields: MutableList<FieldFeature> = mutableListOf()
+    private val hiddenFields: MutableList<FieldFeature> = mutableListOf()
     private val methods: MutableList<MethodFeature> = mutableListOf()
     private val operators: MutableList<OperatorFeature> = mutableListOf()
     private val superClasses: MutableList<ClassFeature> = mutableListOf()
     private val innerClasses: MutableList<ClassFeature> = mutableListOf()
 
+    fun methodsNumber() = methods.size + operators.size
+
     fun getFeatures() =
-        listOf(primaryConstructor as Feature) + (if (companionObject == null) emptyList() else listOf(companionObject as Feature)) + (fields as List<Feature>) + (methods as List<Feature>) + (operators as List<Feature>)
+        listOf(this as Feature) + (if (isInterface || isFunctionalInterface) emptyList() else listOf(primaryConstructor as Feature)) + (if (companionObject == null) emptyList() else listOf(
+            companionObject as Feature
+        )) + (fields as List<Feature>) + (hiddenFields as List<Feature>) + (methods as List<Feature>) + (operators as List<Feature>)
 
     fun getDeclaredClasses(): List<Pair<String, ClassFeature>> {
         val classes = mutableListOf(name to this)
@@ -452,60 +513,124 @@ class ClassFeature(private val isInner: Boolean, override val name: String) : Fe
     }
 
     fun hasOpenMethod(returnType: Type, parameterTypes: List<Type>, name: String) =
-        methods.any { m -> m.returnType == returnType && m.getParameterTypes() == parameterTypes && m.name == name && m.hasModifier { mod -> mod == FunctionModifier.OPEN || mod == FunctionModifier.ABSTRACT } }
+        methods.any { m -> m.returnType == returnType && m.getParameterTypes() == parameterTypes && m.name == name && m.hasModifier { mod -> mod == FunctionModifier.OPEN || mod == FunctionModifier.ABSTRACT } } ||
+                operators.any { m -> m.returnType == returnType && m.getParameterTypes() == parameterTypes && m.name == name && m.hasModifier { mod -> mod == FunctionModifier.OPEN || mod == FunctionModifier.ABSTRACT } }
 
-    fun isGeneric() = primaryConstructor.isGeneric() || secondaryConstructors.any { c -> c.isGeneric() }
+    fun isGeneric() =
+        primaryConstructor.isGeneric() || secondaryConstructors.any { c -> c.isGeneric() } || fields.any { it.type == NULLABLE_GENERIC || it.type == GENERIC }
+
+    fun getPrimaryConstructor() = primaryConstructor
 
     fun setPrimaryConstructor(primaryConstructor: PrimaryConstructorFeature) {
         this.primaryConstructor = primaryConstructor
+        primaryConstructor.getNotEmptyParameters().forEach { parameter ->
+            try {
+                val feature = FieldFeature(parameter.type, parameter.mutability, parameter.name, false, false)
+                parameter.annotations.forEach { feature.addAnnotation(it) }
+                parameter.modifiers.forEach { feature.addModifier(it) }
+                hiddenFields.add(feature)
+            } catch (_: IllegalArgumentException) {
+
+            }
+        }
     }
 
     fun setCompanionObject(companionObject: CompanionObjectFeature) {
-        if (hasModifier { m -> m == ClassModifier.ANNOTATION }) return
         this.companionObject = companionObject
     }
 
+    private fun parameterMatch(a: List<ParameterFeature>, b: List<ParameterFeature>): Boolean {
+        var aIndex = 0
+        var bIndex = 0
+        while (aIndex < a.size && bIndex < b.size) {
+            if (a[aIndex].type != b[bIndex].type) return false
+            if (a[aIndex].mutability == MutabilityQualifier.VARARG) {
+                while (bIndex < b.size && b[bIndex].type == a[aIndex].type) bIndex += 1
+                bIndex -= 1
+            }
+            if (b[bIndex].mutability == MutabilityQualifier.VARARG) {
+                while (aIndex < a.size && b[bIndex].type == a[aIndex].type) aIndex += 1
+                aIndex -= 1
+            }
+            aIndex += 1
+            bIndex += 1
+        }
+        return aIndex == a.size && bIndex == b.size
+    }
 
     fun addSecondaryConstructor(secondaryConstructor: SecondaryConstructorFeature) {
-        if (hasModifier { m -> m == ClassModifier.ANNOTATION }) return
-        if (secondaryConstructor.getParameterTypes() == primaryConstructor.getParameterTypes() ||
-            secondaryConstructors.any { constructor -> constructor.getParameterTypes() == secondaryConstructor.getParameterTypes() }
+        if (hasModifier { m -> m == ClassModifier.ANNOTATION } || isInterface || isFunctionalInterface) return
+        if (parameterMatch(secondaryConstructor.parameters, primaryConstructor.parameters) ||
+            secondaryConstructors.any { parameterMatch(it.parameters, secondaryConstructor.parameters) }
         ) return
         secondaryConstructors.add(secondaryConstructor)
     }
 
     fun addField(field: FieldFeature) {
         if (hasModifier { m -> m == ClassModifier.ANNOTATION }) return
-        if (fields.any { f -> f.name == field.name }) return
+        if (fields.any { f -> f.name == field.name } ||
+            isInterface && field.isLazy ||
+            isInterface && !field.isGetterSetter ||
+            isFunctionalInterface && !field.isGetterSetter ||
+            isFunctionalInterface && field.isLazy) return
+
         fields.add(field)
     }
 
     fun addMethod(method: MethodFeature) {
         if (hasModifier { m -> m == ClassModifier.ANNOTATION }) return
+        if (isFunctionalInterface && methods.size + operators.size == 1) return
         if (methods.any { f -> f.name == method.name && f.getParameterTypes() == method.getParameterTypes() } ||
-            method.hasModifier { m -> m == FunctionModifier.ABSTRACT } && !hasModifier { m -> m == ClassModifier.ABSTRACT }) return
+            method.hasModifier { m -> m == FunctionModifier.ABSTRACT } && !hasModifier { m -> m == ClassModifier.ABSTRACT } ||
+            (isInterface || isFunctionalInterface) && !method.hasModifier { m -> m == FunctionModifier.ABSTRACT }) return
+        method.addHiddenParameter(ParameterFeature(possibleTypes[name]!!, MutabilityQualifier.VAL, "this"))
+        if (method.name.contains('.'))
+            method.addHiddenParameter(
+                ParameterFeature(
+                    possibleTypes[method.name.split('.')[0]]!!,
+                    MutabilityQualifier.VAL,
+                    "this"
+                )
+            )
         methods.add(method)
     }
 
     fun addOperator(operator: OperatorFeature) {
         if (hasModifier { m -> m == ClassModifier.ANNOTATION }) return
+        if (isFunctionalInterface && methods.size + operators.size == 1) return
         if (operators.any { op -> op.name == operator.name && op.getParameterTypes() == operator.getParameterTypes() } ||
-            operator.hasModifier { m -> m == FunctionModifier.ABSTRACT } && !hasModifier { m -> m == ClassModifier.ABSTRACT }) return
+            operator.hasModifier { m -> m == FunctionModifier.ABSTRACT } && !hasModifier { m -> m == ClassModifier.ABSTRACT } ||
+            (isInterface || isFunctionalInterface) && !operator.hasModifier { m -> m == FunctionModifier.ABSTRACT }) return
+        operator.addHiddenParameter(ParameterFeature(possibleTypes[name]!!, MutabilityQualifier.VAL, "this"))
+        if (operator.extends != null)
+            operator.addHiddenParameter(
+                ParameterFeature(
+                    possibleTypes[operator.extends]!!,
+                    MutabilityQualifier.VAL,
+                    "this"
+                )
+            )
         operators.add(operator)
     }
 
     fun addSuperClass(superClass: ClassFeature) {
         if (hasModifier { m -> m == ClassModifier.ANNOTATION }) return
-        if (name == superClass.name || superClasses.any { c -> c.name == superClass.name } || !superClass.hasModifier { m -> m == ClassModifier.OPEN } ||
-            superClass.hasModifier { m -> m == ClassModifier.PRIVATE || m == ClassModifier.INTERNAL } && hasModifier { m -> m == ClassModifier.PUBLIC || m == ClassModifier.PROTECTED } ||
-            superClass.hasModifier { m -> m == ClassModifier.PROTECTED } && (hasModifier { m -> m == ClassModifier.PUBLIC } || !hasModifier { m -> m.modifierType == ModifierType.VISIBILITY })
-        ) return
-        superClasses.add(superClass)
+        if (isInterface && superClass.isInterface || isFunctionalInterface && superClass.isFunctionalInterface ||
+            isFunctionalInterface && superClass.isInterface || isInterface && superClass.isFunctionalInterface
+        ) {
+            if (name == superClass.name || superClasses.any { c -> c.name == superClass.name } || !superClass.hasModifier { m -> m == ClassModifier.OPEN } ||
+                superClass.hasModifier { m -> m == ClassModifier.PRIVATE || m == ClassModifier.INTERNAL } && hasModifier { m -> m == ClassModifier.PUBLIC || m == ClassModifier.PROTECTED } ||
+                superClass.hasModifier { m -> m == ClassModifier.PROTECTED } && (hasModifier { m -> m == ClassModifier.PUBLIC } || !hasModifier { m -> m.modifierType == ModifierType.VISIBILITY })
+            ) return
+            superClasses.add(superClass)
+        }
     }
 
     fun addInnerClass(innerClass: ClassFeature) {
         if (hasModifier { m -> m == ClassModifier.ANNOTATION }) return
         if (name == innerClass.name || innerClasses.any { c -> c.name == innerClass.name }) return
+        if (isInterface && innerClass.hasModifier { m -> m == ClassModifier.INNER } ||
+            isFunctionalInterface && innerClass.hasModifier { m -> m == ClassModifier.INNER }) return
         innerClasses.add(innerClass)
     }
 
@@ -519,11 +644,15 @@ class ClassFeature(private val isInner: Boolean, override val name: String) : Fe
             modifier.modifierType == ModifierType.STRUCTURE && modifiers.any { m -> m.modifierType == ModifierType.INHERITANCE } ||
             modifier.modifierType == ModifierType.INHERITANCE && modifiers.any { m -> m.modifierType == ModifierType.STRUCTURE } ||
             modifier == ClassModifier.ANNOTATION && modifiers.any { m -> m.modifierType != ModifierType.VISIBILITY } ||
-            modifiers.any { m -> m == ClassModifier.ANNOTATION } && modifier.modifierType != ModifierType.VISIBILITY
+            modifiers.any { m -> m == ClassModifier.ANNOTATION } && modifier.modifierType != ModifierType.VISIBILITY ||
+            isInterface && modifier.modifierType != ModifierType.VISIBILITY ||
+            isFunctionalInterface && modifier.modifierType != ModifierType.VISIBILITY
         ) return
 
         modifiers.add(modifier)
     }
+
+    override fun toShortString() = name
 
     override fun toString(): String {
         val annotationsString = annotations.joinToString("\n") { "@$it" }
@@ -531,10 +660,11 @@ class ClassFeature(private val isInner: Boolean, override val name: String) : Fe
         val secondaryConstructorsString = secondaryConstructors.joinToString("\n")
         val fieldsString = fields.joinToString("\n")
         val methodsString = methods.joinToString("\n")
+        val operatorsString = operators.joinToString("\n")
         val superClassesListString = superClasses.joinToString(", ") { "${it.name}()" }
         val superClassesString = superClasses.joinToString("\n")
         val innerClassesString = innerClasses.joinToString("\n")
-        val genericString = if (isGeneric()) "<T>" else ""
+        val genericString = if (isGeneric()) "<T: Any>" else ""
         val enumConstants = if (hasModifier { m -> m == ClassModifier.ENUM }) "A_(${
             primaryConstructor.getParameterTypes().joinToString(separator = ", ") { t -> t.defaultValue }
         }), B_(${
@@ -543,17 +673,24 @@ class ClassFeature(private val isInner: Boolean, override val name: String) : Fe
             primaryConstructor.getParameterTypes().joinToString(separator = ", ") { t -> t.defaultValue }
         });" else ""
 
-        return "${if (hasModifier { m -> m == ClassModifier.VALUE }) "@JvmInline" else ""}\n$annotationsString\n$superClassesString\n$modifiersString class $name $genericString $primaryConstructor ${if (superClassesListString != "") ": $superClassesListString" else ""} {\n$enumConstants\n$secondaryConstructorsString\n$fieldsString\n$methodsString\n$innerClassesString\n${companionObject ?: ""}\n}"
+        return "${if (hasModifier { m -> m == ClassModifier.VALUE }) "@JvmInline" else ""}\n$annotationsString\n$superClassesString\n$modifiersString ${if (isFunctionalInterface) "fun interface" else if (isInterface) "interface" else "class"} $name $genericString ${
+            if (isInterface || isFunctionalInterface) "" else if (hasModifier { it == ClassModifier.ANNOTATION }) "(${
+                primaryConstructor.parameters.joinToString(
+                    ", "
+                ) { if (it.mutability == MutabilityQualifier.VARARG) "vararg val ${it.name}: ${it.type}" else it.toString() }
+            })" else primaryConstructor.toString()
+        } ${if (superClassesListString != "") ": $superClassesListString" else ""} {\n$enumConstants\n$secondaryConstructorsString\n$fieldsString\n$methodsString\n$operatorsString\n$innerClassesString\n${companionObject ?: ""}\n}"
     }
 }
 
-private val possibleTypes = mutableListOf<Type>()
+val possibleTypes = mutableMapOf<String, Type>()
 private val classNames = mutableListOf<String>()
+val qualifiedNameToFeature = mutableMapOf<String, Feature>()
 
 private fun <T> FuzzedDataProvider.pickFromArray(arr: Array<T>) = arr[consumeInt(0, arr.lastIndex)]
 
 private fun FuzzedDataProvider.generateType(): Type {
-    return pickFromArray(possibleTypes.toTypedArray())
+    return pickFromArray(possibleTypes.values.toTypedArray())
 }
 
 private fun FuzzedDataProvider.generateMutabilityQualifier(): MutabilityQualifier {
@@ -568,27 +705,23 @@ private fun <T> FuzzedDataProvider.generateModifier(clazz: Class<T>) = when (cla
     else -> throw IllegalArgumentException("Class must be a Modifier")
 }
 
-private fun FuzzedDataProvider.generateName(): String {
+private fun generateName(): String {
     val result = StringBuilder()
-    val length = consumeInt(1, MAX_STR_LENGTH)
+    val length = Random.nextInt(2, MAX_STR_LENGTH)
 
     while (result.length < length) {
-        val newChar = 'a' + consumeInt(0, 25)
-        result.append(
-            if (consumeBoolean()) newChar.titlecase()
-            else newChar.lowercase()
-        )
+        result.append('A' + Random.nextInt(0, 26))
     }
 
     return result.toString()
 }
 
-private fun FuzzedDataProvider.generateClassName(namePrefix: String): String {
+private fun generateClassName(namePrefix: String): String {
     var name = generateName()
     var count = 0
     while (classNames.contains("$namePrefix$name")) {
         if (count >= MAX_TRIES) {
-            throw FuzzingStateException("Can't generate class name.")
+            throw FuzzingStateException("Can't generate class name")
         }
         count += 1
         name = generateName()
@@ -1125,7 +1258,7 @@ private fun FuzzedDataProvider.generateClassFeature(
     val name = generateClassName(namePrefix)
     classNames.add("$namePrefix$name")
 
-    val classFeature = ClassFeature(maxDepth != MAX_DEPTH, name)
+    val classFeature = ClassFeature(maxDepth != MAX_DEPTH, consumeBoolean(), namePrefix != "", name)
 
     if (isAnnotation) classFeature.addModifier(ClassModifier.ANNOTATION)
 
@@ -1163,9 +1296,9 @@ private fun FuzzedDataProvider.generateClassFeature(
     }
 
     if (!isAnnotation)
-        possibleTypes.add(Type("$namePrefix$name", "$namePrefix$name(${
+        possibleTypes[name] = Type("$namePrefix$name", "$namePrefix$name(${
             primaryConstructor.getParameterTypes().joinToString(", ") { t -> t.defaultValue }
-        })"))
+        })")
 
     if (maxDepth != 0) {
         val innerClassesNumber = consumeInt(0, MAX_INNER_CLASSES_NUMBER)
@@ -1184,30 +1317,38 @@ private fun FuzzedDataProvider.generateClassFeature(
         classFeature.addField(field)
     }
 
-    val methodsNumber = consumeInt(0, MAX_METHODS_NUMBER)
-    for (i in 0 until methodsNumber) {
-        classFeature.addMethod(
-            generateMethodFeature(
+    var count = 0
+    while (true) {
+        val methodsNumber = consumeInt(0, MAX_METHODS_NUMBER)
+        for (i in 0 until methodsNumber) {
+            classFeature.addMethod(
+                generateMethodFeature(
+                    declaredClasses.map { x -> x.first },
+                    classFeature.isGeneric(),
+                    superClasses,
+                    availableAnnotations
+                )
+            )
+        }
+
+        val operatorsNumber = consumeInt(0, MAX_OPERATORS_NUMBER)
+        for (i in 0 until operatorsNumber) {
+            val operatorName = pickFromArray(operatorNames.toTypedArray())
+            val operator = generateOperatorFeature(
                 declaredClasses.map { x -> x.first },
                 classFeature.isGeneric(),
                 superClasses,
-                availableAnnotations
+                availableAnnotations,
+                name,
+                operatorName
             )
-        )
-    }
+            classFeature.addOperator(operator)
+        }
 
-    val operatorsNumber = consumeInt(0, MAX_OPERATORS_NUMBER)
-    for (i in 0 until operatorsNumber) {
-        val operatorName = pickFromArray(operatorNames.toTypedArray())
-        val operator = generateOperatorFeature(
-            declaredClasses.map { x -> x.first },
-            classFeature.isGeneric(),
-            superClasses,
-            availableAnnotations,
-            name,
-            operatorName
-        )
-        classFeature.addOperator(operator)
+        if (!classFeature.isFunctionalInterface) break
+        if (classFeature.methodsNumber() == 1) break
+        if (count >= MAX_TRIES) throw FuzzingStateException("Can't generate method for fun interface")
+        count += 1
     }
 
     if (consumeBoolean()) {
@@ -1231,10 +1372,13 @@ private fun FuzzedDataProvider.generateClassFeature(
     return classFeature
 }
 
-fun FuzzedDataProvider.generateSourceCode(): Pair<Map<String, Feature>, Pair<String, String>> {
+fun FuzzedDataProvider.generateSourceCode(): Pair<String, String> {
     classNames.clear()
+    qualifiedNameToFeature.clear()
     possibleTypes.clear()
-    possibleTypes.addAll(primitiveTypes)
+    primitiveTypes.forEach {
+        possibleTypes[it.typeName] = it
+    }
     val annotations = mutableListOf<ClassFeature>()
     for (i in 0 until MAX_ANNOTATIONS_NUMBER) {
         annotations.add(generateClassFeature(MAX_DEPTH, true, annotations.map { a -> a.name }, ""))
@@ -1242,23 +1386,23 @@ fun FuzzedDataProvider.generateSourceCode(): Pair<Map<String, Feature>, Pair<Str
 
     val classFeature = generateClassFeature(MAX_DEPTH, false, annotations.map { a -> a.name }, "")
 
-    val qualifiedNameToFeature = mutableMapOf<String, Feature>()
     for (annotation in annotations) {
-        qualifiedNameToFeature[annotation.name] = annotation
         for ((qualifiedClassName, declaredClass) in annotation.getDeclaredClasses()) {
             for (feature in declaredClass.getFeatures()) {
-                qualifiedNameToFeature["$qualifiedClassName.${feature.name}"] = feature
+                qualifiedNameToFeature["$qualifiedClassName.${feature.toShortString()}"] = feature
             }
         }
     }
-    qualifiedNameToFeature[classFeature.name] = classFeature
     for ((qualifiedClassName, declaredClass) in classFeature.getDeclaredClasses()) {
         for (feature in declaredClass.getFeatures()) {
-            qualifiedNameToFeature["$qualifiedClassName.${feature.name}"] = feature
+            if (feature is ClassFeature)
+                qualifiedNameToFeature[qualifiedClassName] = feature
+            else
+                qualifiedNameToFeature["$qualifiedClassName.${feature.toShortString()}"] = feature
         }
     }
 
-    return qualifiedNameToFeature to (classFeature.name to "${annotations.joinToString("\n")}\n$classFeature")
+    return classFeature.name to "${annotations.joinToString("\n")}\n$classFeature"
 }
 
 class FuzzingStateException(message: String) : RuntimeException(message)
