@@ -25,7 +25,51 @@ val LAMBDA = Type("(Int) -> Int", "{ x -> x }")
 val SUSPEND_LAMBDA = Type("suspend (Int) -> Int", "{ x -> x }")
 val LIST_INT = Type("List<Int>", "emptyList()")
 
-val primitiveTypes = listOf(INT, LONG, DOUBLE, FLOAT, STRING, VOID, NULLABLE_GENERIC, GENERIC, LAMBDA, SUSPEND_LAMBDA, LIST_INT)
+val INT_ARRAY = Type("Int", "*listOf(0).toIntArray()")
+val LONG_ARRAY = Type("Long", "*listOf(0L).toLongArray()")
+val DOUBLE_ARRAY = Type("Double", "*listOf(0.0).toDoubleArray()")
+val FLOAT_ARRAY = Type("Float", "*listOf(0f).toFloatArray()")
+val STRING_ARRAY = Type("String", "*listOf(\"\").toTypedArray()")
+val BOOLEAN_ARRAY = Type("Boolean", "*listOf(true).toBooleanArray()")
+val LAMBDA_ARRAY = Type("(Int) -> Int", "*listOf({ x: Int -> x }).toTypedArray()")
+val SUSPEND_LAMBDA_ARRAY =
+    Type("suspend (Int) -> Int", "*listOf({ x: Int -> x } as suspend (Int) -> Int).toTypedArray()")
+val LIST_INT_ARRAY = Type("List<Int>", "*listOf(listOf(0)).toTypedArray()")
+val GENERIC_ARRAY = Type("T", "")
+val NULLABLE_GENERIC_ARRAY = Type("T?", "*listOf(\"\", null).toTypedArray()")
+
+val arrayTypes = listOf(
+    INT_ARRAY,
+    LONG_ARRAY,
+    DOUBLE_ARRAY,
+    FLOAT_ARRAY,
+    STRING_ARRAY,
+    BOOLEAN_ARRAY,
+    LAMBDA_ARRAY,
+    SUSPEND_LAMBDA_ARRAY,
+    GENERIC_ARRAY,
+    NULLABLE_GENERIC_ARRAY,
+    LIST_INT_ARRAY
+)
+val primitiveTypes =
+    listOf(INT, LONG, DOUBLE, FLOAT, STRING, VOID, NULLABLE_GENERIC, GENERIC, LAMBDA, SUSPEND_LAMBDA, LIST_INT)
+
+private fun arrayName(name: String): String {
+    when (name) {
+        "Int" -> return "IntArray"
+        "Long" -> return "LongArray"
+        "Double" -> return "DoubleArray"
+        "Float" -> return "FloatArray"
+        "String" -> return "Array<String>"
+        "Boolean" -> return "BooleanArray"
+        "(Int) -> Int" -> return "Array<Function1<Int, Int>>"
+        "suspend (Int) -> Int" -> return "Array<Function2<Int, Continuation<Integer>, Any>"
+        "List<Int>" -> return "Array<List<Int>>"
+        "T" -> return "Array<T>"
+        "T?" -> return "Array<T?>"
+        else -> return ""
+    }
+}
 
 interface Modifier {
     val modifierName: String
@@ -116,7 +160,7 @@ class MethodFeature(
 
     override fun toShortString(): String {
         val parametersString = (hiddenParameters + parameters).joinToString(", ") { it.toShortString() }
-        return "$name($parametersString)"
+        return "${name.split('.').joinToString(".") { it.split("<").first() }}($parametersString)"
     }
 
     fun getParameterTypes() = parameters.map { p -> p.type }
@@ -167,7 +211,8 @@ class MethodFeature(
         modifiers.add(modifier)
     }
 
-    fun isReified() = ((returnType == NULLABLE_GENERIC || returnType == GENERIC || parameters.any { it.type == NULLABLE_GENERIC || it.type == GENERIC }) && genericIfNeeded) && (hasModifier { m -> m == FunctionModifier.INLINE } && reifiedIfNeeded)
+    fun isReified() =
+        ((returnType == NULLABLE_GENERIC || returnType == GENERIC || parameters.any { it.type == NULLABLE_GENERIC || it.type == GENERIC }) && genericIfNeeded) && (hasModifier { m -> m == FunctionModifier.INLINE } && reifiedIfNeeded)
 
     override fun toString(): String {
         val annotationsString = annotations.joinToString("\n") { "@$it" }
@@ -201,7 +246,7 @@ class OperatorFeature(
 
     override fun toShortString(): String {
         val parametersString = (hiddenParameters + parameters).joinToString(", ") { it.toShortString() }
-        return "$name($parametersString)"
+        return "${name.split('.').joinToString(".") { it.split("<").first() }}($parametersString)"
     }
 
     fun getParameterTypes() = parameters.map { p -> p.type }
@@ -255,7 +300,8 @@ class OperatorFeature(
         modifiers.add(modifier)
     }
 
-    fun isReified() = ((returnType == NULLABLE_GENERIC || returnType == GENERIC || parameters.any { it.type == NULLABLE_GENERIC || it.type == GENERIC }) && genericIfNeeded) && (hasModifier { m -> m == FunctionModifier.INLINE } && reifiedIfNeeded)
+    fun isReified() =
+        ((returnType == NULLABLE_GENERIC || returnType == GENERIC || parameters.any { it.type == NULLABLE_GENERIC || it.type == GENERIC }) && genericIfNeeded) && (hasModifier { m -> m == FunctionModifier.INLINE } && reifiedIfNeeded)
 
     override fun toString(): String {
         val annotationsString = annotations.joinToString("\n") { "@$it" }
@@ -272,12 +318,18 @@ class OperatorFeature(
     }
 }
 
-class ParameterFeature(val type: Type, val mutability: MutabilityQualifier, override val name: String?, var withDefaultValue: Boolean) :
+class ParameterFeature(
+    val type: Type,
+    val mutability: MutabilityQualifier,
+    override val name: String?,
+    var withDefaultValue: Boolean
+) :
     Feature(name) {
     init {
         if (type == VOID) {
             throw IllegalArgumentException("Parameter type must not be VOID")
         }
+        if (isInterface[type.typeName] == true) withDefaultValue = false
     }
 
     override fun addModifier(modifier: Modifier) {
@@ -302,7 +354,8 @@ class ParameterFeature(val type: Type, val mutability: MutabilityQualifier, over
         return if (type.defaultValue != "" && mutability != MutabilityQualifier.VARARG && withDefaultValue)
             "$annotationsString $modifiersString ${mutability.qualifier} $name: @UnsafeVariance ${type.typeName} = ${type.defaultValue}"
         else
-            "$annotationsString $modifiersString ${mutability.qualifier} $name: @UnsafeVariance ${type.typeName}"}
+            "$annotationsString $modifiersString ${mutability.qualifier} $name: @UnsafeVariance ${type.typeName}"
+    }
 
     override fun toString(): String {
         val annotationsString = annotations.joinToString("\n") { "@$it" }
@@ -361,10 +414,16 @@ class SecondaryConstructorFeature(
     }
 }
 
-class PrimaryConstructorFeature(private val isAnnotation: Boolean, override var name: String = "") : Feature(name) {
+class PrimaryConstructorFeature(
+    private val isAnnotation: Boolean,
+    private val isValue: Boolean,
+    override var name: String = "",
+    val varargVal: Boolean
+) : Feature(name) {
     internal val parameters = mutableListOf<ParameterFeature>()
 
-    fun getNotEmptyParameters() = parameters.filterNot { it.mutability == MutabilityQualifier.EMPTY }
+    fun getNotEmptyParameters() =
+        parameters.filterNot { it.mutability == MutabilityQualifier.EMPTY || it.mutability == MutabilityQualifier.VARARG && !varargVal }
 
     fun getParameterTypes() = parameters.map { p -> p.type }
 
@@ -380,7 +439,8 @@ class PrimaryConstructorFeature(private val isAnnotation: Boolean, override var 
             )) ||
             isAnnotation && (parameter.type == NULLABLE_GENERIC) ||
             isAnnotation && (parameter.type == GENERIC) ||
-            parameter.mutability == MutabilityQualifier.VARARG && parameters.any { it.mutability == MutabilityQualifier.VARARG }) return
+            parameter.mutability == MutabilityQualifier.VARARG && parameters.any { it.mutability == MutabilityQualifier.VARARG } ||
+            isValue && parameter.mutability != MutabilityQualifier.VAL) return
         parameters.add(parameter)
         name = "(${parameters.joinToString(", ") { it.type.typeName }})"
     }
@@ -406,7 +466,8 @@ class FieldFeature(
     val mutability: MutabilityQualifier,
     override val name: String,
     val isLazy: Boolean,
-    val isGetterSetter: Boolean
+    val isDefaultValue: Boolean,
+    private val isHidden: Boolean
 ) : Feature(name) {
     val parameters = mutableListOf<ParameterFeature>()
 
@@ -416,7 +477,7 @@ class FieldFeature(
         }
         if (type == GENERIC && mutability == MutabilityQualifier.VAR) {
             addModifier(ParameterModifier.LATEINIT)
-        } else if (type == GENERIC) {
+        } else if (type == GENERIC && !isHidden) {
             throw IllegalArgumentException("Field must not be VAL and non-nullable generic")
         }
     }
@@ -440,14 +501,14 @@ class FieldFeature(
         parameters.add(parameter)
     }
 
-    override fun toShortString() = name
+    override fun toShortString() = name.split('.').joinToString(".") { it.split("<").first() }
 
     fun toStringWithUnsafeVariance(): String {
         val annotationsString = annotations.joinToString("\n") { "@$it" }
         val modifiersString = modifiers.joinToString(" ") { it.modifierName }
         return if (type == STRING && isLazy)
             "$annotationsString\n$modifiersString ${mutability.qualifier} $name: ${type.typeName} by lazy { ${type.defaultValue} }"
-        else if (isGetterSetter && !name.contains('.'))
+        else if (isDefaultValue && !name.contains('.'))
             "$annotationsString\n$modifiersString ${mutability.qualifier} $name: @UnsafeVariance ${type.typeName} = ${type.defaultValue}"
         else if (mutability == MutabilityQualifier.VAL)
             "$annotationsString\n$modifiersString ${mutability.qualifier} $name: @UnsafeVariance ${type.typeName}\nget() = ${type.defaultValue}"
@@ -460,7 +521,7 @@ class FieldFeature(
         val modifiersString = modifiers.joinToString(" ") { it.modifierName }
         return if (type == STRING && isLazy)
             "$annotationsString\n$modifiersString ${mutability.qualifier} $name: ${type.typeName} by lazy { ${type.defaultValue} }"
-        else if (isGetterSetter && !name.contains('.'))
+        else if (isDefaultValue && !name.contains('.'))
             "$annotationsString\n$modifiersString ${mutability.qualifier} $name: ${type.typeName} = ${type.defaultValue}"
         else if (mutability == MutabilityQualifier.VAL)
             "$annotationsString\n$modifiersString ${mutability.qualifier} $name: ${type.typeName}\nget() = ${type.defaultValue}"
@@ -523,9 +584,9 @@ class ClassFeature(
     private val isInner: Boolean,
     val variance: ClassFeatureVariance,
     override val name: String,
-    private val varargVal: Boolean
+    val varargVal: Boolean
 ) : Feature(name) {
-    private var primaryConstructor = PrimaryConstructorFeature(false)
+    private var primaryConstructor = PrimaryConstructorFeature(false, false, varargVal = varargVal)
     private var companionObject: CompanionObjectFeature? = null
     private val secondaryConstructors: MutableList<SecondaryConstructorFeature> = mutableListOf()
     private val fields: MutableList<FieldFeature> = mutableListOf()
@@ -570,16 +631,26 @@ class ClassFeature(
         this.primaryConstructor = primaryConstructor
         primaryConstructor.getNotEmptyParameters().forEach { parameter ->
 
-                val feature = FieldFeature(parameter.type, parameter.mutability, parameter.name!!, false, false)
-                parameter.annotations.forEach { feature.addAnnotation(it) }
-                parameter.modifiers.forEach { feature.addModifier(it) }
-                feature.addParameter(ParameterFeature(Type(
-                    name, "$name(${
+            val feature = FieldFeature(
+                if (parameter.mutability == MutabilityQualifier.VARARG) Type(
+                    arrayName(parameter.type.typeName),
+                    arrayTypes.single { it.typeName == parameter.type.typeName }.defaultValue
+                ) else parameter.type,
+                if (parameter.mutability == MutabilityQualifier.VARARG) MutabilityQualifier.VAL else parameter.mutability,
+                parameter.name!!,
+                false,
+                false,
+                true
+            )
+            parameter.annotations.forEach { feature.addAnnotation(it) }
+            parameter.modifiers.forEach { feature.addModifier(it) }
+            feature.addParameter(ParameterFeature(Type(
+                name, "$name(${
                     primaryConstructor.parameters.joinToString(", ") { "${it.name}=${it.type.defaultValue}" }
                 })"), MutabilityQualifier.VAL, null, false))
-                if (feature.name.contains('.'))
-                    throw IllegalStateException("Extension field is impossible as a constructor argument")
-                hiddenFields.add(feature)
+            if (feature.name.contains('.'))
+                throw IllegalStateException("Extension field is impossible as a constructor argument")
+            hiddenFields.add(feature)
 
         }
     }
@@ -619,21 +690,21 @@ class ClassFeature(
         if (hasModifier { m -> m == ClassModifier.ANNOTATION }) return
         if (fields.any { f -> f.name == field.name } ||
             isInterface && field.isLazy ||
-            isInterface && !field.isGetterSetter ||
-            isFunctionalInterface && !field.isGetterSetter ||
+            isInterface && !field.isDefaultValue ||
+            isFunctionalInterface && !field.isDefaultValue ||
             isFunctionalInterface && field.isLazy) return
 
         field.addParameter(ParameterFeature(possibleTypes[name]!!, MutabilityQualifier.VAL, null, false))
-    if (field.name.contains('.'))
-        field.addParameter(
-            ParameterFeature(
-                possibleTypes[field.name.split('.').dropLast(1).joinToString(".")]!!,
-                MutabilityQualifier.VAL,
-                null,
-                false
+        if (field.name.contains('.'))
+            field.addParameter(
+                ParameterFeature(
+                    possibleTypes[field.name.split('.').dropLast(1).joinToString(".") { it.split("<").first() }]!!,
+                    MutabilityQualifier.VAL,
+                    null,
+                    false
+                )
             )
-        )
-    fields.add(field)
+        fields.add(field)
     }
 
     fun addMethod(method: MethodFeature) {
@@ -643,15 +714,17 @@ class ClassFeature(
             method.hasModifier { m -> m == FunctionModifier.ABSTRACT } && !hasModifier { m -> m == ClassModifier.ABSTRACT } ||
             (isInterface || isFunctionalInterface) && !method.hasModifier { m -> m == FunctionModifier.ABSTRACT }) return
         method.addHiddenParameter(ParameterFeature(possibleTypes[name]!!, MutabilityQualifier.VAL, null, false))
-        if (method.name.contains('.'))
+        if (method.name.contains('.')) {
             method.addHiddenParameter(
                 ParameterFeature(
-                    possibleTypes[method.name.split('.').dropLast(1).joinToString(".")]!!,
+                    possibleTypes[method.name.split('.').dropLast(1).joinToString(".") { it.split("<").first() }]!!,
                     MutabilityQualifier.VAL,
                     null,
                     false
                 )
             )
+        }
+
         methods.add(method)
     }
 
@@ -688,10 +761,10 @@ class ClassFeature(
     }
 
     fun addInnerClass(innerClass: ClassFeature) {
-        if (hasModifier { m -> m == ClassModifier.ANNOTATION }) return
         if (name == innerClass.name || innerClasses.any { c -> c.name == innerClass.name }) return
-        if (isInterface && innerClass.hasModifier { m -> m == ClassModifier.INNER } ||
-            isFunctionalInterface && innerClass.hasModifier { m -> m == ClassModifier.INNER }) return
+        if ((isInterface || isFunctionalInterface || hasModifier { it == ClassModifier.ANNOTATION }) &&
+            innerClass.hasModifier { m -> m == ClassModifier.INNER }
+        ) return
         innerClasses.add(innerClass)
     }
 
@@ -719,7 +792,8 @@ class ClassFeature(
         val annotationsString = annotations.joinToString("\n") { "@$it" }
         val modifiersString = modifiers.joinToString(" ") { it.modifierName }
         val secondaryConstructorsString = secondaryConstructors.joinToString("\n")
-        val fieldsString = fields.joinToString("\n") { if (variance != ClassFeatureVariance.INVARIANT) it.toStringWithUnsafeVariance() else it.toString() }
+        val fieldsString =
+            fields.joinToString("\n") { if (variance != ClassFeatureVariance.INVARIANT) it.toStringWithUnsafeVariance() else it.toString() }
         val methodsString = methods.joinToString("\n")
         val operatorsString = operators.joinToString("\n")
         val superClassesListString = superClasses.joinToString(", ") { "${it.name}()" }
@@ -740,19 +814,24 @@ class ClassFeature(
             primaryConstructor.getParameterTypes().joinToString(separator = ", ") { t -> t.defaultValue }
         });" else ""
 
-        return "${if (hasModifier { m -> m == ClassModifier.VALUE }) "@JvmInline" else ""}\n$annotationsString\n$superClassesString\n$modifiersString ${if (isFunctionalInterface) "fun interface" else if (isInterface) "interface" else "class"} ${name.split('.').last()} $genericString ${
+        return "${if (hasModifier { m -> m == ClassModifier.VALUE }) "@JvmInline" else ""}\n$annotationsString\n$superClassesString\n$modifiersString ${if (isFunctionalInterface) "fun interface" else if (isInterface) "interface" else "class"} ${
+            name.split(
+                '.'
+            ).last()
+        } $genericString ${
             if (isInterface || isFunctionalInterface) "" else "(${
                 primaryConstructor.parameters.joinToString(
                     ", "
-                ) { if (variance != ClassFeatureVariance.INVARIANT && it.mutability != MutabilityQualifier.EMPTY) 
-                        if (it.mutability == MutabilityQualifier.VARARG && varargVal) 
-                            "vararg val ${it.name}: @UnsafeVariance ${it.type.typeName}" 
-                        else 
+                ) {
+                    if (variance != ClassFeatureVariance.INVARIANT && it.mutability != MutabilityQualifier.EMPTY)
+                        if (it.mutability == MutabilityQualifier.VARARG && varargVal)
+                            "vararg val ${it.name}: @UnsafeVariance ${it.type.typeName}"
+                        else
                             it.toStringWithUnsafeVariance()
-                    else 
-                        if (it.mutability == MutabilityQualifier.VARARG && varargVal) 
-                            "vararg val ${it.name}: ${it.type.typeName}" 
-                        else 
+                    else
+                        if (it.mutability == MutabilityQualifier.VARARG && varargVal)
+                            "vararg val ${it.name}: ${it.type.typeName}"
+                        else
                             it.toString()
                 }
             })"
@@ -761,17 +840,27 @@ class ClassFeature(
 }
 
 val possibleTypes = mutableMapOf<String, Type>()
+val isInterface = mutableMapOf<String, Boolean>()
 private val classNames = mutableListOf<String>()
 val qualifiedNameToFeature = mutableMapOf<String, Feature>()
 
-private fun <T> FuzzedDataProvider.pickFromArray(arr: Array<T>) = arr[consumeInt(0, arr.lastIndex)]
+private fun <T> FuzzedDataProvider.pickFromArray(arr: Array<T>): T? {
+    if (arr.isEmpty())
+        return null
+    return arr[consumeInt(0, arr.lastIndex)]
+}
 
 private fun FuzzedDataProvider.generateType(): Type {
-    return pickFromArray(possibleTypes.values.toTypedArray())
+    return pickFromArray(possibleTypes.values.toTypedArray())!!
+}
+
+private fun FuzzedDataProvider.generateNonAbstractType(): Type? {
+    return pickFromArray(possibleTypes.values.filter { it in primitiveTypes || isInterface[it.typeName] == false }
+        .toTypedArray())
 }
 
 private fun FuzzedDataProvider.generateMutabilityQualifier(): MutabilityQualifier {
-    return pickFromArray(MutabilityQualifier.values())
+    return pickFromArray(MutabilityQualifier.values())!!
 }
 
 private fun <T> FuzzedDataProvider.generateModifier(clazz: Class<T>) = when (clazz) {
@@ -807,17 +896,19 @@ private fun generateClassName(namePrefix: String): String {
 }
 
 private fun FuzzedDataProvider.generateMethodFeature(
-    declaredClasses: List<String>,
+    declaredClasses: List<Pair<String, ClassFeature>>,
     isClassGeneric: Boolean,
     superClasses: List<ClassFeature>,
     availableAnnotations: List<String>
-): MethodFeature {
+): MethodFeature? {
+    val classToExtend = pickFromArray(declaredClasses.filter { isInterface[it.first]!! }.toTypedArray())
+    val returnType = generateNonAbstractType() ?: return null
     val methodFeature = MethodFeature(
         consumeBoolean(),
         !isClassGeneric || consumeBoolean(),
         superClasses,
-        generateType(),
-        "${if (consumeBoolean()) "${pickFromArray(declaredClasses.toTypedArray())}." else ""}${generateName()}"
+        returnType!!,
+        "${if (consumeBoolean() && classToExtend != null) "${classToExtend.first}${if (classToExtend.second.isGeneric()) "<@UnsafeVariance T>" else ""}." else ""}${generateName()}"
     )
 
     val parametersNumber = consumeInt(0, MAX_PARAMETERS_NUMBER)
@@ -834,7 +925,7 @@ private fun FuzzedDataProvider.generateMethodFeature(
     if (availableAnnotations.isNotEmpty()) {
         val annotationsNumber = consumeInt(0, MAX_ANNOTATIONS_NUMBER)
         for (i in 0 until annotationsNumber) {
-            methodFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray()))
+            methodFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray())!!)
         }
     }
 
@@ -867,7 +958,7 @@ private val operatorNames = listOf(
 )
 
 private fun FuzzedDataProvider.generateOperatorFeature(
-    declaredClasses: List<String>,
+    declaredClasses: List<Pair<String, ClassFeature>>,
     isClassGeneric: Boolean,
     superClasses: List<ClassFeature>,
     availableAnnotations: List<String>,
@@ -875,18 +966,21 @@ private fun FuzzedDataProvider.generateOperatorFeature(
     operatorName: String,
     classFeature: ClassFeature
 ): OperatorFeature? {
-    if(classFeature.hasModifier { it == ClassModifier.ANNOTATION })
+    if (classFeature.hasModifier { it == ClassModifier.ANNOTATION })
         return null
 
+    val classToExtend = pickFromArray(declaredClasses.filter { !isInterface[it.first]!! }.toTypedArray())
     when (operatorName) {
         "unaryPlus", "unaryMinus", "not", "inc", "dec" -> {
+            if (isInterface[className] == true) return null
+
             val operatorFeature = OperatorFeature(
                 consumeBoolean(),
                 !isClassGeneric || consumeBoolean(),
                 superClasses,
                 "= this",
                 possibleTypes[className]!!,
-                "${if (consumeBoolean()) "${pickFromArray(declaredClasses.toTypedArray())}." else ""}$operatorName"
+                "${if (consumeBoolean() && classToExtend != null) "${classToExtend.first}${if (classToExtend.second.isGeneric()) "<@UnsafeVariance T>" else ""}." else ""}$operatorName"
             )
 
             val modifiersNumber = consumeInt(0, MAX_MODIFIERS_NUMBER)
@@ -897,7 +991,7 @@ private fun FuzzedDataProvider.generateOperatorFeature(
             if (availableAnnotations.isNotEmpty()) {
                 val annotationsNumber = consumeInt(0, MAX_ANNOTATIONS_NUMBER)
                 for (i in 0 until annotationsNumber) {
-                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray()))
+                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray())!!)
                 }
             }
 
@@ -905,19 +999,21 @@ private fun FuzzedDataProvider.generateOperatorFeature(
         }
 
         "plus", "minus", "times", "div", "rem", "rangeTo" -> {
+            if (isInterface[className] == true) return null
             val operatorFeature = OperatorFeature(
                 consumeBoolean(),
                 !isClassGeneric || consumeBoolean(),
                 superClasses,
                 "= this",
                 possibleTypes[className]!!,
-                "${if (consumeBoolean()) "${pickFromArray(declaredClasses.toTypedArray())}." else ""}$operatorName"
+                "${if (consumeBoolean() && classToExtend != null) "${classToExtend.first}${if (classToExtend.second.isGeneric()) "<@UnsafeVariance T>" else ""}." else ""}$operatorName"
             )
 
             var count = 0
             while (operatorFeature.getParametersNumber() != 1) {
                 if (count >= MAX_TRIES) throw FuzzingStateException("Can't generate enough arguments for binary operator")
-                val parameter = generateParameterFeature(availableAnnotations, false, possibleTypes[className]!!) ?: continue
+                val parameter =
+                    generateParameterFeature(availableAnnotations, false, possibleTypes[className]!!) ?: continue
                 if (parameter.mutability != MutabilityQualifier.VARARG) {
                     operatorFeature.addParameter(parameter)
                 }
@@ -932,7 +1028,7 @@ private fun FuzzedDataProvider.generateOperatorFeature(
             if (availableAnnotations.isNotEmpty()) {
                 val annotationsNumber = consumeInt(0, MAX_ANNOTATIONS_NUMBER)
                 for (i in 0 until annotationsNumber) {
-                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray()))
+                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray())!!)
                 }
             }
 
@@ -946,13 +1042,14 @@ private fun FuzzedDataProvider.generateOperatorFeature(
                 superClasses,
                 "= 0",
                 INT,
-                "${if (consumeBoolean()) "${pickFromArray(declaredClasses.toTypedArray())}." else ""}$operatorName"
+                "${if (consumeBoolean() && classToExtend != null) "${classToExtend.first}${if (classToExtend.second.isGeneric()) "<@UnsafeVariance T>" else ""}." else ""}$operatorName"
             )
 
             var count = 0
             while (operatorFeature.getParametersNumber() != 1) {
                 if (count >= MAX_TRIES) throw FuzzingStateException("Can't generate enough arguments for compareTo")
-                val parameter = generateParameterFeature(availableAnnotations, false, possibleTypes[className]!!) ?: continue
+                val parameter =
+                    generateParameterFeature(availableAnnotations, false, possibleTypes[className]!!) ?: continue
                 if (parameter.mutability != MutabilityQualifier.VARARG) {
                     operatorFeature.addParameter(parameter)
                 }
@@ -967,7 +1064,7 @@ private fun FuzzedDataProvider.generateOperatorFeature(
             if (availableAnnotations.isNotEmpty()) {
                 val annotationsNumber = consumeInt(0, MAX_ANNOTATIONS_NUMBER)
                 for (i in 0 until annotationsNumber) {
-                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray()))
+                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray())!!)
                 }
             }
 
@@ -981,13 +1078,14 @@ private fun FuzzedDataProvider.generateOperatorFeature(
                 superClasses,
                 "{}",
                 VOID,
-                "${if (consumeBoolean()) "${pickFromArray(declaredClasses.toTypedArray())}." else ""}$operatorName"
+                "${if (consumeBoolean() && classToExtend != null) "${classToExtend.first}${if (classToExtend.second.isGeneric()) "<@UnsafeVariance T>" else ""}." else ""}$operatorName"
             )
 
             var count = 0
             while (operatorFeature.getParametersNumber() != 1) {
                 if (count >= MAX_TRIES) throw FuzzingStateException("Can't generate enough arguments for binary assignment")
-                val parameter = generateParameterFeature(availableAnnotations, false, possibleTypes[className]!!) ?: continue
+                val parameter =
+                    generateParameterFeature(availableAnnotations, false, possibleTypes[className]!!) ?: continue
                 if (parameter.mutability != MutabilityQualifier.VARARG) {
                     operatorFeature.addParameter(parameter)
                 }
@@ -1002,7 +1100,7 @@ private fun FuzzedDataProvider.generateOperatorFeature(
             if (availableAnnotations.isNotEmpty()) {
                 val annotationsNumber = consumeInt(0, MAX_ANNOTATIONS_NUMBER)
                 for (i in 0 until annotationsNumber) {
-                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray()))
+                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray())!!)
                 }
             }
 
@@ -1016,7 +1114,7 @@ private fun FuzzedDataProvider.generateOperatorFeature(
                 superClasses,
                 "{}",
                 VOID,
-                "${if (consumeBoolean()) "${pickFromArray(declaredClasses.toTypedArray())}." else ""}$operatorName"
+                "${if (consumeBoolean() && classToExtend != null) "${classToExtend.first}${if (classToExtend.second.isGeneric()) "<@UnsafeVariance T>" else ""}." else ""}$operatorName"
             )
 
             val parametersNumber = consumeInt(0, MAX_PARAMETERS_NUMBER)
@@ -1033,7 +1131,7 @@ private fun FuzzedDataProvider.generateOperatorFeature(
             if (availableAnnotations.isNotEmpty()) {
                 val annotationsNumber = consumeInt(0, MAX_ANNOTATIONS_NUMBER)
                 for (i in 0 until annotationsNumber) {
-                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray()))
+                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray())!!)
                 }
             }
 
@@ -1047,7 +1145,7 @@ private fun FuzzedDataProvider.generateOperatorFeature(
                 superClasses,
                 "{}",
                 VOID,
-                "${if (consumeBoolean()) "${pickFromArray(declaredClasses.toTypedArray())}." else ""}$operatorName"
+                "${if (consumeBoolean() && classToExtend != null) "${classToExtend.first}${if (classToExtend.second.isGeneric()) "<@UnsafeVariance T>" else ""}." else ""}$operatorName"
             )
 
             var count = 0
@@ -1070,7 +1168,7 @@ private fun FuzzedDataProvider.generateOperatorFeature(
             if (availableAnnotations.isNotEmpty()) {
                 val annotationsNumber = consumeInt(0, MAX_ANNOTATIONS_NUMBER)
                 for (i in 0 until annotationsNumber) {
-                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray()))
+                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray())!!)
                 }
             }
 
@@ -1084,7 +1182,7 @@ private fun FuzzedDataProvider.generateOperatorFeature(
                 superClasses,
                 "{}",
                 VOID,
-                "${if (consumeBoolean()) "${pickFromArray(declaredClasses.toTypedArray())}." else ""}$operatorName"
+                "${if (consumeBoolean() && classToExtend != null) "${classToExtend.first}${if (classToExtend.second.isGeneric()) "<@UnsafeVariance T>" else ""}." else ""}$operatorName"
             )
 
             var count = 0
@@ -1102,7 +1200,7 @@ private fun FuzzedDataProvider.generateOperatorFeature(
 
                 count += 1
             }
-            operatorFeature.parameters.last().withDefaultValue = true
+            operatorFeature.parameters.last().withDefaultValue = false
 
             val modifiersNumber = consumeInt(0, MAX_MODIFIERS_NUMBER)
             for (i in 0 until modifiersNumber) {
@@ -1112,7 +1210,7 @@ private fun FuzzedDataProvider.generateOperatorFeature(
             if (availableAnnotations.isNotEmpty()) {
                 val annotationsNumber = consumeInt(0, MAX_ANNOTATIONS_NUMBER)
                 for (i in 0 until annotationsNumber) {
-                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray()))
+                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray())!!)
                 }
             }
 
@@ -1126,7 +1224,7 @@ private fun FuzzedDataProvider.generateOperatorFeature(
                 superClasses,
                 "= true",
                 BOOLEAN,
-                "${if (consumeBoolean()) "${pickFromArray(declaredClasses.toTypedArray())}." else ""}$operatorName"
+                "${if (consumeBoolean() && classToExtend != null) "${classToExtend.first}${if (classToExtend.second.isGeneric()) "<@UnsafeVariance T>" else ""}." else ""}$operatorName"
             )
 
             var count = 0
@@ -1145,7 +1243,7 @@ private fun FuzzedDataProvider.generateOperatorFeature(
             if (availableAnnotations.isNotEmpty()) {
                 val annotationsNumber = consumeInt(0, MAX_ANNOTATIONS_NUMBER)
                 for (i in 0 until annotationsNumber) {
-                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray()))
+                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray())!!)
                 }
             }
 
@@ -1159,7 +1257,12 @@ private fun FuzzedDataProvider.generateOperatorFeature(
                 superClasses,
                 "{}",
                 VOID,
-                "${if (consumeBoolean()) "${pickFromArray(declaredClasses.toTypedArray())}." else ""}$operatorName${consumeInt(1, 10)}"
+                "${if (consumeBoolean() && classToExtend != null) "${classToExtend.first}${if (classToExtend.second.isGeneric()) "<@UnsafeVariance T>" else ""}." else ""}$operatorName${
+                    consumeInt(
+                        1,
+                        10
+                    )
+                }"
             )
 
             val modifiersNumber = consumeInt(0, MAX_MODIFIERS_NUMBER)
@@ -1170,7 +1273,7 @@ private fun FuzzedDataProvider.generateOperatorFeature(
             if (availableAnnotations.isNotEmpty()) {
                 val annotationsNumber = consumeInt(0, MAX_ANNOTATIONS_NUMBER)
                 for (i in 0 until annotationsNumber) {
-                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray()))
+                    operatorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray())!!)
                 }
             }
 
@@ -1187,7 +1290,12 @@ private fun FuzzedDataProvider.generateParameterFeature(
     type: Type? = null,
 ): ParameterFeature? {
     try {
-        val parameterFeature = ParameterFeature(type ?: generateType(), generateMutabilityQualifier(), generateName(), withDefaultValue)
+        val parameterFeature = ParameterFeature(
+            type ?: generateNonAbstractType() ?: return null,
+            generateMutabilityQualifier(),
+            generateName(),
+            withDefaultValue
+        )
         val modifiersNumber = consumeInt(0, MAX_MODIFIERS_NUMBER)
         for (i in 0 until modifiersNumber) {
             parameterFeature.addModifier(generateModifier(ParameterModifier::class.java) as Modifier)
@@ -1196,7 +1304,7 @@ private fun FuzzedDataProvider.generateParameterFeature(
         if (availableAnnotations.isNotEmpty()) {
             val annotationsNumber = consumeInt(0, MAX_ANNOTATIONS_NUMBER)
             for (i in 0 until annotationsNumber) {
-                parameterFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray()))
+                parameterFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray())!!)
             }
         }
         return parameterFeature
@@ -1226,7 +1334,7 @@ private fun FuzzedDataProvider.generateSecondaryConstructorFeature(
     if (availableAnnotations.isNotEmpty()) {
         val annotationsNumber = consumeInt(0, MAX_ANNOTATIONS_NUMBER)
         for (i in 0 until annotationsNumber) {
-            secondaryConstructorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray()))
+            secondaryConstructorFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray())!!)
         }
     }
 
@@ -1238,15 +1346,16 @@ private fun FuzzedDataProvider.generatePrimaryConstructorFeature(
     maxArguments: Int,
     availableAnnotations: List<String>,
     isAnnotation: Boolean,
+    isValue: Boolean,
+    varargVal: Boolean
 ): PrimaryConstructorFeature {
-    val primaryConstructorFeature = PrimaryConstructorFeature(isAnnotation)
+    val primaryConstructorFeature = PrimaryConstructorFeature(isAnnotation, isValue, varargVal = varargVal)
 
     val parametersNumber = consumeInt(minArguments, maxArguments)
-    var count1 = 0
-    var count2 = 0
-    while (count1 != parametersNumber) {
-        count2 += 1
-        if (count2 > MAX_TRIES) {
+    var count = 0
+    while (primaryConstructorFeature.parameters.size != parametersNumber) {
+        count += 1
+        if (count > MAX_TRIES) {
             throw FuzzingStateException("Can't generate enough arguments for primary constructor")
         }
         val param = generateParameterFeature(availableAnnotations, true) ?: continue
@@ -1254,22 +1363,23 @@ private fun FuzzedDataProvider.generatePrimaryConstructorFeature(
                     param.mutability == MutabilityQualifier.EMPTY || param.mutability == MutabilityQualifier.VARARG)
             && minArguments != 0) continue
         primaryConstructorFeature.addParameter(param)
-        count1 += 1
     }
     return primaryConstructorFeature
 }
 
 private fun FuzzedDataProvider.generateFieldFeature(
     availableAnnotations: List<String>,
-    declaredClasses: List<String>
+    declaredClasses: List<Pair<String, ClassFeature>>
 ): FieldFeature? {
     try {
+        val classToExtend = pickFromArray(declaredClasses.filter { !isInterface[it.first]!! }.toTypedArray())
         val fieldFeature = FieldFeature(
-            generateType(),
+            generateNonAbstractType() ?: return null,
             generateMutabilityQualifier(),
-            "${if (consumeBoolean()) "${pickFromArray(declaredClasses.toTypedArray())}." else ""}${generateName()}",
+            "${if (consumeBoolean() && classToExtend != null) "${classToExtend.first}${if (classToExtend.second.isGeneric()) "<@UnsafeVariance T>" else ""}." else ""}${generateName()}",
             consumeBoolean(),
-            consumeBoolean()
+            consumeBoolean(),
+            false
         )
         val modifiersNumber = consumeInt(0, MAX_MODIFIERS_NUMBER)
         for (i in 0 until modifiersNumber) {
@@ -1279,7 +1389,7 @@ private fun FuzzedDataProvider.generateFieldFeature(
         if (availableAnnotations.isNotEmpty()) {
             val annotationsNumber = consumeInt(0, MAX_ANNOTATIONS_NUMBER)
             for (i in 0 until annotationsNumber) {
-                fieldFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray()))
+                fieldFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray())!!)
             }
         }
         return fieldFeature
@@ -1289,7 +1399,7 @@ private fun FuzzedDataProvider.generateFieldFeature(
 }
 
 private fun FuzzedDataProvider.generateCompanionObject(
-    declaredClasses: List<String>,
+    declaredClasses: List<Pair<String, ClassFeature>>,
     maxDepth: Int,
     availableAnnotations: List<String>,
     namePrefix: String
@@ -1313,20 +1423,19 @@ private fun FuzzedDataProvider.generateCompanionObject(
 
     val methodsNumber = consumeInt(0, MAX_METHODS_NUMBER)
     for (i in 0 until methodsNumber) {
-        companionObjectFeature.addMethod(
-            generateMethodFeature(
-                declaredClasses,
-                false,
-                emptyList(),
-                availableAnnotations
-            )
-        )
+        val method = generateMethodFeature(
+            declaredClasses,
+            false,
+            emptyList(),
+            availableAnnotations
+        ) ?: continue
+        companionObjectFeature.addMethod(method)
     }
 
     if (availableAnnotations.isNotEmpty()) {
         val annotationsNumber = consumeInt(0, MAX_ANNOTATIONS_NUMBER)
         for (i in 0 until annotationsNumber) {
-            companionObjectFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray()))
+            companionObjectFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray())!!)
         }
     }
 
@@ -1342,7 +1451,14 @@ private fun FuzzedDataProvider.generateClassFeature(
     val name = generateClassName(namePrefix)
     classNames.add("$namePrefix$name")
 
-    val classFeature = ClassFeature(maxDepth != MAX_DEPTH, consumeBoolean(), namePrefix != "", pickFromArray(ClassFeatureVariance.values()), "$namePrefix$name", consumeBoolean())
+    val classFeature = ClassFeature(
+        maxDepth != MAX_DEPTH,
+        consumeBoolean(),
+        namePrefix != "",
+        pickFromArray(ClassFeatureVariance.values())!!,
+        "$namePrefix$name",
+        consumeBoolean()
+    )
 
     if (isAnnotation) classFeature.addModifier(ClassModifier.ANNOTATION)
 
@@ -1351,12 +1467,14 @@ private fun FuzzedDataProvider.generateClassFeature(
         classFeature.addModifier(generateModifier(ClassModifier::class.java) as Modifier)
     }
 
-    val superClassesNumber = consumeInt(0, MAX_SUPERCLASSES_NUMBER)
     val superClasses: MutableList<ClassFeature> = mutableListOf()
-    for (i in 0 until superClassesNumber) {
-        val superClass = generateClassFeature(maxDepth, false, availableAnnotations, namePrefix)
-        superClasses.add(superClass)
-        classFeature.addSuperClass(superClass)
+    if (!classFeature.hasModifier { it == ClassModifier.ANNOTATION }) {
+        val superClassesNumber = consumeInt(0, MAX_SUPERCLASSES_NUMBER)
+        for (i in 0 until superClassesNumber) {
+            val superClass = generateClassFeature(maxDepth, false, availableAnnotations, namePrefix)
+            superClasses.add(superClass)
+            classFeature.addSuperClass(superClass)
+        }
     }
 
     val primaryConstructor =
@@ -1364,7 +1482,9 @@ private fun FuzzedDataProvider.generateClassFeature(
             if (classFeature.hasModifier { m -> m == ClassModifier.DATA || m == ClassModifier.VALUE }) 1 else 0,
             if (classFeature.hasModifier { m -> m == ClassModifier.VALUE }) 1 else MAX_PARAMETERS_NUMBER,
             availableAnnotations,
-            classFeature.hasModifier { m -> m == ClassModifier.ANNOTATION }
+            classFeature.hasModifier { m -> m == ClassModifier.ANNOTATION },
+            classFeature.hasModifier { m -> m == ClassModifier.VALUE },
+            classFeature.varargVal
         )
     classFeature.setPrimaryConstructor(primaryConstructor)
 
@@ -1380,9 +1500,11 @@ private fun FuzzedDataProvider.generateClassFeature(
     }
 
     if (!classFeature.hasModifier { it == ClassModifier.ANNOTATION })
-        possibleTypes["$namePrefix$name"] = Type("$namePrefix$name", if (classFeature.isInterface || classFeature.isFunctionalInterface) "" else "$namePrefix$name(${
-            primaryConstructor.parameters.joinToString(", ") { "${it.name}=${it.type.defaultValue}" }
-        })")
+        possibleTypes["$namePrefix$name"] = Type("$namePrefix$name",
+            if (classFeature.isInterface || classFeature.isFunctionalInterface) "" else "$namePrefix$name(${
+                primaryConstructor.parameters.joinToString(", ") { "${it.name}=${it.type.defaultValue}" }
+            })")
+    isInterface["$namePrefix$name"] = classFeature.isInterface || classFeature.isFunctionalInterface
 
     if (maxDepth != 0) {
         val innerClassesNumber = consumeInt(0, MAX_INNER_CLASSES_NUMBER)
@@ -1397,7 +1519,7 @@ private fun FuzzedDataProvider.generateClassFeature(
 
     val fieldsNumber = consumeInt(0, MAX_FIELDS_NUMBER)
     for (i in 0 until fieldsNumber) {
-        val field = generateFieldFeature(availableAnnotations, declaredClasses.map { x -> x.first }) ?: continue
+        val field = generateFieldFeature(availableAnnotations, declaredClasses) ?: continue
         classFeature.addField(field)
     }
 
@@ -1405,30 +1527,28 @@ private fun FuzzedDataProvider.generateClassFeature(
     while (true) {
         val methodsNumber = consumeInt(0, MAX_METHODS_NUMBER)
         for (i in 0 until methodsNumber) {
-            classFeature.addMethod(
-                generateMethodFeature(
-                    declaredClasses.map { x -> x.first },
-                    classFeature.isGeneric(),
-                    superClasses,
-                    availableAnnotations
-                )
-            )
+            val method = generateMethodFeature(
+                declaredClasses,
+                classFeature.isGeneric(),
+                superClasses,
+                availableAnnotations
+            ) ?: continue
+            classFeature.addMethod(method)
         }
 
         val operatorsNumber = consumeInt(0, MAX_OPERATORS_NUMBER)
         for (i in 0 until operatorsNumber) {
-            val operatorName = pickFromArray(operatorNames.toTypedArray())
+            val operatorName = pickFromArray(operatorNames.toTypedArray())!!
             val operator = generateOperatorFeature(
-                declaredClasses.map { x -> x.first },
+                declaredClasses,
                 classFeature.isGeneric(),
                 superClasses,
                 availableAnnotations,
                 "$namePrefix$name",
                 operatorName,
                 classFeature
-            )
-            if (!(classFeature.hasModifier { it == ClassModifier.ANNOTATION }))
-                classFeature.addOperator(operator!!)
+            ) ?: continue
+            classFeature.addOperator(operator)
         }
 
         if (!classFeature.isFunctionalInterface) break
@@ -1439,7 +1559,7 @@ private fun FuzzedDataProvider.generateClassFeature(
 
     if (consumeBoolean()) {
         val companionObject = generateCompanionObject(
-            declaredClasses.map { x -> x.first },
+            declaredClasses,
             maxDepth,
             availableAnnotations,
             "$namePrefix$name."
@@ -1451,7 +1571,7 @@ private fun FuzzedDataProvider.generateClassFeature(
     if (availableAnnotations.isNotEmpty()) {
         val annotationsNumber = consumeInt(0, MAX_ANNOTATIONS_NUMBER)
         for (i in 0 until annotationsNumber) {
-            classFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray()))
+            classFeature.addAnnotation(pickFromArray(availableAnnotations.toTypedArray())!!)
         }
     }
 

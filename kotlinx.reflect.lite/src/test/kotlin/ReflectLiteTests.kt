@@ -3,16 +3,20 @@ package org.plan.research
 import kotlinx.reflect.lite.*
 import kotlinx.reflect.lite.jvm.*
 import kotlinx.reflect.lite.impl.*
+import kotlinx.reflect.lite.full.*
 import com.code_intelligence.jazzer.api.FuzzedDataProvider
 import com.code_intelligence.jazzer.junit.FuzzTest
-import kotlinx.reflect.lite.full.isAccessible
+import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.assertThrows
 import java.io.File
+import java.lang.reflect.Constructor
 import java.lang.reflect.InvocationTargetException
 import java.net.URLClassLoader
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 
+@Suppress("UNCHECKED_CAST")
 object ReflectLiteTests {
     private fun compileAndLoad(className: String, sourceCode: String) {
         val sourceFile = File(FILENAME)
@@ -58,19 +62,6 @@ object ReflectLiteTests {
     private val instances = mutableMapOf<String, Any>()
     private val clazzes = mutableMapOf<String, Class<*>>()
 
-    private val INT_ARRAY = Type("Int", "*listOf(0).toIntArray()")
-    private val LONG_ARRAY = Type("Long", "*listOf(0L).toLongArray()")
-    private val DOUBLE_ARRAY = Type("Double", "*listOf(0.0).toDoubleArray()")
-    private val FLOAT_ARRAY = Type("Float", "*listOf(0f).toFloatArray()")
-    private val STRING_ARRAY = Type("String", "*listOf(\"\").toTypedArray()")
-    private val BOOLEAN_ARRAY = Type("Boolean", "*listOf(true).toBooleanArray()")
-    private val LAMBDA_ARRAY = Type("(Int) -> Int", "*listOf({ x: Int -> x }).toTypedArray()")
-    private val SUSPEND_LAMBDA_ARRAY =
-        Type("suspend (Int) -> Int", "*listOf({ x: Int -> x } as suspend (Int) -> Int).toTypedArray()")
-    private val LIST_INT_ARRAY = Type("List<Int>", "*listOf(listOf(0)).toTypedArray()")
-    private val GENERIC_ARRAY = Type("T", "*listOf(\"\").toTypedArray()")
-    private val NULLABLE_GENERIC_ARRAY = Type("T?", "*listOf(\"\", null).toTypedArray()")
-
     private val primitiveJavaTypesToKotlinTypes = mapOf(
         "int" to INT,
         "int[]" to INT_ARRAY,
@@ -99,9 +90,10 @@ object ReflectLiteTests {
         "void" to VOID
     )
 
-    private fun getType(name: String, isMarkedNullable: Boolean): Type {
-        if (name in primitiveJavaTypesToKotlinTypes) return primitiveJavaTypesToKotlinTypes[name]!!
-
+    private fun getType(oldName: String, isMarkedNullable: Boolean): Type {
+        val nameWithTemplate = oldName.replace("$", ".")
+        if (nameWithTemplate in primitiveJavaTypesToKotlinTypes) return primitiveJavaTypesToKotlinTypes[nameWithTemplate]!!
+        val name = oldName.replace("$", ".").split("<").first()
         if (name == "T") {
             if (isMarkedNullable) return NULLABLE_GENERIC
             return GENERIC
@@ -118,19 +110,19 @@ object ReflectLiteTests {
         }
 
         val classFeatures = qualifiedNameToFeature.filterKeys { it == name || it.endsWith(".$name") }
-
         assertTrue { classFeatures.size == 1 }
         val qualifiedName = classFeatures.keys.first()
 
         return possibleTypes[qualifiedName]!!
     }
 
-    private fun <T : Any> handleClass(clazz: Class<T>, qualifiedName: String, data: FuzzedDataProvider) {
+    private suspend fun <T : Any> handleClass(clazz: Class<T>, qualifiedName: String, data: FuzzedDataProvider) {
         val kClass = clazz.kotlin
         val instance = instances[qualifiedName]
 
         assertTrue { qualifiedNameToFeature.contains(qualifiedName) && (qualifiedNameToFeature[qualifiedName] is ClassFeature || qualifiedNameToFeature[qualifiedName] is CompanionObjectFeature) }
         assertTrue { covered.contains(qualifiedName) }
+        if (covered[qualifiedName]!!) return
         covered[qualifiedName] = true
 
         if (qualifiedNameToFeature[qualifiedName] is ClassFeature) {
@@ -163,6 +155,19 @@ object ReflectLiteTests {
             // expected?
         }
 
+        if (!kClass.isCompanion && !(qualifiedNameToFeature[qualifiedName]!! as ClassFeature).isInterface && !(qualifiedNameToFeature[qualifiedName]!! as ClassFeature).isFunctionalInterface) {
+            assertTrue { kClass.primaryConstructor != null }
+            val primaryConstructor = "$qualifiedName.(${
+                kClass.primaryConstructor!!.parameters.joinToString(", ") {
+                    getType(
+                        it.type.javaType.typeName,
+                        it.type.isMarkedNullable
+                    ).typeName
+                }
+            })"
+            assertTrue { primaryConstructor in qualifiedNameToFeature && qualifiedNameToFeature[primaryConstructor] is PrimaryConstructorFeature }
+        }
+
         kClass.constructors.forEach { constructor ->
             handleConstructor(
                 constructor,
@@ -185,6 +190,8 @@ object ReflectLiteTests {
                 ) && member.name != "copy") || !qualifiedNameToFeature[qualifiedName]!!.hasModifier { it == ClassModifier.DATA })
             ) handleMember(member, instance!!, qualifiedName, data)
         }
+
+        assertTrue { (kClass.companionObject != null) == (qualifiedNameToFeature.containsKey("$qualifiedName.Companion")) }
 
         kClass.nestedClasses.forEach { nestedClass ->
             val nestedClassJava = nestedClass.java
@@ -216,7 +223,7 @@ object ReflectLiteTests {
         }
     }
 
-    private fun <T : Any> handleMember(
+    private suspend fun <T : Any> handleMember(
         member: KCallable<*>,
         instance: T,
         qualifiedName: String,
@@ -227,10 +234,10 @@ object ReflectLiteTests {
             .joinToString(".") { getType(it.type.javaType.typeName, it.type.isMarkedNullable).typeName }
         val name = "$extends${if (extends != "") "." else ""}${member.name}"
         when (member) {
-            is KProperty<*> -> handleProperty(member, instance, "$qualifiedName.$name", extends, data)
+            is KProperty<*> -> handleProperty(member, instance, name, extends, data, qualifiedName)
             is KFunction -> handleFunction(
                 member,
-                "$qualifiedName.${name}(${
+                "$qualifiedName.$name(${
                     member.parameters.joinToString(", ") {
                         getType(
                             it.type.javaType.typeName,
@@ -238,7 +245,8 @@ object ReflectLiteTests {
                         ).typeName
                     }
                 })",
-                data
+                data,
+                qualifiedName
             )
 
             else -> throw IllegalStateException("Unknown type: ${member::class}")
@@ -274,16 +282,56 @@ object ReflectLiteTests {
         }
     }
 
-    private fun <T : Any> handleProperty(
+    private suspend fun <T : Any> handleProperty(
         property: KProperty<*>,
         instance: T,
-        qualifiedName: String,
+        name: String,
         extends: String,
-        data: FuzzedDataProvider
+        data: FuzzedDataProvider,
+        className: String
     ) {
+        val qualifiedName = "$className.$name"
+
         assertTrue { qualifiedNameToFeature.contains(qualifiedName) && qualifiedNameToFeature[qualifiedName] is FieldFeature }
         assertTrue { covered.contains(qualifiedName) }
         covered[qualifiedName] = true
+
+        assertTrue {
+            (qualifiedNameToFeature[qualifiedName] as FieldFeature).toString()
+                .contains("get()") || extends != "" || clazzes[className]!!.declaredFields.any { it == property.javaField }
+        }
+        assertTrue {
+            (qualifiedNameToFeature[qualifiedName] as FieldFeature).toString()
+                .contains("get()") || extends != "" || property.javaField!!.kotlinProperty == property
+        }
+        if (!qualifiedNameToFeature[qualifiedName]!!.hasModifier { it == ParameterModifier.PRIVATE || it == ParameterModifier.INTERNAL }) {
+            if (extends == "") {
+                assertTrue { property.javaGetter == clazzes[className]!!.getDeclaredMethod("get$name") }
+                if (property is KMutableProperty)
+                    assertTrue {
+                        property.javaSetter == clazzes[className]!!.getDeclaredMethod(
+                            "set$name",
+                            toClass((qualifiedNameToFeature[qualifiedName] as FieldFeature).type)
+                        )
+                    }
+            } else {
+                assertTrue {
+                    property.javaGetter == clazzes[className]!!.getDeclaredMethod(
+                        "get${name.split('.').last()}",
+                        toClass(possibleTypes[extends]!!)
+                    )
+                }
+                if (property is KMutableProperty) {
+                    assertTrue {
+                        property.javaSetter == clazzes[className]!!.getDeclaredMethod(
+                            "set${name.split('.').last()}",
+                            toClass(possibleTypes[extends]!!),
+                            toClass((qualifiedNameToFeature[qualifiedName] as FieldFeature).type)
+                        )
+                    }
+                }
+            }
+        }
 
         assertTrue { property.getter.property.name == property.name }
         when (property) {
@@ -298,7 +346,7 @@ object ReflectLiteTests {
                     property as KMutableProperty0<Any>
                     property.setter.isAccessible = true
                     property.setter.call(instance, property.get())
-                    assertTrue { (property.get()?.toString() ?: "null") == value }
+                    assertTrue { equalValues((property.get()?.toString() ?: "null"), value) }
                     handleCallable(property.setter, data, qualifiedNameToFeature[qualifiedName]!!)
                 }
             }
@@ -307,14 +355,14 @@ object ReflectLiteTests {
                 property as KProperty1<Any, Any>
                 property.getter.isAccessible = true
                 val value = property.get(instance)?.toString() ?: "null"
-                val value1 = (qualifiedNameToFeature[qualifiedName] as FieldFeature).type.defaultValue
+                val value1 = toValue((qualifiedNameToFeature[qualifiedName] as FieldFeature).type).toString()
                 assertTrue { equalValues(value, value1) }
                 handleCallable(property.getter, data, qualifiedNameToFeature[qualifiedName]!!)
                 if (property is KMutableProperty<*>) {
                     property as KMutableProperty1<Any, Any>
                     property.setter.isAccessible = true
                     property.setter.call(instance, property.get(instance))
-                    assertTrue { (property.get(instance)?.toString() ?: "null") == value }
+                    assertTrue { equalValues((property.get(instance)?.toString() ?: "null"), value) }
                     handleCallable(property.setter, data, qualifiedNameToFeature[qualifiedName]!!)
                 }
             }
@@ -332,21 +380,26 @@ object ReflectLiteTests {
                     property as KMutableProperty2<Any, Any, Any>
                     property.setter.isAccessible = true
                     property.setter.call(instance, instances[extends]!!, property.get(instance, instances[extends]!!))
-                    assertTrue { (property.get(instance, instances[extends]!!)?.toString() ?: "null") == value }
+                    assertTrue { equalValues((property.get(instance, instances[extends]!!)?.toString() ?: "null"), value) }
                     handleCallable(property.setter, data, qualifiedNameToFeature[qualifiedName]!!)
                 }
             }
         }
     }
 
-    private fun handleFunction(
+    private suspend fun handleFunction(
         function: KFunction<*>,
         qualifiedName: String,
-        data: FuzzedDataProvider
+        data: FuzzedDataProvider,
+        className: String
     ) {
         assertTrue { qualifiedNameToFeature.contains(qualifiedName) && qualifiedNameToFeature[qualifiedName] is MethodFeature || qualifiedNameToFeature[qualifiedName] is OperatorFeature }
         assertTrue { covered.contains(qualifiedName) }
         covered[qualifiedName] = true
+
+        assertTrue { clazzes[className]!!.declaredMethods.any { it == function.javaMethod } }
+        assertTrue { function.javaMethod!!.kotlinFunction == function }
+        assertTrue { function.javaConstructor == null }
 
         assertFalse { function.isExternal }
         assertTrue { function.isInfix == qualifiedNameToFeature[qualifiedName]!!.hasModifier { it == FunctionModifier.INFIX } }
@@ -357,7 +410,7 @@ object ReflectLiteTests {
         handleCallable(function, data, qualifiedNameToFeature[qualifiedName]!!)
     }
 
-    private fun handleConstructor(
+    private suspend fun handleConstructor(
         constructor: KFunction<*>,
         qualifiedName: String,
         data: FuzzedDataProvider,
@@ -366,6 +419,9 @@ object ReflectLiteTests {
         assertTrue { qualifiedNameToFeature.contains(qualifiedName) }
         assertTrue { covered.contains(qualifiedName) }
         covered[qualifiedName] = true
+
+        assertTrue { clazzes[classFeature.name]!!.declaredConstructors.any { it == constructor.javaConstructor } }
+        assertTrue { (constructor.javaConstructor!! as Constructor<Any>).kotlinFunction == constructor }
 
         assertFalse { constructor.isExternal }
         assertFalse { constructor.isInfix }
@@ -390,6 +446,7 @@ object ReflectLiteTests {
     }
 
     private fun handleTypeProjection(type: KTypeProjection) {
+
     }
 
     private fun handleTypeParameter(
@@ -443,7 +500,7 @@ object ReflectLiteTests {
         }
     }
 
-    private fun handleCallable(
+    private suspend fun handleCallable(
         callable: KCallable<*>,
         data: FuzzedDataProvider,
         feature: Feature,
@@ -527,7 +584,7 @@ object ReflectLiteTests {
                 handleType(callable.returnType, feature.type)
                 callable.typeParameters.forEach { handleTypeParameter(it, false) }
                 parameters = feature.parameters.toMutableList()
-                if (!(feature.type == STRING && feature.isLazy) && !(feature.isGetterSetter && !feature.name.contains(
+                if (!(feature.type == STRING && feature.isLazy) && !(feature.isDefaultValue && !feature.name.contains(
                         '.'
                     )) && feature.mutability != MutabilityQualifier.VAL && callable.name.contains("set")
                 ) {
@@ -559,8 +616,9 @@ object ReflectLiteTests {
         }
         try {
             callable.isAccessible = true
-            val b = callable.callBy(correctParametersMap)
             val a = callable.call(*correctParametersList.toTypedArray())
+            val b = callable.callBy(correctParametersMap)
+            val c = callable.callSuspend(*correctParametersList.toTypedArray())
 
             if (getType(
                     callable.returnType.javaType.typeName,
@@ -575,13 +633,17 @@ object ReflectLiteTests {
                         .all {
                             it as KProperty1<Any?, Any?>
                             it.isAccessible = true
-                            val startValue = it.get(a)
-                            val endValue = it.get(b)
-                            equalValues(startValue.toString(), endValue.toString())
+                            val aProperty = it.get(a)
+                            val bProperty = it.get(b)
+                            val cProperty = it.get(c)
+                            equalValues(aProperty.toString(), bProperty.toString()) && equalValues(
+                                aProperty.toString(),
+                                cProperty.toString()
+                            )
                         }
                 }
             } else {
-                assertTrue { a.toString() == b.toString() }
+                assertTrue { a.toString() == b.toString() && a.toString() == c.toString() }
             }
 
             for (iteration in 0 until 1000) {
@@ -632,6 +694,13 @@ object ReflectLiteTests {
                 }
                 try {
                     callable.callBy(parametersMap)
+                } catch (e: IllegalArgumentException) {
+                    assertTrue { throws }
+                } catch (e: InvocationTargetException) {
+                    assertTrue { throws }
+                }
+                try {
+                    callable.callSuspend(*parametersList.toTypedArray())
                 } catch (e: IllegalArgumentException) {
                     assertTrue { throws }
                 } catch (e: InvocationTargetException) {
@@ -722,11 +791,13 @@ object ReflectLiteTests {
             covered.clear()
             qualifiedNameToFeature.forEach { (key, _) -> covered[key] = false }
 
-            handleClass(clazzes[className]!!, className, data)
+            runBlocking {
+                handleClass(clazzes[className]!!, className, data)
+            }
 
             assertTrue { covered.all { (_, value) -> value } }
         } catch (e: FuzzingStateException) {
-
+            // We can't do anything here
         }
     }
 }
