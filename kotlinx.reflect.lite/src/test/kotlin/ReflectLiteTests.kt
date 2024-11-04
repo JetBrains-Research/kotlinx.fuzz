@@ -7,7 +7,6 @@ import kotlinx.reflect.lite.full.*
 import com.code_intelligence.jazzer.api.FuzzedDataProvider
 import com.code_intelligence.jazzer.junit.FuzzTest
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.assertThrows
 import java.io.File
 import java.lang.reflect.Constructor
 import java.lang.reflect.InvocationTargetException
@@ -16,7 +15,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 
-@Suppress("UNCHECKED_CAST")
+@Suppress("UNCHECKED_CAST", "UNNECESSARY_SAFE_CALL")
 object ReflectLiteTests {
     private fun compileAndLoad(className: String, sourceCode: String) {
         val sourceFile = File(FILENAME)
@@ -38,21 +37,22 @@ object ReflectLiteTests {
         for ((declaredClassName, declaredClassFeature) in (qualifiedNameToFeature[className] as ClassFeature).getDeclaredClasses()) {
             val clazz = classLoader.loadClass(declaredClassName.replace('.', '$'))
             clazzes[declaredClassName] = clazz
-            if (!declaredClassFeature.isInterface && !declaredClassFeature.isFunctionalInterface && !declaredClassFeature.hasModifier { it == ClassModifier.ABSTRACT }) {
+            if (!declaredClassFeature.isInterface && !declaredClassFeature.isFunctionalInterface && !declaredClassFeature.hasModifier { it == ClassModifier.ABSTRACT || it == ClassModifier.ANNOTATION }) {
                 val parameters = mutableListOf<Any?>()
                 val types = mutableListOf<Class<*>>()
+
                 for (p in declaredClassFeature.getPrimaryConstructor().parameters) {
-                    parameters.add(toValue(p.type))
-                    types.add(toClass(p.type))
+                    parameters.add(toValue(p.getType(false)))
+                    types.add(toClass(p.getType(false)))
                 }
                 try {
                     val constr = clazz.getDeclaredConstructor(*types.toTypedArray())
                     constr.isAccessible = true
                     instances[declaredClassName] = constr.newInstance(*parameters.toTypedArray())
-                } catch (e: Exception) {
-                    val constr = clazz.getDeclaredConstructor()
-                    constr.isAccessible = true
-                    instances[declaredClassName] = constr.newInstance()
+                } catch (e: NoSuchMethodException) {
+                    if (!declaredClassFeature.hasModifier { it == ClassModifier.ENUM }) {
+                        throw e
+                    }
                 }
             }
         }
@@ -62,33 +62,81 @@ object ReflectLiteTests {
     private val instances = mutableMapOf<String, Any>()
     private val clazzes = mutableMapOf<String, Class<*>>()
 
+    private val ANY = Type("Any", "")
+    private val CONTINUATION = Type("Continuation", "")
+
     private val primitiveJavaTypesToKotlinTypes = mapOf(
         "int" to INT,
+        "Int" to INT,
+        "java.lang.Integer" to INT,
         "int[]" to INT_ARRAY,
+        "Int[]" to INT_ARRAY,
+        "java.lang.Integer[]" to INT_ARRAY,
+        "IntArray" to INT_ARRAY,
         "long" to LONG,
+        "Long" to LONG,
         "long[]" to LONG_ARRAY,
+        "Long[]" to LONG_ARRAY,
+        "LongArray" to LONG_ARRAY,
         "double" to DOUBLE,
+        "Double" to DOUBLE,
         "double[]" to DOUBLE_ARRAY,
+        "Double[]" to DOUBLE_ARRAY,
+        "DoubleArray" to DOUBLE_ARRAY,
         "float" to FLOAT,
+        "Float" to FLOAT,
         "float[]" to FLOAT_ARRAY,
+        "Float[]" to FLOAT_ARRAY,
+        "FloatArray" to FLOAT_ARRAY,
         "String" to STRING,
         "String[]" to STRING_ARRAY,
+        "Array<String>" to STRING_ARRAY,
         "java.lang.String" to STRING,
         "java.lang.String[]" to STRING_ARRAY,
         "boolean" to BOOLEAN,
+        "Boolean" to BOOLEAN,
         "boolean[]" to BOOLEAN_ARRAY,
+        "Boolean[]" to BOOLEAN_ARRAY,
+        "BooleanArray" to BOOLEAN_ARRAY,
         "kotlin.jvm.functions.Function1<? super java.lang.Integer, java.lang.Integer>" to LAMBDA,
         "kotlin.jvm.functions.Function1<? super java.lang.Integer, java.lang.Integer>[]" to LAMBDA_ARRAY,
+        "Function1" to LAMBDA,
+        "Function1[]" to LAMBDA_ARRAY,
+        "kotlin.jvm.functions.Function1" to LAMBDA,
+        "kotlin.jvm.functions.Function1[]" to LAMBDA_ARRAY,
         "kotlin.jvm.functions.Function1<java.lang.Integer, java.lang.Integer>" to LAMBDA,
         "kotlin.jvm.functions.Function1<java.lang.Integer, java.lang.Integer>[]" to LAMBDA_ARRAY,
         "kotlin.jvm.functions.Function2<? super java.lang.Integer, ? super kotlin.coroutines.Continuation<? super java.lang.Integer>, ?>" to SUSPEND_LAMBDA,
+        "Function2" to SUSPEND_LAMBDA,
+        "Function2[]" to SUSPEND_LAMBDA_ARRAY,
+        "kotlin.jvm.functions.Function2" to SUSPEND_LAMBDA,
+        "kotlin.jvm.functions.Function2[]" to SUSPEND_LAMBDA_ARRAY,
         "kotlin.jvm.functions.Function2<? super java.lang.Integer, ? super kotlin.coroutines.Continuation<? super java.lang.Integer>, ?>[]" to SUSPEND_LAMBDA_ARRAY,
         "kotlin.jvm.functions.Function2<java.lang.Integer, kotlin.coroutines.Continuation<? super java.lang.Integer>, java.lang.Object>" to SUSPEND_LAMBDA,
         "kotlin.jvm.functions.Function2<java.lang.Integer, kotlin.coroutines.Continuation<? super java.lang.Integer>, java.lang.Object>[]" to SUSPEND_LAMBDA_ARRAY,
         "java.util.List<java.lang.Integer>" to LIST_INT,
+        "List" to LIST_INT,
+        "List[]" to LIST_INT_ARRAY,
         "java.util.List<java.lang.Integer>[]" to LIST_INT_ARRAY,
-        "void" to VOID
+        "Array<List>" to LIST_INT_ARRAY,
+        "void" to VOID,
+        "Unit" to VOID,
+        "Continuation" to CONTINUATION,
+        "kotlin.coroutines.Continuation<? super java.lang.Integer>" to CONTINUATION,
+        "java.lang.Object" to ANY,
+        "Any" to ANY
     )
+
+    private fun classifierToName(type: KType): String {
+        return if (type.classifier is KClass<*> && (type.classifier as KClass<*>).simpleName!! == "Array") {
+            if (type.javaType.typeName.endsWith("[]")) type.javaType.typeName else "${type.javaType.typeName}[]"
+        } else try {
+            type.javaType.typeName
+        } catch (e: KotlinReflectionInternalError) {
+            if (type.classifier is KClass<*>) (type.classifier as KClass<*>).simpleName!!
+            else (type.classifier as KTypeParameter).name
+        }
+    }
 
     private fun getType(oldName: String, isMarkedNullable: Boolean): Type {
         val nameWithTemplate = oldName.replace("$", ".")
@@ -160,7 +208,7 @@ object ReflectLiteTests {
             val primaryConstructor = "$qualifiedName.(${
                 kClass.primaryConstructor!!.parameters.joinToString(", ") {
                     getType(
-                        it.type.javaType.typeName,
+                        classifierToName(it.type),
                         it.type.isMarkedNullable
                     ).typeName
                 }
@@ -174,7 +222,7 @@ object ReflectLiteTests {
                 "$qualifiedName.(${
                     constructor.parameters.joinToString(", ") {
                         getType(
-                            it.type.javaType.typeName,
+                            classifierToName(it.type),
                             it.type.isMarkedNullable
                         ).typeName
                     }
@@ -185,10 +233,12 @@ object ReflectLiteTests {
         }
 
         kClass.members.forEach { member ->
-            if (member.name != "equals" && member.name != "hashCode" && member.name != "toString" && ((!member.name.startsWith(
-                    "component"
-                ) && member.name != "copy") || !qualifiedNameToFeature[qualifiedName]!!.hasModifier { it == ClassModifier.DATA })
-            ) handleMember(member, instance!!, qualifiedName, data)
+            if (instance != null) {
+                if (member.name != "equals" && member.name != "hashCode" && member.name != "toString" &&
+                    ((!member.name.startsWith("component") && member.name != "copy") ||
+                            !qualifiedNameToFeature[qualifiedName]!!.hasModifier { it == ClassModifier.DATA })
+                ) handleMember(member, instance, qualifiedName, data)
+            }
         }
 
         assertTrue { (kClass.companionObject != null) == (qualifiedNameToFeature.containsKey("$qualifiedName.Companion")) }
@@ -201,10 +251,12 @@ object ReflectLiteTests {
         }
 
         kClass.supertypes.forEach { superType ->
-            if ((superType.classifier as KClass<*>).qualifiedName != "kotlin.Any")
+            if ((superType.classifier as KClass<*>).qualifiedName !in listOf("kotlin.Any", "kotlin.Enum"))
                 handleType(
                     superType,
-                    possibleTypes[(qualifiedNameToFeature[qualifiedName]!! as ClassFeature).superClasses.first { it.name == (superType.classifier as KClass<*>).qualifiedName }.name]!!
+                    possibleTypes[(qualifiedNameToFeature[qualifiedName]!! as ClassFeature).superClasses.first {
+                        it.name == (superType.classifier as KClass<*>).qualifiedName
+                    }.name]!!
                 )
         }
 
@@ -231,7 +283,7 @@ object ReflectLiteTests {
     ) {
         member.isAccessible = true
         val extends = member.parameters.filter { it.kind == KParameter.Kind.EXTENSION_RECEIVER }
-            .joinToString(".") { getType(it.type.javaType.typeName, it.type.isMarkedNullable).typeName }
+            .joinToString(".") { getType(classifierToName(it.type), it.type.isMarkedNullable).typeName }
         val name = "$extends${if (extends != "") "." else ""}${member.name}"
         when (member) {
             is KProperty<*> -> handleProperty(member, instance, name, extends, data, qualifiedName)
@@ -240,7 +292,7 @@ object ReflectLiteTests {
                 "$qualifiedName.$name(${
                     member.parameters.joinToString(", ") {
                         getType(
-                            it.type.javaType.typeName,
+                            classifierToName(it.type),
                             it.type.isMarkedNullable
                         ).typeName
                     }
@@ -267,14 +319,14 @@ object ReflectLiteTests {
             )
             .replace("[]", LIST_INT.defaultValue).replace(LONG.defaultValue, "0")
 
-        if (a.contains("@")) {
-            return if (b.contains("@")) {
+        return if (a.contains("@")) {
+            if (b.contains("@")) {
                 a.split("@").first() == b.split("@").first()
             } else {
                 possibleTypes[a.split("@").first()]!!.defaultValue.replace(LONG.defaultValue, "0") == b
             }
         } else {
-            return if (b.contains("@")) {
+            if (b.contains("@")) {
                 possibleTypes[b.split("@").first()]!!.defaultValue.replace(LONG.defaultValue, "0") == a
             } else {
                 a == b
@@ -380,7 +432,12 @@ object ReflectLiteTests {
                     property as KMutableProperty2<Any, Any, Any>
                     property.setter.isAccessible = true
                     property.setter.call(instance, instances[extends]!!, property.get(instance, instances[extends]!!))
-                    assertTrue { equalValues((property.get(instance, instances[extends]!!)?.toString() ?: "null"), value) }
+                    assertTrue {
+                        equalValues(
+                            (property.get(instance, instances[extends]!!)?.toString() ?: "null"),
+                            value
+                        )
+                    }
                     handleCallable(property.setter, data, qualifiedNameToFeature[qualifiedName]!!)
                 }
             }
@@ -429,30 +486,124 @@ object ReflectLiteTests {
         assertFalse { constructor.isOperator }
         assertFalse { constructor.isSuspend }
 
-        handleCallable(constructor, data, qualifiedNameToFeature[qualifiedName]!!, classFeature)
+        if (!classFeature.hasModifier { it == ClassModifier.ENUM || it == ClassModifier.ANNOTATION })
+            handleCallable(constructor, data, qualifiedNameToFeature[qualifiedName]!!, classFeature)
     }
 
     private fun handleType(type: KType, expectedType: Type) {
         assertTrue { type.isMarkedNullable == (expectedType == NULLABLE_GENERIC) }
-        type.arguments.forEach { handleTypeProjection(it) }
+        handleTypeProjections(type.arguments, expectedType)
         assertTrue { type.classifier != null }
         if (type.classifier is KTypeParameter) assertTrue { (type.classifier as KTypeParameter).name == "T" }
-        else assertTrue {
-            (type.classifier as KClass<*>).simpleName == expectedType.typeName.split('.').last() ||
-                    (type.classifier as KClass<*>).simpleName == "Function1" && expectedType == LAMBDA ||
-                    (type.classifier as KClass<*>).simpleName == "Function2" && expectedType == SUSPEND_LAMBDA ||
-                    (type.classifier as KClass<*>).simpleName == "List" && expectedType == LIST_INT
-        }
+        else assertTrue { getType(classifierToName(type), type.isMarkedNullable) == expectedType }
     }
 
-    private fun handleTypeProjection(type: KTypeProjection) {
+    private fun handleTypeProjections(typeProjections: List<KTypeProjection>, type: Type) {
+        if (typeProjections.isEmpty()) return
+
+        val isStars: List<Boolean>
+        val expectedTypes: List<Type>
+        val expectedVariances: List<TypeVariance>
+        when (type) {
+            LIST_INT -> {
+                isStars = listOf(false)
+                expectedTypes = listOf(INT)
+                expectedVariances = listOf(TypeVariance.INVARIANT)
+            }
+
+            LAMBDA -> {
+                isStars = listOf(false, false)
+                expectedTypes = listOf(INT, INT)
+                expectedVariances = listOf(TypeVariance.INVARIANT, TypeVariance.INVARIANT)
+            }
+
+            SUSPEND_LAMBDA -> {
+                isStars = listOf(false, false, false)
+                expectedTypes = listOf(INT, CONTINUATION, ANY)
+                expectedVariances = listOf(TypeVariance.INVARIANT, TypeVariance.INVARIANT, TypeVariance.INVARIANT)
+            }
+
+            STRING_ARRAY -> {
+                isStars = listOf(false)
+                expectedTypes = listOf(STRING)
+                expectedVariances = listOf(TypeVariance.OUT)
+            }
+
+            LAMBDA_ARRAY -> {
+                isStars = listOf(false)
+                expectedTypes = listOf(LAMBDA)
+                expectedVariances = listOf(TypeVariance.OUT)
+            }
+
+            SUSPEND_LAMBDA_ARRAY -> {
+                isStars = listOf(false)
+                expectedTypes = listOf(SUSPEND_LAMBDA)
+                expectedVariances = listOf(TypeVariance.OUT)
+            }
+
+            LIST_INT_ARRAY -> {
+                isStars = listOf(false)
+                expectedTypes = listOf(LIST_INT)
+                expectedVariances = listOf(TypeVariance.OUT)
+            }
+
+            GENERIC_ARRAY -> {
+                isStars = listOf(false)
+                expectedTypes = listOf(GENERIC)
+                expectedVariances = listOf(TypeVariance.OUT)
+            }
+
+            NULLABLE_GENERIC_ARRAY -> {
+                isStars = listOf(false)
+                expectedTypes = listOf(NULLABLE_GENERIC)
+                expectedVariances = listOf(TypeVariance.OUT)
+            }
+
+            else -> {
+                if (!Regex("""\*listOf\(.+\(.*\)\)\.toTypedArray\(\)""").matches(type.defaultValue)) {
+                    assertTrue { type.typeName in qualifiedNameToFeature && qualifiedNameToFeature[type.typeName] is ClassFeature && (qualifiedNameToFeature[type.typeName] as ClassFeature).isGeneric() }
+                    expectedVariances =
+                        listOf(TypeVariance.INVARIANT) // TODO: (qualifiedNameToFeature[type.typeName] as ClassFeature).variance
+                    isStars = listOf(false)
+                    expectedTypes = listOf(VOID)
+                    assertTrue { typeProjections.size == 1 }
+                    assertTrue { (typeProjections[0].type!!.classifier as KTypeParameter).name == "T" }
+                } else {
+                    expectedVariances = listOf(TypeVariance.OUT)
+                    isStars = listOf(false)
+                    expectedTypes = listOf(VOID)
+                }
+            }
+        }
+        assertTrue { typeProjections.zip(isStars).all { (it.first.type == null) == it.second } }
+        assertTrue {
+            typeProjections.zip(isStars.zip(expectedTypes)).all {
+                it.second.first || type !in composedTypes || getType(
+                    classifierToName(it.first.type!!),
+                    it.first.type!!.isMarkedNullable
+                ) == it.second.second
+            }
+        }
+        assertTrue {
+            typeProjections.zip(isStars.zip(expectedVariances)).all {
+                when (it.first.variance) {
+                    KVariance.INVARIANT -> it.second.second == TypeVariance.INVARIANT
+                    KVariance.IN -> it.second.second == TypeVariance.IN
+                    KVariance.OUT -> it.second.second == TypeVariance.OUT
+                    null -> it.second.first
+                }
+            }
+        }
+
+        assertTrue { typeProjections.all { it.variance == it.component1() } }
+        assertTrue { typeProjections.all { it.type == it.component2() } }
 
     }
 
     private fun handleTypeParameter(
         typeParameter: KTypeParameter,
         isReified: Boolean,
-        variance: ClassFeatureVariance = ClassFeatureVariance.INVARIANT
+        variance: TypeVariance = TypeVariance.INVARIANT
     ) {
         assertTrue { typeParameter.name == "T" }
         assertTrue { typeParameter.isReified == isReified }
@@ -461,16 +612,17 @@ object ReflectLiteTests {
                     typeParameter.upperBounds[0].classifier == Any::class.java.kotlin
         }
         when (typeParameter.variance) {
-            KVariance.INVARIANT -> assertTrue { variance == ClassFeatureVariance.INVARIANT }
-            KVariance.IN -> assertTrue { variance == ClassFeatureVariance.IN }
-            KVariance.OUT -> assertTrue { variance == ClassFeatureVariance.OUT }
+            KVariance.INVARIANT -> assertTrue { variance == TypeVariance.INVARIANT }
+            KVariance.IN -> assertTrue { variance == TypeVariance.IN }
+            KVariance.OUT -> assertTrue { variance == TypeVariance.OUT }
         }
     }
 
     private fun handleParameters(
         kParameters: List<KParameter>,
         parameters: List<ParameterFeature>,
-        hiddenParameters: List<ParameterFeature>
+        hiddenParameters: List<ParameterFeature>,
+        extends: ClassFeature?
     ) {
         var index = 0
         assertTrue { kParameters.size == hiddenParameters.size + parameters.size }
@@ -478,20 +630,14 @@ object ReflectLiteTests {
             assertTrue { kParameter.isOptional == parameter.withDefaultValue }
             assertTrue { kParameter.isVararg == (parameter.mutability == MutabilityQualifier.VARARG) }
             assertTrue {
-                kParameter.name == parameter.name?.split('.')
-                    ?.last() || kParameter.name == null && parameter.name == "value"
+                kParameter.name == parameter.name || kParameter.name == null && parameter.name == "value"
             } // TODO: strange behaviour
-            assertTrue {
-                getType(kParameter.type.javaType.typeName, kParameter.type.isMarkedNullable).typeName ==
-                        parameter.type.typeName
-            }
+            handleType(kParameter.type, parameter.getType(false))
             assertTrue { kParameter.index == index }
             when (kParameter.kind) {
                 KParameter.Kind.INSTANCE -> assertTrue { index == 0 && hiddenParameters.isNotEmpty() }
                 KParameter.Kind.EXTENSION_RECEIVER -> assertTrue {
-                    0 < index && index < hiddenParameters.size && parameter.name?.contains(
-                        "."
-                    ) ?: true
+                    0 < index && index < hiddenParameters.size && (parameter.name == null || extends != null)
                 }
 
                 KParameter.Kind.VALUE -> assertTrue { index >= hiddenParameters.size }
@@ -506,6 +652,7 @@ object ReflectLiteTests {
         feature: Feature,
         classFeature: ClassFeature? = null
     ) {
+        val isEnum = classFeature?.hasModifier { it == ClassModifier.ENUM }
         val returnType: Type?
         lateinit var parameters: MutableList<ParameterFeature>
         when (feature) {
@@ -520,19 +667,20 @@ object ReflectLiteTests {
                 }
                 assertFalse { callable.isSuspend }
                 when (callable.visibility) {
-                    KVisibility.PUBLIC -> assertTrue { feature.hasModifier { it == ConstructorModifier.PUBLIC } || !feature.hasModifier { it == ConstructorModifier.PROTECTED || it == ConstructorModifier.PRIVATE || it == ConstructorModifier.INTERNAL } }
+                    KVisibility.PUBLIC -> assertTrue { feature.hasModifier { it == ConstructorModifier.PUBLIC } || (isEnum == false && !feature.hasModifier { it == ConstructorModifier.PROTECTED || it == ConstructorModifier.PRIVATE || it == ConstructorModifier.INTERNAL }) }
                     KVisibility.PROTECTED -> assertTrue { feature.hasModifier { it == ConstructorModifier.PROTECTED } }
                     KVisibility.INTERNAL -> assertTrue { feature.hasModifier { it == ConstructorModifier.INTERNAL } }
-                    KVisibility.PRIVATE -> assertTrue { feature.hasModifier { it == ConstructorModifier.PRIVATE } }
+                    KVisibility.PRIVATE -> assertTrue { feature.hasModifier { it == ConstructorModifier.PRIVATE } || (isEnum == true && !feature.hasModifier { it == ConstructorModifier.PROTECTED || it == ConstructorModifier.PRIVATE || it == ConstructorModifier.INTERNAL }) }
                     null -> throw IllegalStateException("visibility should be always representable")
                 }
-                returnType = getType(callable.returnType.javaType.typeName, callable.returnType.isMarkedNullable)
+                returnType =
+                    getType(classifierToName(callable.returnType), callable.returnType.isMarkedNullable)
                 assertTrue { callable.name == "<init>" }
                 handleType(callable.returnType, returnType)
                 callable.typeParameters.forEach { handleTypeParameter(it, false) }
                 parameters =
                     if (feature is PrimaryConstructorFeature) feature.parameters else (feature as SecondaryConstructorFeature).parameters
-                handleParameters(callable.parameters, parameters, emptyList())
+                handleParameters(callable.parameters, parameters, emptyList(), null)
             }
 
             is MethodFeature, is OperatorFeature -> {
@@ -547,7 +695,7 @@ object ReflectLiteTests {
                     KVisibility.PRIVATE -> assertTrue { feature.hasModifier { it == FunctionModifier.PRIVATE } }
                     null -> throw IllegalStateException("visibility should be always representable")
                 }
-                assertTrue { callable.name == feature.name!!.split('.').last() }
+                assertTrue { callable.name == feature.name }
                 returnType =
                     if (feature is OperatorFeature) feature.returnType else (feature as MethodFeature).returnType
                 handleType(callable.returnType, returnType)
@@ -561,7 +709,9 @@ object ReflectLiteTests {
                     if (feature is MethodFeature) feature.parameters else (feature as OperatorFeature).parameters
                 val hiddenParameters =
                     if (feature is MethodFeature) feature.hiddenParameters else (feature as OperatorFeature).hiddenParameters
-                handleParameters(callable.parameters, callableParameters, hiddenParameters)
+                val extends =
+                    if (feature is MethodFeature) feature.extends else (feature as OperatorFeature).extends
+                handleParameters(callable.parameters, callableParameters, hiddenParameters, extends)
                 parameters = (hiddenParameters + callableParameters).toMutableList()
             }
 
@@ -578,41 +728,42 @@ object ReflectLiteTests {
                     null -> throw IllegalStateException("visibility should be always representable")
                 }
                 assertTrue {
-                    callable.name == "<get-${feature.name.split(".").last()}>" ||
-                            callable.name == "<set-${feature.name.split(".").last()}>"
+                    callable.name == "<get-${feature.name}>" ||
+                            callable.name == "<set-${feature.name}>"
                 }
                 handleType(callable.returnType, feature.type)
                 callable.typeParameters.forEach { handleTypeParameter(it, false) }
                 parameters = feature.parameters.toMutableList()
-                if (!(feature.type == STRING && feature.isLazy) && !(feature.isDefaultValue && !feature.name.contains(
-                        '.'
-                    )) && feature.mutability != MutabilityQualifier.VAL && callable.name.contains("set")
+                if (!(feature.type == STRING && feature.isLazy) && !(feature.isDefaultValue && feature.extends == null) && feature.mutability != MutabilityQualifier.VAL && callable.name.contains(
+                        "set"
+                    )
                 ) {
-                    parameters.add(ParameterFeature(feature.type, MutabilityQualifier.VAL, "value", false))
+                    parameters.add(ParameterFeature(feature.type, MutabilityQualifier.VAL, "value", false, false))
                     handleParameters(
                         callable.parameters,
-                        listOf(ParameterFeature(feature.type, MutabilityQualifier.VAL, "value", false)),
-                        feature.parameters
+                        listOf(ParameterFeature(feature.type, MutabilityQualifier.VAL, "value", false, false)),
+                        feature.parameters,
+                        feature.extends
                     )
                 } else {
-                    handleParameters(callable.parameters, emptyList(), feature.parameters)
+                    handleParameters(callable.parameters, emptyList(), feature.parameters, feature.extends)
                 }
             }
         }
 
         val correctParametersMap = mutableMapOf<KParameter, Any?>()
         val correctParametersList = mutableListOf<Any?>()
-        for ((parameter, kParameter) in parameters.zip(callable.parameters)) {
+        for (kParameter in callable.parameters) {
             correctParametersList.add(
                 toValue(
                     getType(
-                        kParameter.type.javaType.typeName,
+                        classifierToName(kParameter.type),
                         kParameter.type.isMarkedNullable
                     )
                 )
             )
             correctParametersMap[kParameter] =
-                toValue(getType(kParameter.type.javaType.typeName, kParameter.type.isMarkedNullable))
+                toValue(getType(classifierToName(kParameter.type), kParameter.type.isMarkedNullable))
         }
         try {
             callable.isAccessible = true
@@ -621,13 +772,13 @@ object ReflectLiteTests {
             val c = callable.callSuspend(*correctParametersList.toTypedArray())
 
             if (getType(
-                    callable.returnType.javaType.typeName,
+                    classifierToName(callable.returnType),
                     callable.returnType.isMarkedNullable
                 ).typeName in clazzes
             ) {
                 assertTrue {
                     clazzes[getType(
-                        callable.returnType.javaType.typeName,
+                        classifierToName(callable.returnType),
                         callable.returnType.isMarkedNullable
                     ).typeName]!!.kotlin.members.filterIsInstance<KProperty1<*, *>>()
                         .all {
@@ -682,7 +833,7 @@ object ReflectLiteTests {
                 var throws = parametersList.size != parameters.size
                 if (!throws) {
                     for (i in 0 until parametersList.size) {
-                        if (parameters[i].type != types[i]) throws = true
+                        if (parameters[i].getType(false) != types[i]) throws = true
                     }
                 }
                 try {
@@ -732,15 +883,18 @@ object ReflectLiteTests {
             FLOAT_ARRAY -> return listOf(0f).toFloatArray()
             STRING_ARRAY -> return listOf("").toTypedArray()
             BOOLEAN_ARRAY -> return listOf(true).toBooleanArray()
-            LAMBDA_ARRAY -> return listOf({ x: Int -> x }).toTypedArray()
+            LAMBDA_ARRAY -> return listOf { x: Int -> x }.toTypedArray()
             SUSPEND_LAMBDA_ARRAY -> return listOf({ x: Int -> x } as suspend (Int) -> Int).toTypedArray()
             LIST_INT_ARRAY -> return listOf(listOf(0)).toTypedArray()
             GENERIC_ARRAY -> return listOf("").toTypedArray()
             NULLABLE_GENERIC_ARRAY -> return listOf("", null).toTypedArray()
             else -> {
-                if (Regex(""".+\(.*\)""").matches(type.defaultValue)) {
-                    return instances[type.typeName]
+                if (Regex("""\*listOf\(.+\(.*\)\)\.toTypedArray\(\)""").matches(type.defaultValue)) {
+                    return listOf(instances[type.typeName]).toTypedArray()
                 } else {
+                    if (Regex(""".+\(.*\)""").matches(type.defaultValue)) {
+                        return instances[type.typeName]
+                    }
                     throw IllegalArgumentException("Unknown type: $type")
                 }
             }
@@ -765,17 +919,20 @@ object ReflectLiteTests {
             LONG_ARRAY -> return LongArray::class.java
             DOUBLE_ARRAY -> return DoubleArray::class.java
             FLOAT_ARRAY -> return FloatArray::class.java
-            STRING_ARRAY -> return Array::class.java
+            STRING_ARRAY -> return Array<String>::class.java
             BOOLEAN_ARRAY -> return BooleanArray::class.java
-            LAMBDA_ARRAY -> return Array::class.java
-            SUSPEND_LAMBDA_ARRAY -> return Array::class.java
-            LIST_INT_ARRAY -> return Array::class.java
-            GENERIC_ARRAY -> return Array::class.java
-            NULLABLE_GENERIC_ARRAY -> return Array::class.java
+            LAMBDA_ARRAY -> return Array<Any>::class.java
+            SUSPEND_LAMBDA_ARRAY -> return Array<Any>::class.java
+            LIST_INT_ARRAY -> return Array<Any>::class.java
+            GENERIC_ARRAY -> return Array<Any>::class.java
+            NULLABLE_GENERIC_ARRAY -> return Array<Any>::class.java
             else -> {
                 if (Regex(""".+\(.*\)""").matches(type.defaultValue)) {
                     return clazzes[type.typeName]!!
                 } else {
+                    if (Regex("""\*listOf\(.+\(.*\)\)\.toTypedArray\(\)""").matches(type.defaultValue)) {
+                        return Array<Any>::class.java
+                    }
                     throw IllegalArgumentException("Unknown type: $type")
                 }
             }
@@ -785,6 +942,9 @@ object ReflectLiteTests {
     @FuzzTest(maxDuration = MAX_DURATION)
     fun test(data: FuzzedDataProvider) {
         try {
+            clazzes.clear()
+            instances.clear()
+
             val (className, sourceCode) = data.generateSourceCode()
             compileAndLoad(className, sourceCode)
 
@@ -797,6 +957,8 @@ object ReflectLiteTests {
 
             assertTrue { covered.all { (_, value) -> value } }
         } catch (e: FuzzingStateException) {
+            // We can't do anything here
+        } catch (e: NotImplementedError) {
             // We can't do anything here
         }
     }
