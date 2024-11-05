@@ -495,7 +495,7 @@ object ReflectLiteTests {
         handleTypeProjections(type.arguments, expectedType)
         assertTrue { type.classifier != null }
         if (type.classifier is KTypeParameter) assertTrue { (type.classifier as KTypeParameter).name == "T" }
-        else assertTrue { getType(classifierToName(type), type.isMarkedNullable) == expectedType }
+        else assertTrue { getType(classifierToName(type), type.isMarkedNullable).typeName == expectedType.typeName }
     }
 
     private fun handleTypeProjections(typeProjections: List<KTypeProjection>, type: Type) {
@@ -731,7 +731,7 @@ object ReflectLiteTests {
                     callable.name == "<get-${feature.name}>" ||
                             callable.name == "<set-${feature.name}>"
                 }
-                handleType(callable.returnType, feature.type)
+                handleType(callable.returnType, if (callable.name.contains("get")) feature.type else VOID)
                 callable.typeParameters.forEach { handleTypeParameter(it, false) }
                 parameters = feature.parameters.toMutableList()
                 if (!(feature.type == STRING && feature.isLazy) && !(feature.isDefaultValue && feature.extends == null) && feature.mutability != MutabilityQualifier.VAL && callable.name.contains(
