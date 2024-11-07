@@ -27,6 +27,8 @@ object ReflectLiteTests {
         val process = ProcessBuilder(
             PATH_TO_KOTLIN, sourceFile.absolutePath, "-d", OUTPUT_DIR
         )
+        process.redirectOutput(ProcessBuilder.Redirect.DISCARD)
+        process.redirectError(ProcessBuilder.Redirect.DISCARD)
         val process2 = process.inheritIO().start()
         val exitCode = process2.waitFor()
         if (exitCode != 0) {
