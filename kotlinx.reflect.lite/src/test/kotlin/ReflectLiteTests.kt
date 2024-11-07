@@ -29,7 +29,7 @@ object ReflectLiteTests {
         )
         process.redirectOutput(ProcessBuilder.Redirect.DISCARD)
         process.redirectError(ProcessBuilder.Redirect.DISCARD)
-        val process2 = process.inheritIO().start()
+        val process2 = process.start()
         val exitCode = process2.waitFor()
         if (exitCode != 0) {
             throw RuntimeException("Failed to compile")
