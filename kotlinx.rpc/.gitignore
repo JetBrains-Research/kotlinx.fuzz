@@ -1,0 +1,5 @@
+.gradle/
+build
+.idea/
+.cifuzz-corpus/
+src/test/resources/org/
