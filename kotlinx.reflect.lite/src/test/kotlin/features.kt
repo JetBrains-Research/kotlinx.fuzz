@@ -462,7 +462,8 @@ class FieldFeature(
     var isDefaultValue: Boolean,
     private var isGetterSetter: Boolean,
     isHidden: Boolean,
-    val extends: ClassFeature?
+    val extends: ClassFeature?,
+    val isVararg: Boolean
 ) : Feature(name) {
     val parameters = mutableListOf<ParameterFeature>()
 
@@ -477,6 +478,7 @@ class FieldFeature(
         }
         if (extends != null) isDefaultValue = false
         if (!isGetterSetter && !isDefaultValue) isGetterSetter = true
+        if (isGetterSetter && isDefaultValue) isDefaultValue = false
     }
 
     override fun addModifier(modifier: Modifier) {
@@ -629,7 +631,8 @@ class ClassFeature(
                 isDefaultValue = false,
                 isHidden = true,
                 isGetterSetter = false,
-                extends = null
+                extends = null,
+                isVararg = parameter.mutability == MutabilityQualifier.VARARG
             )
             parameter.annotations.forEach { feature.addAnnotation(it) }
             parameter.modifiers.forEach { feature.addModifier(it) }
@@ -1383,7 +1386,8 @@ private fun FuzzedDataProvider.generateFieldFeature(
             if (isValue || thisClass == type.typeName) false else consumeBoolean(),
             if (isValue || thisClass == type.typeName) true else consumeBoolean(),
             false,
-            if (consumeBoolean() && classToExtend != null) classToExtend.second else null
+            if (consumeBoolean() && classToExtend != null) classToExtend.second else null,
+            false
         )
         val modifiersNumber = consumeInt(0, MAX_MODIFIERS_NUMBER)
         for (i in 0 until modifiersNumber) {
