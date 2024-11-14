@@ -81,7 +81,7 @@ object Reproducers {
     fun `void with arguments`() {
         val field = Example::class.java.kotlin.members.single { it.name == "field1" }
         field.isAccessible = true
-        field as KMutableProperty1<Function2<Int, Continuation<Int>, Int>, Example<Int>>
+        field as KMutableProperty1<Example<Int>, Function2<Int, Continuation<Int>, Int>>
         assertTrue { field.setter.returnType.arguments.isEmpty() }
     }
 
