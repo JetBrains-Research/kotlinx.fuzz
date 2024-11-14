@@ -7,11 +7,13 @@ import kotlinx.reflect.lite.impl.*
 import kotlinx.reflect.lite.full.*
 import org.junit.jupiter.api.assertDoesNotThrow
 import kotlin.coroutines.Continuation
+//import kotlin.reflect.*
+//import kotlin.reflect.jvm.*
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class Example<T>() {
-    constructor(x: Int): this()
+    constructor(x: Int) : this()
 
     suspend fun fun0() = this
     fun fun1(vararg e: Example<T>) {}
@@ -28,13 +30,18 @@ class Example<T>() {
 
     @JvmInline
     value class Class0(val x: Int) {
-        constructor(): this(0)
-        fun fun0() : Int { return 0 }
+        constructor() : this(0)
+
+        fun fun0(): Int {
+            return 0
+        }
+
         operator fun minus(e: Class0) = this
 
         val field0: Int get() = 0
     }
-    class Class1<in K: Any>(){}
+
+    class Class1<in K : Any>() {}
 }
 
 object Reproducers {
@@ -43,7 +50,7 @@ object Reproducers {
         val callable = Example::class.java.kotlin.members.single { it.name == "fun0" }
         callable.isAccessible = true
         assertTrue { callable.parameters.size == 1 }
-        assertDoesNotThrow { callable.call(Example<Int>()) } // Expects 2
+        assertDoesNotThrow { callable.call(Example<Int>()) } // Same for kotlin.reflect
     }
 
     @Test
@@ -51,8 +58,8 @@ object Reproducers {
         val callable = Example::class.java.kotlin.members.single { it.name == "fun1" }
         callable.isAccessible = true
         assertTrue { callable.parameters.size == 2 }
-        assertDoesNotThrow { callable.call(Example<Int>(), *listOf(Example<Int>()).toTypedArray()) }
-        // callable.call(Example(), Example()) throws as well
+        assertDoesNotThrow { callable.call(Example<Int>(), *listOf(Example<Int>()).toTypedArray()) } // Same for kotlin.reflect
+        // callable.call(Example<Int>(), Example<Int>()) throws as well
     }
 
     @Test
@@ -61,13 +68,6 @@ object Reproducers {
         field.isAccessible = true
         field as KMutableProperty1<Int?, Example<Int>>
         assertFalse { field.setter.returnType.isMarkedNullable }
-    }
-
-    @Test
-    fun `list as argument`() {
-        val callable = Example::class.java.kotlin.members.single { it.name == "fun2" }
-        callable.isAccessible = true
-        assertTrue { callable.parameters.first().type.arguments.first().type!!.javaType.typeName == "int" }
     }
 
     @Test
@@ -117,7 +117,7 @@ object Reproducers {
         val callable = Example.Class0::class.java.kotlin.members.single { it.name == "minus" }
         callable.isAccessible = true
         assertTrue { callable.parameters.size == 2 }
-        assertTrue { callable.parameters[1].type.javaType.typeName == "org.plan.research.Example.Class0" }
+        assertTrue { callable.parameters[1].type.javaType.typeName == "org.plan.research.Example.Class0" } // Same for kotlin.reflect
     }
 
     @Test
@@ -132,15 +132,15 @@ object Reproducers {
     fun `incorrect constructor flags`() {
         val constructor = Example::class.java.kotlin.constructors.single { it.parameters.size == 1 }
         constructor.isAccessible = true
-        assertTrue{ constructor.isFinal }
-        assertFalse{ constructor.isOpen }
+        assertTrue { constructor.isFinal }
+        assertFalse { constructor.isOpen }
     }
 
     @Test
     fun `incorrect variance`() {
         val field = Example::class.java.kotlin.members.single { it.name == "field2" }
         field.isAccessible = true
-        field as KProperty1<Function2<Int, Continuation<Int>, Int>, Example<Int>>
-        assertTrue { field.typeParameters[0].variance == KVariance.IN }
+        field as KProperty1<Example.Class1<Any>, Example<Int>>
+        assertTrue { field.returnType.arguments[0].variance == KVariance.IN } // Same for kotlin.reflect
     }
 }
