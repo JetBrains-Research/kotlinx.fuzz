@@ -1,4 +1,4 @@
-All cases that will be discussed here can be divided into two groups: bugs and reasonable cases that need more explanation in documentation.
+All reproducers can be found [here](https://code.jetbrains.team/p/plan/repositories/kotlinx.fuzz/files/kotlinx.reflect.lite/kotlinx.reflect.lite/src/test/kotlin/Reproducers.kt). All cases that will be discussed here can be divided into two groups: bugs and reasonable cases that need more explanation in documentation.
 ## Bugs
 ### Calling function with varargs
 ```kotlin
