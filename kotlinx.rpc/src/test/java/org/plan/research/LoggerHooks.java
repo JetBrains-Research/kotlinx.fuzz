@@ -23,19 +23,19 @@ public class LoggerHooks {
         throw new IllegalStateException("hook exception");
     }
 
-//    @MethodHook(
-//            type = HookType.REPLACE,
-//            targetClassName = "kotlinx.rpc.krpc.internal.logging.impl.CommonLoggerImpl",
-//            targetMethod = "error"
-//    )
     @MethodHook(
             type = HookType.REPLACE,
-            targetClassName = "kotlinx.rpc.krpc.server.internal.",
+            targetClassName = "kotlinx.rpc.krpc.internal.logging.impl.CommonLoggerImpl",
             targetMethod = "error"
     )
+//    @MethodHook(
+//            type = HookType.REPLACE,
+//            targetClassName = "kotlinx.rpc.krpc.server.internal.",
+//            targetMethod = "error"
+//    )
     public static void throwOnError(
             MethodHandle handle, Object thisObject, Object[] args, int hookId
-    ) throws Throwable {
+    ) {
         System.out.println("thisObject class: " + thisObject.getClass().getName());
         for (int i = 0; i < args.length; i++) {
             Object arg = args[i];

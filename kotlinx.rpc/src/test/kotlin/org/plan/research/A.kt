@@ -69,9 +69,9 @@ class A {
     @FuzzTest
     fun test(data: FuzzedDataProvider) {
 
-        val k = KLAL()
-        k.haha()
-        println("oh no $k")
+//        val k = KLAL()
+//        k.haha()
+//        println("oh no $k")
 
         runBlocking {
             val channel = MessageChannel()
