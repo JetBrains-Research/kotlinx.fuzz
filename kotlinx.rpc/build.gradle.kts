@@ -16,7 +16,5 @@ dependencies {
 
     runtimeOnly("org.slf4j:slf4j-simple:2.0.16")
 
-    testImplementation("io.mockk:mockk:1.13.13")
-
     implementation(kotlin("reflect"))
 }

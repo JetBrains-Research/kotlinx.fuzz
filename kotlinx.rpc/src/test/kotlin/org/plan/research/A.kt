@@ -2,23 +2,12 @@ package org.plan.research
 
 import com.code_intelligence.jazzer.api.FuzzedDataProvider
 import com.code_intelligence.jazzer.junit.FuzzTest
-import io.mockk.mockkObject
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.runBlocking
 import kotlinx.rpc.RemoteService
 import kotlinx.rpc.annotations.Rpc
-import kotlinx.rpc.internal.utils.InternalRPCApi
 import kotlinx.rpc.withService
 import kotlin.coroutines.CoroutineContext
-import kotlin.reflect.KClass
-import kotlin.test.BeforeTest
-import kotlin.test.Test
 import kotlin.test.assertEquals
-
-import kotlinx.rpc.krpc.internal.logging.CommonLogger
-import kotlin.math.log
-import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.javaField
 
 /**
  * Things we would like to try:
@@ -50,28 +39,8 @@ class AImpl(override val coroutineContext: CoroutineContext) : AwesomeService {
 
 class A {
 
-//    @Test
-//    fun haha() {
-////        val f: Unit.(block: Unit.() -> Unit) -> Result<Unit> = ::runCatching
-//        val f: (() -> Unit) -> Result<Unit> = ::runCatching
-//        println(f::class.java.name)
-//        val a = runCatching { 5 }
-//        a.isFailure
-//    }
-
-//    @BeforeTest
-//    fun mock() {
-//        mockLogger()
-//    }
-
-//    @Test
-//    fun test() {
     @FuzzTest
     fun test(data: FuzzedDataProvider) {
-
-//        val k = KLAL()
-//        k.haha()
-//        println("oh no $k")
 
         runBlocking {
             val channel = MessageChannel()

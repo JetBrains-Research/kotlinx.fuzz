@@ -7,6 +7,8 @@ import java.lang.invoke.MethodHandle;
 
 public class LoggerHooks {
 
+    // TODO: hook logger (factory) ctor
+
     @MethodHook(
             type = HookType.REPLACE,
             targetClassName = "org.plan.research.KLAL",
@@ -23,9 +25,10 @@ public class LoggerHooks {
         throw new IllegalStateException("hook exception");
     }
 
+
     @MethodHook(
             type = HookType.REPLACE,
-            targetClassName = "kotlinx.rpc.krpc.internal.logging.impl.CommonLoggerImpl",
+            targetClassName = "kotlinx.rpc.krpc.internal.logging.CommonLogger",
             targetMethod = "error"
     )
 //    @MethodHook(
