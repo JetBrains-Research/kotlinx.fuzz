@@ -1,5 +1,5 @@
 package kotlinx.fuzz
 
 fun main() {
-    println("foo")
+    println("main")
 }

@@ -47,3 +47,6 @@ bin/
 
 ### Python ###
 **/__pycache__/**
+
+### Logs ###
+**/*.log

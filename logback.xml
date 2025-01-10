@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<configuration>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%-5p] - %m%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="testFileLogger" class="ch.qos.logback.core.FileAppender">
+        <file>kotlinx.fuzz.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5p][%c] - %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="asyncFileLogger" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="testFileLogger"/>
+    </appender>
+    <appender name="asyncStdout" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="stdout"/>
+    </appender>
+
+    <logger name="kotlinx.fuzz" level="ALL" additivity="false">
+        <appender-ref ref="asyncFileLogger"/>
+        <appender-ref ref="asyncStdout"/>
+    </logger>
+
+    <logger name="ch.qos.logback" level="OFF"/>
+
+    <root level="ALL">
+        <appender-ref ref="asyncStdout"/>
+    </root>
+</configuration>

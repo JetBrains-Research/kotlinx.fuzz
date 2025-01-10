@@ -11,8 +11,8 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-    testImplementation("com.code-intelligence:jazzer-junit:$jazzerVersion")
-    testImplementation("com.code-intelligence:jazzer-api:$jazzerVersion")
+    testImplementation("com.code-intelligence:jazzer-junit:$JAZZER_VERSION")
+    testImplementation("com.code-intelligence:jazzer-api:$JAZZER_VERSION")
 }
 
 kotlin {

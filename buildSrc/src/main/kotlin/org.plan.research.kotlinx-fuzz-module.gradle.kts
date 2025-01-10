@@ -13,6 +13,8 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    testImplementation("io.github.oshai:kotlin-logging-jvm:$KOTLIN_LOGGING_VERSION")
+    testImplementation("ch.qos.logback:logback-classic:$LOGBACK_VERSION")
 }
 
 kotlin {
@@ -20,6 +22,11 @@ kotlin {
 }
 
 tasks.getByName<KotlinCompile>("compileKotlin") {
-    compilerOptions.allWarningsAsErrors = true
+    compilerOptions {
+        allWarningsAsErrors = true
+    }
 }
 
+tasks.test {
+    systemProperties["logback.configurationFile"] = rootProject.file("logback.xml")
+}
