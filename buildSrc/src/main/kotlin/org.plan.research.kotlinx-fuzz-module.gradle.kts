@@ -29,4 +29,11 @@ tasks.getByName<KotlinCompile>("compileKotlin") {
 
 tasks.test {
     systemProperties["logback.configurationFile"] = rootProject.file("logback.xml")
+    testLogging {
+        events("passed", "skipped", "failed")
+        exceptionFormat = TestExceptionFormat.FULL
+        showExceptions = true
+        showCauses = true
+        showStackTraces = true
+    }
 }
