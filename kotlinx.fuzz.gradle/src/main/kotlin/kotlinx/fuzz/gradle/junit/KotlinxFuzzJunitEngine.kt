@@ -18,17 +18,25 @@ import java.net.URI
 
 
 internal class KotlinxFuzzJunitEngine : TestEngine {
-    private val config = FuzzConfig.fromSystemProperties()
+    // KotlinxFuzzJunitEngine can be instantiated at an arbitrary point of time by JunitPlatform
+    // To prevent failures due to lack of necessary properties, config is read lazily
+    private val config: FuzzConfig by lazy {
+        FuzzConfig.fromSystemProperties()
+    }
 
-    private val fuzzEngine: KFuzzEngine = when (config.fuzzEngine) {
-        "jazzer" -> Class.forName("kotlinx.fuzz.jazzer.JazzerEngine").getConstructor(FuzzConfig::class.java).newInstance(config) as KFuzzEngine
-        else -> throw AssertionError("Unsupported fuzzer engine!")
+    private val fuzzEngine: KFuzzEngine by lazy {
+        when (config.fuzzEngine) {
+            "jazzer" -> Class.forName("kotlinx.fuzz.jazzer.JazzerEngine")
+                .getConstructor(FuzzConfig::class.java).newInstance(config) as KFuzzEngine
+
+            else -> throw AssertionError("Unsupported fuzzer engine!")
+        }
     }
 
     companion object {
         private fun Method.isFuzzTarget(): Boolean {
             return AnnotationSupport.isAnnotated(this, KFuzzTest::class.java)
-                    && parameters.size == 1  && parameters[0].type == KFuzzer::class.java
+                    && parameters.size == 1 && parameters[0].type == KFuzzer::class.java
         }
 
         val isKFuzzTestContainer: (Class<*>) -> Boolean = { klass ->
