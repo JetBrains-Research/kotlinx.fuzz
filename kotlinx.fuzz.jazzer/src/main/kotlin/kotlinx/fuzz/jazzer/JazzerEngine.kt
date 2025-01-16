@@ -6,8 +6,6 @@ import com.code_intelligence.jazzer.driver.FuzzTargetRunner
 import com.code_intelligence.jazzer.driver.LifecycleMethodsInvoker
 import com.code_intelligence.jazzer.driver.Opt
 import com.code_intelligence.jazzer.utils.Log
-import kotlinx.fuzz.FuzzConfig
-import kotlinx.fuzz.KFuzzEngine
 import java.lang.invoke.MethodHandles
 import java.lang.reflect.Method
 import java.util.concurrent.atomic.AtomicReference
@@ -15,9 +13,10 @@ import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.createTempDirectory
 import kotlin.io.path.deleteRecursively
 import kotlin.reflect.jvm.javaMethod
+import kotlinx.fuzz.KFuzzConfig
+import kotlinx.fuzz.KFuzzEngine
 
-
-class JazzerEngine(private val config: FuzzConfig): KFuzzEngine {
+class JazzerEngine(private val config: KFuzzConfig) : KFuzzEngine {
     private val jazzerConfig = JazzerConfig.fromSystemProperties()
 
     override fun initialise() {
@@ -31,7 +30,7 @@ class JazzerEngine(private val config: FuzzConfig): KFuzzEngine {
 
         FuzzTargetHolder.fuzzTarget = FuzzTargetHolder.FuzzTarget(
             JazzerTarget::fuzzTargetOne.javaMethod,
-            LifecycleMethodsInvoker.noop(JazzerTarget)
+            LifecycleMethodsInvoker.noop(JazzerTarget),
         )
     }
 
@@ -41,7 +40,7 @@ class JazzerEngine(private val config: FuzzConfig): KFuzzEngine {
         val corpusDir = createTempDirectory("jazzer-corpus")
 
         libFuzzerArgs += corpusDir.toString()
-        libFuzzerArgs += "-max_total_time=${config.maxSingleTargetFuzzTime}"
+        libFuzzerArgs += "-max_total_time=${config.maxSingleTargetFuzzTime.inWholeSeconds}"
         libFuzzerArgs += "-rss_limit_mb=${jazzerConfig.libFuzzerRssLimit}"
 
         val atomicFinding = AtomicReference<Throwable>()

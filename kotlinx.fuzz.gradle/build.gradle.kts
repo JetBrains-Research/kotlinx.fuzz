@@ -17,8 +17,8 @@ dependencies {
 }
 
 gradlePlugin.plugins.create("kotlinx.fuzz") {
-    id = "kotlinx.fuzz-gradle"
-    implementationClass = "org.planx.fuzzing.plugin.KFuzzPlugin"
+    id = "kotlinx.fuzz.gradle"
+    implementationClass = "kotlinx.fuzz.gradle.KFuzzPlugin"
 }
 
 tasks.test {

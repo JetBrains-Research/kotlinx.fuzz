@@ -1,8 +1,8 @@
 package kotlinx.fuzz.jazzer
 
-import kotlinx.fuzz.KFuzzerImpl
 import java.lang.invoke.MethodHandle
 import java.util.concurrent.atomic.AtomicReference
+import kotlinx.fuzz.KFuzzerImpl
 
 internal object JazzerTarget {
     private val target: AtomicReference<MethodHandle> = AtomicReference()

@@ -18,7 +18,5 @@ abstract class KFuzzPlugin : Plugin<Project> {
 
 abstract class FuzzTask : Test() {
     @TaskAction
-    fun action() {
-        println("Invoking FuzzTask")
-    }
+    fun action(): Unit = Unit
 }
