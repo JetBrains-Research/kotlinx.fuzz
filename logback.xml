@@ -21,14 +21,14 @@
         <appender-ref ref="stdout"/>
     </appender>
 
-    <logger name="kotlinx.fuzz" level="ALL" additivity="false">
+    <logger name="kotlinx.fuzz" level="${KOTLINX_FUZZ_LOGGING_LEVEL}" additivity="false">
         <appender-ref ref="asyncFileLogger"/>
         <appender-ref ref="asyncStdout"/>
     </logger>
 
     <logger name="ch.qos.logback" level="OFF"/>
 
-    <root level="ALL">
+    <root level="${KOTLINX_FUZZ_LOGGING_LEVEL}">
         <appender-ref ref="asyncStdout"/>
     </root>
 </configuration>
