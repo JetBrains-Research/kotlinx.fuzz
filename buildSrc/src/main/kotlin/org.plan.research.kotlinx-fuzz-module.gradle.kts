@@ -51,9 +51,7 @@ tasks.register("setLoggingProperties") {
         val envValue = System.getenv("KOTLINX_FUZZ_LOGGING_LEVEL") ?: "OFF"
         val oldContent = logback.readText().split("<configuration>\n")
         logback.writeText(
-            "${oldContent[0]}<configuration>\n<property name=\"KOTLINX_FUZZ_LOGGING_LEVEL\" value=\"$envValue\"/>\n${
-                oldContent.stream().skip(1).toList().joinToString("<configuration>\n")
-            }"
+            "${oldContent[0]}<configuration>\n<property name=\"KOTLINX_FUZZ_LOGGING_LEVEL\" value=\"$envValue\"/>\n${oldContent[1]}"
         )
     }
 
