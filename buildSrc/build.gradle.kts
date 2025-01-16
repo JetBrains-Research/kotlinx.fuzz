@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.konan.properties.loadProperties
 
 plugins {
@@ -20,6 +19,6 @@ dependencies {
     implementation("org.reflections:reflections:0.10.2")
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+kotlin {
+    jvmToolchain(17)
 }
