@@ -4,6 +4,8 @@ plugins {
     id("com.gradle.plugin-publish") version "1.2.1"
 }
 
+group = "org.plan.research" // TODO: org.jetbrains.research(.plan) ?
+
 dependencies {
     implementation(project(":kotlinx.fuzz.api"))
 
@@ -27,7 +29,7 @@ gradlePlugin {
             displayName = "kotlinx.fuzz Gradle plugin"
             description = "Gradle plugin for using kotlinx.fuzz"
             tags = listOf("testing", "fuzzing")
-            implementationClass = "kotlinx.fuzz.gradle.MainPlugin"
+            implementationClass = "kotlinx.fuzz.gradle.KFuzzPlugin"
         }
     }
 }

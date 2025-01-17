@@ -8,6 +8,10 @@ import org.gradle.kotlin.dsl.register
 
 abstract class KFuzzPlugin : Plugin<Project> {
     override fun apply(project: Project) {
+        project.dependencies.add(
+            "testImplementation",
+            "org.plan.research:kotlinx.fuzz.api"
+        )
         project.tasks.register<FuzzTask>("fuzz") {
             useJUnitPlatform {
                 includeEngines("kotlinx.fuzz-test")
