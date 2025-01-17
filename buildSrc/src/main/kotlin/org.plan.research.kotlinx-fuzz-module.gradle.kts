@@ -13,9 +13,9 @@ repositories {
 }
 
 dependencies {
+    implementation("io.github.oshai:kotlin-logging-jvm:$KOTLIN_LOGGING_VERSION")
+    implementation("ch.qos.logback:logback-classic:$LOGBACK_VERSION")
     testImplementation(kotlin("test"))
-    testImplementation("io.github.oshai:kotlin-logging-jvm:$KOTLIN_LOGGING_VERSION")
-    testImplementation("ch.qos.logback:logback-classic:$LOGBACK_VERSION")
 }
 
 kotlin {
