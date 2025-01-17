@@ -27,6 +27,7 @@ class JazzerEngine(private val config: KFuzzConfig) : KFuzzEngine {
         Opt.instrumentationIncludes.setIfDefault(config.instrument)
         Opt.customHookIncludes.setIfDefault(config.instrument)
         Opt.customHookExcludes.setIfDefault(config.customHookExcludes)
+        Opt.coverageDump.setIfDefault(config.resultDir.resolve("coverage.exec").toString())
 
         AgentInstaller.install(Opt.hooks.get())
 
