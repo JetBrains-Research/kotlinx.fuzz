@@ -35,6 +35,15 @@ abstract class KFuzzPlugin : Plugin<Project> {
                 includeEngines("kotlinx.fuzz")
             }
         }
+
+        project.tasks.register<ParseLogsToCsvTask>("parse-fuzz-logs") {
+            mustRunAfter("fuzz")
+
+            val resultDir = FuzzConfig.fromSystemProperties().resultDir
+            inputDirectory.set(resultDir.resolve("logs").toFile())
+            statsDirectory.set(resultDir.resolve("stats").toFile())
+            crashesDirectory.set(resultDir.resolve("crashes").toFile())
+        }
     }
 }
 
