@@ -42,24 +42,25 @@ tasks.test {
 tasks.register("setLoggingProperties") {
     val logback = rootProject.file("logback.xml")
     val backupFile = rootProject.file("logback.xml.bak")
-
     doFirst {
-        if (!backupFile.exists()) {
+        if (!rootProject.extra.has("logbackModified") || rootProject.extra["logbackModified"] == 0) {
+            rootProject.extra["logbackModified"] = 0
             logback.copyTo(backupFile, overwrite = true)
+            val envValue = System.getProperty("KOTLINX_FUZZ_LOGGING_LEVEL", "OFF")
+            val oldContent = logback.readText().split("<configuration>\n")
+            logback.writeText(
+                "${oldContent[0]}<configuration>\n<property name=\"KOTLINX_FUZZ_LOGGING_LEVEL\" value=\"$envValue\"/>\n${oldContent[1]}"
+            )
         }
-
-        val envValue = System.getenv("KOTLINX_FUZZ_LOGGING_LEVEL") ?: "OFF"
-        val oldContent = logback.readText().split("<configuration>\n")
-        logback.writeText(
-            "${oldContent[0]}<configuration>\n<property name=\"KOTLINX_FUZZ_LOGGING_LEVEL\" value=\"$envValue\"/>\n${oldContent[1]}"
-        )
+        rootProject.extra["logbackModified"] = rootProject.extra["logbackModified"] as Int + 1
     }
 
     doLast {
-        if (backupFile.exists()) {
+        if (rootProject.extra["logbackModified"] == 1) {
             backupFile.copyTo(logback, overwrite = true)
             backupFile.delete()
         }
+        rootProject.extra["logbackModified"] = rootProject.extra["logbackModified"] as Int - 1
     }
 }
 
