@@ -2,6 +2,7 @@ rootProject.name = "kotlinx.fuzz"
 include("kotlinx.fuzz.api")
 include("kotlinx.fuzz.jazzer")
 include("kotlinx.fuzz.gradle")
+includeBuild("kotlinx.fuzz.test")
 
 // examples
 include("kotlinx.fuzz.examples")
