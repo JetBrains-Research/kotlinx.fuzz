@@ -6,6 +6,7 @@ import com.code_intelligence.jazzer.driver.FuzzTargetRunner
 import com.code_intelligence.jazzer.driver.LifecycleMethodsInvoker
 import com.code_intelligence.jazzer.driver.Opt
 import com.code_intelligence.jazzer.utils.Log
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.fuzz.FuzzConfig
 import kotlinx.fuzz.KFuzzEngine
 import java.lang.invoke.MethodHandles
@@ -19,6 +20,7 @@ import kotlin.reflect.jvm.javaMethod
 
 class JazzerEngine(private val config: FuzzConfig): KFuzzEngine {
     private val jazzerConfig = JazzerConfig.fromSystemProperties()
+    private val logger = KotlinLogging.logger {}
 
     override fun initialise() {
         Log.fixOutErr(System.out, System.err)
