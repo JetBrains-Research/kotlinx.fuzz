@@ -36,13 +36,21 @@ abstract class KFuzzPlugin : Plugin<Project> {
             }
         }
 
+        val resultDir = FuzzConfig.fromSystemProperties().resultDir
+
         project.tasks.register<ParseLogsToCsvTask>("parse-fuzz-logs") {
             mustRunAfter("fuzz")
 
-            val resultDir = FuzzConfig.fromSystemProperties().resultDir
             inputDirectory.set(resultDir.resolve("logs").toFile())
             statsDirectory.set(resultDir.resolve("stats").toFile())
             crashesDirectory.set(resultDir.resolve("crashes").toFile())
+        }
+
+        project.tasks.register<OverallStatsTask>("overall-stats") {
+            mustRunAfter("parse-fuzz-logs")
+
+            inputDir.set(resultDir.resolve("stats").toFile())
+            outputFile.set(resultDir.resolve("overall-stats.csv"))
         }
     }
 }

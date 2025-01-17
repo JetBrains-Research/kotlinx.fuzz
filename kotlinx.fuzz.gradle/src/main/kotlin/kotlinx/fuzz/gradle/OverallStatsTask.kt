@@ -1,15 +1,29 @@
 package kotlinx.fuzz.gradle
 
+import org.gradle.api.DefaultTask
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.OutputFile
+import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.nio.file.Path
-import kotlin.io.path.appendLines
-import kotlin.io.path.extension
-import kotlin.io.path.listDirectoryEntries
-import kotlin.io.path.nameWithoutExtension
-import kotlin.io.path.readLines
-import kotlin.io.path.writeText
+import kotlin.io.path.*
 
-class OverallStatsTask {
+abstract class OverallStatsTask : DefaultTask() {
+
+    @get:InputDirectory
+    abstract val inputDir: DirectoryProperty
+
+    @get:OutputFile
+    abstract val outputFile: Property<Path>
+
+    @TaskAction
+    fun calculateOverallStats() {
+        processCsvFiles(inputDir.get().asFile.toPath(), outputFile.get())
+    }
+
+
     companion object {
         fun processCsvFiles(inputDir: Path, outputFile: Path) {
             val collectedRows = mutableListOf<List<String>>()
