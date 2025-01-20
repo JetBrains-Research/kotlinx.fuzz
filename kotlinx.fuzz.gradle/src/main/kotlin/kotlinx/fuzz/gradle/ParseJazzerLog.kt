@@ -1,6 +1,5 @@
 package kotlinx.fuzz.gradle
 
-import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.forEachLine
 import kotlin.reflect.full.memberProperties
@@ -34,14 +33,14 @@ private data class CrashEntryNoTimestamp(
     val execNr: Int,
     val inputPath: String,
 ) {
-    fun withTimestamp(timeSeconds: Long): CrashEnty = CrashEnty(
+    fun withTimestamp(timeSeconds: Long): CrashEntry = CrashEntry(
         timeSeconds = timeSeconds,
         execNr = execNr,
         inputPath = inputPath,
     )
 }
 
-private data class CrashEnty(
+private data class CrashEntry(
     val timeSeconds: Long,
     val execNr: Int,
     val inputPath: String

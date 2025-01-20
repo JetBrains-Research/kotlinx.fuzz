@@ -6,7 +6,6 @@ import org.gradle.api.provider.Property
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
-import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.*
 
@@ -25,7 +24,7 @@ abstract class OverallStatsTask : DefaultTask() {
 
 
     companion object {
-        fun processCsvFiles(inputDir: Path, outputFile: Path) {
+        private fun processCsvFiles(inputDir: Path, outputFile: Path) {
             val collectedRows = mutableListOf<List<String>>()
             var headerRow: List<String>? = null
 
@@ -56,7 +55,7 @@ abstract class OverallStatsTask : DefaultTask() {
                 outputFile.writeText(headerRow.joinToString(separator = ",", postfix = "\n"))
                 outputFile.appendLines(collectedRows.map { it.joinToString(separator = ",") })
             } else {
-                error("")
+                error("Can't compute overall stats: no CSV files found in $inputDir or no data rows found in any of them")
             }
         }
     }
