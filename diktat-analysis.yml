@@ -177,3 +177,9 @@
 - name: DEBUG_PRINT
   enabled: true
   ignoreAnnotated: [ LoggerImpl ]
+- name: WRONG_NAME_OF_VARIABLE_INSIDE_ACCESSOR
+  enabled: false
+- name: EMPTY_BLOCK_STRUCTURE_ERROR
+  enabled: false
+- name: KDOC_NO_CLASS_BODY_PROPERTIES_IN_HEADER
+  enabled: false

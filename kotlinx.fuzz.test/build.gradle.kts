@@ -1,4 +1,4 @@
-import kotlinx.fuzz.gradle.fuzzConfig
+import kotlinx.fuzz.config.CoverageReportType
 import kotlin.time.Duration.Companion.seconds
 
 plugins {
@@ -26,17 +26,14 @@ fuzzConfig {
         "kotlinx.collections.immutable.**",
         "kotlinx.serialization.**",
     )
-    maxSingleTargetFuzzTime = 10.seconds
-}
-
-jacocoReport {
-    csv = true
-    html = true
-    xml = true
-    includeDependencies = setOf(
-        "org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm",
-        "org.jetbrains.kotlinx:kotlinx-serialization-protobuf-jvm",
-    )
+    maxFuzzTimePerTarget = 10.seconds
+    coverage {
+        reportTypes = setOf(CoverageReportType.HTML, CoverageReportType.CSV)
+        includeDependencies = setOf(
+            "org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm",
+            "org.jetbrains.kotlinx:kotlinx-serialization-protobuf-jvm",
+        )
+    }
 }
 
 kotlin {
