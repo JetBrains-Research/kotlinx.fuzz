@@ -13,7 +13,7 @@ dependencies {
     implementation(libs.junit.platform.engine)
     implementation(libs.jacoco.core)
     implementation(libs.jacoco.report)
-
+    implementation(libs.kotlinpoet)
 
     testImplementation(libs.junit.platform.testkit)
     testImplementation(libs.junit.jupiter)

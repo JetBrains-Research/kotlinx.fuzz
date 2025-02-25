@@ -1,6 +1,7 @@
 [versions]
 kotlin = "2.0.21"
 diktat = "2.0.0"
+
 jazzer = "0.22.1"
 
 plan-jazzer = "0.0.3"
@@ -20,6 +21,7 @@ commons-cli = "1.9.0"
 jsoup = "1.18.1"
 
 rgxgen = "2.0"
+kotlinpoet = "2.0.0"
 
 gradle-publish = "1.2.1"
 jacoco = "0.8.12"
@@ -33,14 +35,13 @@ diktat-gradle-plugin = { module = "com.saveourtool.diktat:diktat-gradle-plugin",
 jazzer = { module = "com.code-intelligence:jazzer", version.ref = "jazzer" }
 jazzer-junit = { module = "com.code-intelligence:jazzer-junit", version.ref = "jazzer" }
 jazzer-api = { module = "com.code-intelligence:jazzer-api", version.ref = "jazzer" }
+
 plan-jazzer = { module = "org.jetbrains:jazzer", version.ref = "plan-jazzer" }
 plan-jazzer-junit = { module = "org.jetbrains:jazzer-junit", version.ref = "plan-jazzer" }
 plan-jazzer-api = { module = "org.jetbrains:jazzer-api", version.ref = "plan-jazzer" }
-
 casr-adapter = { module = "org.jetbrains:casr-adapter", version.ref = "casr-adapter" }
 
 reflections = { module = "org.reflections:reflections", version.ref = "reflections" }
-
 kotlinx-cli = { module = "org.jetbrains.kotlinx:kotlinx-cli", version.ref = "kotlinx-cli" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
@@ -51,13 +52,15 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 kotlinx-serialization-cbor = { module = "org.jetbrains.kotlinx:kotlinx-serialization-cbor", version.ref = "kotlinx-serialization" }
 kotlinx-serialization-properties = { module = "org.jetbrains.kotlinx:kotlinx-serialization-properties", version.ref = "kotlinx-serialization" }
 kotlinx-serialization-protobuf = { module = "org.jetbrains.kotlinx:kotlinx-serialization-protobuf", version.ref = "kotlinx-serialization" }
-jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 commons-cli = { module = "commons-cli:commons-cli", version.ref = "commons-cli" }
+jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 
 junit-platform-engine = { module = "org.junit.platform:junit-platform-engine", version.ref = "junit-platform" }
 junit-platform-testkit = { module = "org.junit.platform:junit-platform-testkit", version.ref = "junit-platform" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
+
 rgxgen = { module = "com.github.curious-odd-man:rgxgen", version.ref = "rgxgen" }
+kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
 
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 

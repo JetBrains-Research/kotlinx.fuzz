@@ -19,6 +19,7 @@ import kotlinx.fuzz.SystemProperty
 import kotlinx.fuzz.addAnnotationParams
 import kotlinx.fuzz.log.LoggerFacade
 import kotlinx.fuzz.log.error
+import kotlinx.fuzz.reproduction.CrashReproducer
 
 internal val Method.fullName: String
     get() = "${this.declaringClass.name}.${this.name}"
@@ -36,6 +37,11 @@ internal val KFuzzConfig.exceptionsDir: Path
 class JazzerEngine(private val config: KFuzzConfig) : KFuzzEngine {
     private val log = LoggerFacade.getLogger<JazzerEngine>()
     private val jazzerConfig = JazzerConfig.fromSystemProperties()
+    private lateinit var crashReproducer: CrashReproducer
+
+    override fun setReproducer(reproducer: CrashReproducer) {
+        crashReproducer = reproducer
+    }
 
     override fun initialise() {
         config.corpusDir.createDirectories()
@@ -115,15 +121,24 @@ class JazzerEngine(private val config: KFuzzConfig) : KFuzzEngine {
             .forEach { (clusterDir, stacktraceFile) ->
                 val crashFileName = "crash-${stacktraceFile.name.removePrefix("stacktrace-")}"
                 val crashFile = clusterDir.parent.resolve(crashFileName)
-                val targetFile = clusterDir.resolve(crashFileName)
+                val targetCrashFile = clusterDir.resolve(crashFileName)
 
-                if (targetFile.exists() || !crashFile.exists()) {
+                if (targetCrashFile.exists() || !crashFile.exists()) {
                     return@forEach
                 }
 
-                crashFile.copyTo(targetFile, overwrite = true)
+                crashFile.copyTo(targetCrashFile, overwrite = true)
                 if (!clusterDir.name.endsWith(crashFileName.removePrefix("crash-"))) {
                     crashesForDeletion.add(crashFile)
+                    crashReproducer.writeToFile(
+                        crashFile.readBytes(),
+                        clusterDir.resolve("reproducer-${crashFileName.removePrefix("crash-")}.kt"),
+                    )
+                } else {
+                    crashReproducer.writeToFile(
+                        crashFile.readBytes(),
+                        clusterDir.parent.resolve("reproducer-${crashFileName.removePrefix("crash-")}.kt"),
+                    )
                 }
             }
         crashesForDeletion.forEach { it.deleteIfExists() }
