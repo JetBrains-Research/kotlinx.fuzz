@@ -1,7 +1,10 @@
 package kotlinx.fuzz
 
 import java.nio.file.Path
-import kotlin.io.path.*
+import kotlin.io.path.Path
+import kotlin.io.path.absolute
+import kotlin.io.path.absolutePathString
+import kotlin.math.max
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 import kotlin.reflect.KProperty1
@@ -27,6 +30,7 @@ import kotlin.time.Duration.Companion.seconds
  * Default: empty list
  * @param maxSingleTargetFuzzTime - max time to fuzz a single target. Default: 1 minute
  * @param reproducerPath - Path to store reproducers. Default: `$workDir/reproducers`
+ * @param threads - Number of cpu threads to use for executing targets in parallel. Default `threads available for jvm / 2`, usually half of logical threads
  */
 interface KFuzzConfig {
     val fuzzEngine: String
@@ -39,6 +43,7 @@ interface KFuzzConfig {
     val dumpCoverage: Boolean
     val reproducerPath: Path
     val logLevel: String
+    val threads: Int
 
     fun toPropertiesMap(): Map<String, String>
 
@@ -111,6 +116,13 @@ class KFuzzConfigImpl private constructor() : KFuzzConfig {
         toString = { it },
         fromString = { it },
     )
+    override var threads: Int by KFuzzConfigProperty(
+        SystemProperty.THREADS,
+        defaultValue = max(1, Runtime.getRuntime().availableProcessors() / 2),
+        validate = { require(it > 0) { "'threads' must be positive" } },
+        toString = { it.toString() },
+        fromString = { it.toInt() },
+    )
 
     override fun toPropertiesMap(): Map<String, String> = configProperties()
         .associate { it.systemProperty.name to it.stringValue }
@@ -149,16 +161,19 @@ class KFuzzConfigImpl private constructor() : KFuzzConfig {
             }
         }
 
-        internal fun fromPropertiesMap(properties: Map<String, String>): KFuzzConfigImpl = wrapConfigErrors {
-            KFuzzConfigImpl().apply {
-                configProperties().forEach {
-                    val propertyKey = it.systemProperty.name
-                    it.setFromString(properties[propertyKey] ?: error("map missing property $propertyKey"))
+        internal fun fromPropertiesMap(properties: Map<String, String>): KFuzzConfigImpl =
+            wrapConfigErrors {
+                KFuzzConfigImpl().apply {
+                    configProperties().forEach {
+                        val propertyKey = it.systemProperty.name
+                        it.setFromString(
+                            properties[propertyKey] ?: error("map missing property $propertyKey"),
+                        )
+                    }
+                    assertAllSet()
+                    validate()
                 }
-                assertAllSet()
-                validate()
             }
-        }
 
         internal fun fromAnotherConfig(
             config: KFuzzConfig,

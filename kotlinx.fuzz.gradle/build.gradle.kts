@@ -13,6 +13,7 @@ dependencies {
     implementation(libs.junit.platform.engine)
     implementation(libs.jacoco.core)
     implementation(libs.jacoco.report)
+    implementation(libs.kotlinx.coroutines)
 
 
     testImplementation(libs.junit.platform.testkit)
