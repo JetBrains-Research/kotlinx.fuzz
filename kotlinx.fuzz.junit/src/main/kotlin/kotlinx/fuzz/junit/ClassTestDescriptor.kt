@@ -1,8 +1,7 @@
 package kotlinx.fuzz.junit
 
 import kotlinx.fuzz.KFuzzConfig
-import kotlinx.fuzz.KFuzzTest
-import org.junit.platform.commons.util.AnnotationUtils
+import kotlinx.fuzz.junit.KotlinxFuzzJunitEngine.Companion.isFuzzTarget
 import org.junit.platform.commons.util.ReflectionUtils
 import org.junit.platform.engine.TestDescriptor
 import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor
@@ -13,6 +12,7 @@ internal class ClassTestDescriptor(
     parent: TestDescriptor,
     private val config: KFuzzConfig,
     private val isRegression: Boolean,
+    supportJazzerTargets: Boolean,
 ) : AbstractTestDescriptor(
     parent.uniqueId.append("class", testClass.getName()),
     testClass.getSimpleName(),
@@ -20,13 +20,13 @@ internal class ClassTestDescriptor(
 ) {
     init {
         setParent(parent)
-        addAllChildren()
+        addAllChildren(supportJazzerTargets)
     }
 
-    private fun addAllChildren() {
+    private fun addAllChildren(supportJazzerTargets: Boolean) {
         ReflectionUtils.findMethods(
             testClass,
-            { method -> AnnotationUtils.isAnnotated(method, KFuzzTest::class.java) },
+            { method -> method.isFuzzTarget(supportJazzerTargets) },
             ReflectionUtils.HierarchyTraversalMode.TOP_DOWN,
         )
             .map { method ->

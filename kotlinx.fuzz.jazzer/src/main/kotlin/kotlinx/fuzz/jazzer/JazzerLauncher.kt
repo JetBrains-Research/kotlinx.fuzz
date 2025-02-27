@@ -18,6 +18,7 @@ import kotlin.reflect.full.primaryConstructor
 import kotlin.reflect.jvm.javaMethod
 import kotlin.system.exitProcess
 import kotlinx.fuzz.KFuzzConfig
+import kotlinx.fuzz.KFuzzTest
 import kotlinx.fuzz.log.LoggerFacade
 import kotlinx.fuzz.log.debug
 import kotlinx.fuzz.log.error
@@ -110,7 +111,14 @@ object JazzerLauncher {
             stopFuzzing
         }
 
-        JazzerTarget.reset(MethodHandles.lookup().unreflect(method), instance)
+        if (method.isAnnotationPresent(KFuzzTest::class.java)) {
+            JazzerTarget.reset(MethodHandles.lookup().unreflect(method), instance)
+        } else {
+            log.error { "Using legacy target" }
+            FuzzTargetHolder.fuzzTarget = FuzzTargetHolder.FuzzTarget(
+                method, LifecycleMethodsInvoker.noop(instance),
+            )
+        }
         FuzzTargetRunner.startLibFuzzer(libFuzzerArgs)
 
         return atomicFinding.get()

@@ -17,6 +17,8 @@ dependencies {
     testRuntimeOnly("org.jetbrains:kotlinx.fuzz.jazzer")
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.8")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.7.3")
+
+    testImplementation("org.jetbrains:jazzer-junit:0.0.3")
 }
 
 fuzzConfig {
@@ -27,6 +29,7 @@ fuzzConfig {
         "kotlinx.serialization.**",
     )
     maxSingleTargetFuzzTime = 10.seconds
+    supportJazzerTargets = true
 }
 
 jacocoReport {

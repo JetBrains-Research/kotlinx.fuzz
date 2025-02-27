@@ -31,6 +31,7 @@ import kotlin.time.Duration.Companion.seconds
  * @param maxSingleTargetFuzzTime - max time to fuzz a single target. Default: 1 minute
  * @param reproducerPath - Path to store reproducers. Default: `$workDir/reproducers`
  * @param threads - Number of cpu threads to use for executing targets in parallel. Default `threads available for jvm / 2`, usually half of logical threads
+ * @param supportJazzerTargets - Support fuzz targets written for Jazzer. Only works with the "jazzer" fuzz engine. Default: false
  */
 interface KFuzzConfig {
     val fuzzEngine: String
@@ -44,6 +45,7 @@ interface KFuzzConfig {
     val reproducerPath: Path
     val logLevel: String
     val threads: Int
+    val supportJazzerTargets: Boolean
 
     fun toPropertiesMap(): Map<String, String>
 
@@ -122,6 +124,13 @@ class KFuzzConfigImpl private constructor() : KFuzzConfig {
         validate = { require(it > 0) { "'threads' must be positive" } },
         toString = { it.toString() },
         fromString = { it.toInt() },
+    )
+    override var supportJazzerTargets: Boolean by KFuzzConfigProperty(
+        SystemProperty.SUPPORT_JAZZER_TARGETS,
+        defaultValue = false,
+        validate = { require(it == false || fuzzEngine == "jazzer") { "'supportJazzerTargets' can only be set to true if 'fuzzEngine' is 'jazzer'" } },
+        toString = { it.toString() },
+        fromString = { it.toBooleanStrict() },
     )
 
     override fun toPropertiesMap(): Map<String, String> = configProperties()

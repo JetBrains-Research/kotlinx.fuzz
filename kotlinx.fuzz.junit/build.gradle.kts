@@ -12,6 +12,7 @@ dependencies {
     implementation(libs.slf4j.api)
     implementation(libs.junit.platform.engine)
     implementation(libs.kotlinx.coroutines)
+    implementation(libs.plan.jazzer.junit)
 
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.junit.platform.testkit)

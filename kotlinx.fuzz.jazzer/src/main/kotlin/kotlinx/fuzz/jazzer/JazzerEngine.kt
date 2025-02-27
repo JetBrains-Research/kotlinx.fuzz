@@ -12,11 +12,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.concurrent.thread
 import kotlin.io.path.*
-import kotlinx.fuzz.KFuzzConfig
-import kotlinx.fuzz.KFuzzEngine
-import kotlinx.fuzz.KFuzzTest
-import kotlinx.fuzz.SystemProperty
-import kotlinx.fuzz.addAnnotationParams
+import kotlinx.fuzz.*
 import kotlinx.fuzz.log.LoggerFacade
 import kotlinx.fuzz.log.error
 
@@ -43,7 +39,8 @@ class JazzerEngine(private val config: KFuzzConfig) : KFuzzEngine {
         config.exceptionsDir.createDirectories()
     }
 
-    private fun isDebugMode(): Boolean = ManagementFactory.getRuntimeMXBean().inputArguments.any { it.contains("-agentlib:jdwp") }
+    private fun isDebugMode(): Boolean =
+        ManagementFactory.getRuntimeMXBean().inputArguments.any { it.contains("-agentlib:jdwp") }
 
     private fun getDebugSetup(intellijDebuggerDispatchPort: Int, method: Method): List<String> {
         val port = ServerSocket(0).use { it.localPort }
@@ -68,19 +65,19 @@ class JazzerEngine(private val config: KFuzzConfig) : KFuzzEngine {
 
         // TODO: pass the config explicitly rather than through system properties
         val config = KFuzzConfig.fromSystemProperties()
-        val methodConfig = config.addAnnotationParams(method.getAnnotation(KFuzzTest::class.java))
-        val propertiesList = methodConfig.toPropertiesMap().map { (property, value) -> "-D$property=$value" }
+        val methodConfig = method.getAnnotation(KFuzzTest::class.java)?.let { annotation ->
+            config.addAnnotationParams(annotation)
+        } ?: config
 
-        val debugOptions = if (isDebugMode()) {
-            getDebugSetup(SystemProperty.INTELLIJ_DEBUGGER_DISPATCH_PORT.get()!!.toInt(), method)
-        } else {
-            emptyList()
-        }
+        val propertiesList =
+            methodConfig.toPropertiesMap().map { (property, value) -> "-D$property=$value" }
+
+        val debugOptions = getDebugOptions(method)
 
         val exitCode = ProcessBuilder(
             javaCommand,
             "-classpath", classpath,
-            *debugOptions.toTypedArray(),
+            *debugOptions,
             *propertiesList.toTypedArray(),
             JazzerLauncher::class.qualifiedName!!,
             method.declaringClass.name, method.name,
@@ -100,6 +97,12 @@ class JazzerEngine(private val config: KFuzzConfig) : KFuzzEngine {
             }
         }
     }
+
+    private fun getDebugOptions(method: Method): Array<String> = if (isDebugMode()) {
+        getDebugSetup(SystemProperty.INTELLIJ_DEBUGGER_DISPATCH_PORT.get()!!.toInt(), method)
+    } else {
+        emptyList()
+    }.toTypedArray()
 
     override fun finishExecution() {
         collectStatistics()

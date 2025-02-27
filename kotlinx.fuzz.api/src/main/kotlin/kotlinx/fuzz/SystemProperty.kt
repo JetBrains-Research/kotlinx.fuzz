@@ -14,6 +14,7 @@ enum class SystemProperty(name: String) {
     MAX_SINGLE_TARGET_FUZZ_TIME("kotlinx.fuzz.maxSingleTargetFuzzTime"),
     REGRESSION("kotlinx.fuzz.regression"),
     REPRODUCER_PATH("kotlinx.fuzz.reproducerPath"),
+    SUPPORT_JAZZER_TARGETS("kotlinx.fuzz.supportJazzerTargets"),
     THREADS("kotlinx.fuzz.threads"),
     WORK_DIR("kotlinx.fuzz.workDir"),
     ;
