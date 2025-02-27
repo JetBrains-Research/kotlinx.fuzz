@@ -1,4 +1,4 @@
-package kotlinx.fuzz.gradle.junit.test
+package kotlinx.fuzz.junit.test
 
 import kotlin.reflect.KFunction
 import kotlin.test.assertEquals

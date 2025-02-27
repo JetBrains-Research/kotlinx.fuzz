@@ -1,4 +1,4 @@
-package kotlinx.fuzz.gradle.junit
+package kotlinx.fuzz.junit
 
 import java.lang.reflect.Method
 import org.junit.platform.engine.TestDescriptor

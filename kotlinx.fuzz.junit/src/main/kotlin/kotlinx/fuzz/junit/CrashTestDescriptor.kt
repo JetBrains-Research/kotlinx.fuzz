@@ -1,4 +1,4 @@
-package kotlinx.fuzz.gradle.junit
+package kotlinx.fuzz.junit
 
 import java.lang.reflect.Method
 import java.nio.file.Path

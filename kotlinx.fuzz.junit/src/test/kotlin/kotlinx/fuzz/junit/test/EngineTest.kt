@@ -1,12 +1,13 @@
-package kotlinx.fuzz.gradle.junit.test
+package kotlinx.fuzz.junit.test
 
 import java.io.File
+import kotlin.io.path.createTempDirectory
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.fuzz.IgnoreFailures
+import kotlinx.fuzz.KFuzzConfigImpl
 import kotlinx.fuzz.KFuzzTest
 import kotlinx.fuzz.KFuzzer
-import kotlinx.fuzz.gradle.KFuzzConfigBuilder
-import kotlinx.fuzz.gradle.junit.KotlinxFuzzJunitEngine
+import kotlinx.fuzz.junit.KotlinxFuzzJunitEngine
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.platform.engine.discovery.DiscoverySelectors.selectClass
@@ -81,7 +82,7 @@ object EngineTest {
         writeToSystemProperties {
             maxSingleTargetFuzzTime = 5.seconds
             instrument = listOf("kotlinx.fuzz.test.**")
-            workDir = kotlin.io.path.createTempDirectory("fuzz-test")
+            workDir = createTempDirectory("fuzz-test")
             reproducerPath = workDir.resolve("reproducers")
             keepGoing = 2
         }
@@ -104,7 +105,7 @@ object EngineTest {
     }
 }
 
-fun writeToSystemProperties(block: KFuzzConfigBuilder.() -> Unit) {
-    KFuzzConfigBuilder.build(block).toPropertiesMap()
+internal fun writeToSystemProperties(block: KFuzzConfigImpl.() -> Unit) {
+    KFuzzConfigImpl.build(block).toPropertiesMap()
         .forEach { (key, value) -> System.setProperty(key, value) }
 }
