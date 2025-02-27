@@ -9,6 +9,7 @@ import kotlinx.fuzz.log.LoggerFacade
 import kotlinx.fuzz.log.debug
 import kotlinx.fuzz.log.info
 import kotlinx.fuzz.regression.RegressionEngine
+import kotlinx.fuzz.reproduction.ListAnyReproducerWriter
 import org.junit.platform.commons.support.AnnotationSupport
 import org.junit.platform.commons.support.HierarchyTraversalMode
 import org.junit.platform.commons.support.ReflectionSupport
@@ -107,6 +108,8 @@ internal class KotlinxFuzzJunitEngine : TestEngine {
                 request.engineExecutionListener.executionStarted(descriptor)
                 val method = descriptor.testMethod
                 val instance = method.declaringClass.kotlin.testInstance()
+
+                fuzzEngine.setReproducer(ListAnyReproducerWriter(JunitReproducerTemplate(instance, method), instance, method))
 
                 val finding = fuzzEngine.runTarget(instance, method)
                 val result = handleFinding(finding, method)

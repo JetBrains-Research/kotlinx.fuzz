@@ -14,7 +14,7 @@ dependencies {
     implementation(libs.jacoco.core)
     implementation(libs.jacoco.report)
     implementation(libs.kotlinx.coroutines)
-
+    implementation(libs.kotlinpoet)
 
     testImplementation(libs.junit.platform.testkit)
     testImplementation(libs.junit.jupiter)
