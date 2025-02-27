@@ -5,6 +5,7 @@ import java.net.URI
 import kotlin.reflect.KClass
 import kotlinx.coroutines.*
 import kotlinx.fuzz.*
+import kotlinx.fuzz.config.*
 import kotlinx.fuzz.log.LoggerFacade
 import kotlinx.fuzz.log.debug
 import kotlinx.fuzz.log.info
@@ -28,16 +29,12 @@ internal class KotlinxFuzzJunitEngine : TestEngine {
         KFuzzConfig.fromSystemProperties()
     }
     private val fuzzEngine: KFuzzEngine by lazy {
-        when (config.fuzzEngine) {
-            "jazzer" -> Class.forName("kotlinx.fuzz.jazzer.JazzerEngine")
+        when (config.engine) {
+            is JazzerConfig -> Class.forName("kotlinx.fuzz.jazzer.JazzerEngine")
                 .getConstructor(KFuzzConfig::class.java).newInstance(config) as KFuzzEngine
-
-            else -> throw AssertionError("Unsupported fuzzer engine!")
         }
     }
-    private val isRegression: Boolean by lazy {
-        SystemProperty.REGRESSION.get().toBooleanOrFalse()
-    }
+    private val isRegression: Boolean by lazy { config.global.regressionEnabled }
 
     override fun getId(): String = "kotlinx.fuzz"
 
@@ -69,7 +66,7 @@ internal class KotlinxFuzzJunitEngine : TestEngine {
         val root = request.rootTestDescriptor
         fuzzEngine.initialise()
 
-        val dispatcher = Dispatchers.Default.limitedParallelism(config.threads, "kotlinx.fuzz")
+        val dispatcher = Dispatchers.Default.limitedParallelism(config.global.threads, "kotlinx.fuzz")
         runBlocking(dispatcher) {
             root.children.map { child -> async { executeImpl(request, child) } }.awaitAll()
         }

@@ -1,7 +1,7 @@
 package kotlinx.fuzz.gradle.junit
 
-import kotlinx.fuzz.KFuzzConfig
 import kotlinx.fuzz.KFuzzTest
+import kotlinx.fuzz.config.KFuzzConfig
 import org.junit.platform.commons.util.AnnotationUtils
 import org.junit.platform.commons.util.ReflectionUtils
 import org.junit.platform.engine.TestDescriptor

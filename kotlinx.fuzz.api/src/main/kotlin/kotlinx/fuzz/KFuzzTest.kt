@@ -1,6 +1,9 @@
 package kotlinx.fuzz
 
 import kotlin.time.Duration
+import kotlinx.fuzz.config.KFuzzConfig
+import kotlinx.fuzz.config.KFuzzConfigBuilder
+import kotlinx.fuzz.config.TargetConfig
 import org.junit.platform.commons.annotation.Testable
 
 /**
@@ -20,31 +23,32 @@ import org.junit.platform.commons.annotation.Testable
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.ANNOTATION_CLASS)
 @Testable
 annotation class KFuzzTest(
-    val keepGoing: Long = KFuzzConfigImpl.Companion.Defaults.KEEP_GOING,
-    val maxFuzzTime: String = KFuzzConfigImpl.Companion.Defaults.MAX_SINGLE_TARGET_FUZZ_TIME_STRING,
+    val keepGoing: Long = TargetConfig.Defaults.KEEP_GOING,
+    val maxFuzzTime: String = TargetConfig.Defaults.MAX_FUZZ_TIME_STRING,
     val instrument: Array<String> = [],
     val customHookExcludes: Array<String> = [],
-    val dumpCoverage: Boolean = KFuzzConfigImpl.Companion.Defaults.DUMP_COVERAGE,
+    val dumpCoverage: Boolean = TargetConfig.Defaults.DUMP_COVERAGE,
 )
 
-fun KFuzzConfig.addAnnotationParams(annotation: KFuzzTest): KFuzzConfig = KFuzzConfigImpl.fromAnotherConfig(this) {
-    keepGoing = newUnlessDefault(
-        old = this@addAnnotationParams.keepGoing,
-        new = annotation.keepGoing,
-        default = KFuzzConfigImpl.Companion.Defaults.KEEP_GOING,
-    )
-    maxSingleTargetFuzzTime = newUnlessDefault(
-        old = this@addAnnotationParams.maxSingleTargetFuzzTime,
-        new = Duration.parse(annotation.maxFuzzTime),
-        default = Duration.parse(KFuzzConfigImpl.Companion.Defaults.MAX_SINGLE_TARGET_FUZZ_TIME_STRING),
-    )
-    instrument = this@addAnnotationParams.instrument + annotation.instrument
-    customHookExcludes = this@addAnnotationParams.customHookExcludes + annotation.customHookExcludes
-    dumpCoverage = newUnlessDefault(
-        old = this@addAnnotationParams.dumpCoverage,
-        new = annotation.dumpCoverage,
-        default = KFuzzConfigImpl.Companion.Defaults.DUMP_COVERAGE,
-    )
-}
+fun KFuzzConfig.addAnnotationParams(annotation: KFuzzTest): KFuzzConfig = KFuzzConfigBuilder.fromAnotherConfig(this)
+    .editOverride {
+        target.keepGoing = newUnlessDefault(
+            old = this@addAnnotationParams.target.keepGoing,
+            new = annotation.keepGoing,
+            default = TargetConfig.Defaults.KEEP_GOING,
+        )
+        target.maxFuzzTime = newUnlessDefault(
+            old = this@addAnnotationParams.target.maxFuzzTime,
+            new = Duration.parse(annotation.maxFuzzTime),
+            default = Duration.parse(TargetConfig.Defaults.MAX_FUZZ_TIME_STRING),
+        )
+        global.instrument = this@addAnnotationParams.global.instrument + annotation.instrument
+        global.customHookExcludes = this@addAnnotationParams.global.customHookExcludes + annotation.customHookExcludes
+        target.dumpCoverage = newUnlessDefault(
+            old = this@addAnnotationParams.target.dumpCoverage,
+            new = annotation.dumpCoverage,
+            default = TargetConfig.Defaults.DUMP_COVERAGE,
+        )
+    }.build()
 
 private fun <T> newUnlessDefault(old: T, new: T, default: T): T = if (new == default) old else new

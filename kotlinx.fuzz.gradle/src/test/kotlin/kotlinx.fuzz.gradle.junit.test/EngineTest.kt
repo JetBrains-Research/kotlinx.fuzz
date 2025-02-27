@@ -5,8 +5,9 @@ import kotlin.time.Duration.Companion.seconds
 import kotlinx.fuzz.IgnoreFailures
 import kotlinx.fuzz.KFuzzTest
 import kotlinx.fuzz.KFuzzer
-import kotlinx.fuzz.gradle.KFuzzConfigBuilder
+import kotlinx.fuzz.config.KFuzzConfigBuilder
 import kotlinx.fuzz.gradle.junit.KotlinxFuzzJunitEngine
+import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.platform.engine.discovery.DiscoverySelectors.selectClass
@@ -79,11 +80,12 @@ object EngineTest {
     @BeforeEach
     fun setup() {
         writeToSystemProperties {
-            maxSingleTargetFuzzTime = 5.seconds
-            instrument = listOf("kotlinx.fuzz.test.**")
-            workDir = kotlin.io.path.createTempDirectory("fuzz-test")
-            reproducerPath = workDir.resolve("reproducers")
-            keepGoing = 2
+            // subtle check that getValue() works before build()
+            global.workDir = kotlin.io.path.createTempDirectory("fuzz-test")
+            global.reproducerDir = global.workDir.resolve("reproducers")
+            target.maxFuzzTime = 5.seconds
+            global.instrument = listOf("kotlinx.fuzz.test.**")
+            target.keepGoing = 2
         }
     }
 
@@ -102,9 +104,26 @@ object EngineTest {
                 it.started(startedTests).succeeded(successTests).failed(failedTests)
             }
     }
+
+    // without cleanup, KFuzzConfigTest fails hehe
+    @AfterAll
+    @JvmStatic
+    fun cleanup() = cleanupSystemProperties()
 }
 
-fun writeToSystemProperties(block: KFuzzConfigBuilder.() -> Unit) {
-    KFuzzConfigBuilder.build(block).toPropertiesMap()
+fun writeToSystemProperties(config: KFuzzConfigBuilder.KFuzzConfigImpl.() -> Unit) {
+    KFuzzConfigBuilder(emptyMap())
+        .editOverride(config)
+        .build()
+        .toPropertiesMap()
         .forEach { (key, value) -> System.setProperty(key, value) }
+}
+
+fun cleanupSystemProperties() {
+    val needsCleanup = listOf(
+        "kotlinx.fuzz.workDir",
+        "kotlinx.fuzz.reproducerDir",
+        "kotlinx.fuzz.instrument",
+    )
+    needsCleanup.forEach { prop -> System.clearProperty(prop) }
 }

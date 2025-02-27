@@ -3,8 +3,8 @@ package kotlinx.fuzz.gradle
 import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.createDirectories
-import kotlinx.fuzz.KFuzzConfig
-import kotlinx.fuzz.SystemProperty
+import kotlinx.fuzz.config.KFuzzConfig
+import kotlinx.fuzz.config.KFuzzConfigBuilder
 import kotlinx.fuzz.log.LoggerFacade
 import kotlinx.fuzz.log.warn
 import org.gradle.api.Plugin
@@ -12,12 +12,17 @@ import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
 import org.gradle.api.logging.Logging
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.*
+
+private val Project.fuzzConfig: KFuzzConfig
+    get() {
+        val dsl = this.extensions.getByType<FuzzConfigDSL>()
+        return dsl.build()
+    }
 
 @Suppress("unused")
 abstract class KFuzzPlugin : Plugin<Project> {
@@ -29,6 +34,10 @@ abstract class KFuzzPlugin : Plugin<Project> {
             add("testImplementation", "org.jetbrains:kotlinx.fuzz.api:$pluginVersion")
             add("testRuntimeOnly", "org.jetbrains:kotlinx.fuzz.gradle:$pluginVersion")
         }
+
+        val projectPropertiesMap: Map<String, String> = project.properties.mapValues { (_, v) -> v.toString() }
+        val fuzzConfigDSL = project.extensions.create<FuzzConfigDSL>("fuzzConfig", projectPropertiesMap)
+        project.preconfigureFuzzConfigDSL(fuzzConfigDSL)
 
         project.tasks.withType<Test>().configureEach {
             configureLogging()
@@ -47,21 +56,21 @@ abstract class KFuzzPlugin : Plugin<Project> {
         project.registerRegressionTask(defaultCP, defaultTCD)
     }
 
+    private fun Project.preconfigureFuzzConfigDSL(dsl: FuzzConfigDSL) {
+        val buildDir = layout.buildDirectory.get()
+        val defaultWorkDir = buildDir.dir("fuzz").asFile.toPath()
+        dsl.workDir = defaultWorkDir
+        dsl.reproducerDir = defaultWorkDir.resolve("reproducers")
+    }
+
     private fun Project.registerFuzzTask(defaultCP: FileCollection, defaultTCD: FileCollection) {
-        val jacocoConfigExtension = project.extensions.create<JacocoConfig>("jacocoReport")
         project.tasks.register<FuzzTask>("fuzz") {
             classpath = defaultCP
             testClassesDirs = defaultTCD
             outputs.upToDateWhen { false }  // so the task will run on every invocation
-            jacocoConfig = jacocoConfigExtension
 
             doFirst {
                 systemProperties(fuzzConfig.toPropertiesMap())
-                for (property in SystemProperty.values()) {
-                    property.get()?.let {
-                        systemProperties[property.name] = property.get()
-                    }
-                }
             }
             useJUnitPlatform {
                 includeEngines("kotlinx.fuzz")
@@ -75,12 +84,10 @@ abstract class KFuzzPlugin : Plugin<Project> {
             testClassesDirs = defaultTCD
             outputs.upToDateWhen { false }
             doFirst {
-                systemProperties(fuzzConfig.toPropertiesMap() + (SystemProperty.REGRESSION.name to "true"))
-                for (property in SystemProperty.values()) {
-                    property.get()?.let {
-                        systemProperties[property.name] = property.get()
-                    }
-                }
+                val regressionConfig = KFuzzConfigBuilder.fromAnotherConfig(fuzzConfig).editOverride {
+                    global.regressionEnabled = true
+                }.build()
+                systemProperties(regressionConfig.toPropertiesMap())
             }
             useJUnitPlatform {
                 includeEngines("kotlinx.fuzz")
@@ -116,17 +123,21 @@ abstract class KFuzzPlugin : Plugin<Project> {
             ?: run {
                 log.warn("'fuzz' and 'regression' task was not able to inherit the 'classpath' and 'testClassesDirs' properties, as it found conflicting configurations")
                 log.warn("Please, specify them manually in your gradle config using the following syntax:")
-                log.warn("""
+                log.warn(
+                    """
                     tasks.withType<FuzzTask>().configureEach {
                         classpath = TODO()
                         testClassesDirs = TODO()
-                    }""".trimIndent(),
+                    }
+                    """.trimIndent(),
                 )
-                log.warn("""
+                log.warn(
+                    """
                     tasks.withType<RegressionTask>().configureEach {
                         classpath = TODO()
                         testClassesDirs = TODO()
-                    }""".trimIndent(),
+                    }
+                    """.trimIndent(),
                 )
                 project.files() to project.files()
             }
@@ -142,12 +153,6 @@ abstract class FuzzTask : Test() {
     @get:Input
     var reportWithAllClasspath: Boolean = false
 
-    @get:Internal
-    internal lateinit var fuzzConfig: KFuzzConfig
-
-    @get:Internal
-    lateinit var jacocoConfig: JacocoConfig
-
     init {
         description = "Runs fuzzing"
         group = "verification"
@@ -156,8 +161,8 @@ abstract class FuzzTask : Test() {
     @TaskAction
     fun action() {
         overallStats()
-        if (fuzzConfig.dumpCoverage) {
-            val workDir = fuzzConfig.workDir
+        if (project.fuzzConfig.target.dumpCoverage) {
+            val workDir = project.fuzzConfig.global.workDir
 
             val coverageMerged = workDir.resolve("merged-coverage.exec")
             jacocoMerge(workDir.resolve("coverage"), coverageMerged)
@@ -167,12 +172,12 @@ abstract class FuzzTask : Test() {
     }
 
     private fun overallStats() {
-        val workDir = fuzzConfig.workDir
+        val workDir = project.fuzzConfig.global.workDir
         overallStats(workDir.resolve("stats"), workDir.resolve("overall-stats.csv"))
     }
 
     private fun jacocoReport(execFile: Path, workDir: Path) {
-        val extraDeps = getDependencies(jacocoConfig.includeDependencies)
+        val extraDeps = getDependencies(project.fuzzConfig.coverage.includeDependencies)
         val mainSourceSet = project.extensions.getByType<SourceSetContainer>()["main"]
         val runtimeClasspath = project.configurations["runtimeClasspath"].files
 
@@ -187,7 +192,7 @@ abstract class FuzzTask : Test() {
             classPath = jacocoClassPath,
             sourceDirectories = sourceDirectories,
             reportDir = workDir.resolve("jacoco-report").createDirectories(),
-            reports = jacocoConfig.reportTypes(),
+            reports = project.fuzzConfig.coverage.reportTypes,
         )
     }
 
@@ -210,29 +215,8 @@ abstract class FuzzTask : Test() {
 }
 
 abstract class RegressionTask : Test() {
-    @get:Internal
-    internal lateinit var fuzzConfig: KFuzzConfig
-
     init {
         description = "Runs regression tests"
         group = "verification"
-    }
-}
-
-@Suppress("unused")
-fun Project.fuzzConfig(block: KFuzzConfigBuilder.() -> Unit) {
-    val buildDir = layout.buildDirectory.get()
-    val defaultWorkDir = buildDir.dir("fuzz").asFile.toPath()
-    val config = KFuzzConfigBuilder.build {
-        workDir = defaultWorkDir
-        reproducerPath = defaultWorkDir.resolve("reproducers")
-        block()
-    }
-
-    tasks.withType<FuzzTask>().forEach { task ->
-        task.fuzzConfig = config
-    }
-    tasks.withType<RegressionTask>().forEach { task ->
-        task.fuzzConfig = config
     }
 }

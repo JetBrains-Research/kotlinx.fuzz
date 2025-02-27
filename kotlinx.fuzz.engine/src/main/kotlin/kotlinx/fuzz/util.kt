@@ -10,12 +10,13 @@ import java.lang.reflect.Method
 import java.nio.file.Path
 import kotlin.io.path.*
 import kotlinx.fuzz.KFuzzer.RegexConfiguration
+import kotlinx.fuzz.config.KFuzzConfig
 
 fun String?.toBooleanOrTrue(): Boolean = this?.toBoolean() != false
 fun String?.toBooleanOrFalse(): Boolean = this?.toBoolean() == true
 
 fun KFuzzConfig.reproducerPathOf(method: Method): Path =
-    Path(reproducerPath.absolutePathString(), method.declaringClass.simpleName, method.name).absolute()
+    Path(global.reproducerDir.absolutePathString(), method.declaringClass.simpleName, method.name).absolute()
 
 fun Path.listCrashes(): List<Path> = if (this.exists()) listDirectoryEntries("{crash-*,timeout-*,slow-unit-*}") else emptyList()
 
