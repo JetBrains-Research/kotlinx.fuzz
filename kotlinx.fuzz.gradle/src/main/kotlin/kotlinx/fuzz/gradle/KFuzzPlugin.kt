@@ -9,9 +9,12 @@ import kotlinx.fuzz.log.LoggerFacade
 import kotlinx.fuzz.log.warn
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.Configuration
 import org.gradle.api.file.FileCollection
 import org.gradle.api.logging.Logging
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
@@ -28,7 +31,7 @@ private val Project.fuzzConfig: KFuzzConfig
 
 @Suppress("unused")
 abstract class KFuzzPlugin : Plugin<Project> {
-    val log = Logging.getLogger(KFuzzPlugin::class.java)!!
+    private val log = Logging.getLogger(KFuzzPlugin::class.java)!!
 
     override fun apply(project: Project) {
         val pluginVersion = "0.2.2"
@@ -70,6 +73,10 @@ abstract class KFuzzPlugin : Plugin<Project> {
             classpath = defaultCP
             testClassesDirs = defaultTCD
             outputs.upToDateWhen { false }  // so the task will run on every invocation
+
+            fuzzConfig = this@registerFuzzTask.fuzzConfig
+            mainSourceSet = this@registerFuzzTask.extensions.getByType<SourceSetContainer>()["main"]
+            runtimeClasspathConfiguration = this@registerFuzzTask.configurations["runtimeClasspath"]
 
             doFirst {
                 systemProperties(fuzzConfig.toPropertiesMap())
@@ -157,6 +164,15 @@ abstract class FuzzTask : Test() {
     @get:Input
     var reportWithAllClasspath: Boolean = false
 
+    @get:Internal
+    var runtimeClasspathConfiguration: Configuration? = null
+
+    @get:Internal
+    lateinit var fuzzConfig: KFuzzConfig
+
+    @get:Internal
+    lateinit var mainSourceSet: SourceSet
+
     init {
         description = "Runs fuzzing"
         group = "verification"
@@ -165,8 +181,8 @@ abstract class FuzzTask : Test() {
     @TaskAction
     fun action() {
         overallStats()
-        if (project.fuzzConfig.target.dumpCoverage) {
-            val workDir = project.fuzzConfig.global.workDir
+        if (fuzzConfig.target.dumpCoverage) {
+            val workDir = fuzzConfig.global.workDir
 
             val coverageMerged = workDir.resolve("merged-coverage.exec")
             jacocoMerge(workDir.resolve("coverage"), coverageMerged)
@@ -176,14 +192,13 @@ abstract class FuzzTask : Test() {
     }
 
     private fun overallStats() {
-        val workDir = project.fuzzConfig.global.workDir
+        val workDir = fuzzConfig.global.workDir
         overallStats(workDir.resolve("stats"), workDir.resolve("overall-stats.csv"))
     }
 
     private fun jacocoReport(execFile: Path, workDir: Path) {
-        val extraDeps = getDependencies(project.fuzzConfig.coverage.includeDependencies)
-        val mainSourceSet = project.extensions.getByType<SourceSetContainer>()["main"]
-        val runtimeClasspath = project.configurations["runtimeClasspath"].files
+        val extraDeps = getDependencies(fuzzConfig.coverage.includeDependencies)
+        val runtimeClasspath = runtimeClasspathConfiguration?.files ?: emptySet()
 
         val projectClasspath = mainSourceSet.output.files
         val sourceDirectories = mainSourceSet.allSource.sourceDirectories.files
@@ -196,12 +211,12 @@ abstract class FuzzTask : Test() {
             classPath = jacocoClassPath,
             sourceDirectories = sourceDirectories,
             reportDir = workDir.resolve("jacoco-report").createDirectories(),
-            reports = project.fuzzConfig.coverage.reportTypes,
+            reports = fuzzConfig.coverage.reportTypes,
         )
     }
 
     private fun getDependencies(dependencies: Set<String>): Set<File> {
-        val configuration = project.configurations.findByName("runtimeClasspath") ?: run {
+        val configuration = runtimeClasspathConfiguration ?: run {
             log.warn { "No 'runtimeClasspath' configuration found, skipping jacoco report generation" }
             return emptySet()
         }

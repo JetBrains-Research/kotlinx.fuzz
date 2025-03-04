@@ -31,7 +31,7 @@ tasks.named<Test>("test") {
     jvmArgs("-Xss1g", "-XX:+UseParallelGC")
 }
 
-task("copyDependencies", Copy::class) {
+tasks.register<Copy>("copyDependencies") {
     from(configurations.runtimeClasspath).into("${project.layout.buildDirectory.get()}/dependencies")
 }
 
