@@ -29,4 +29,24 @@ class AnotherTarget {
             else throw NullPointerException()
         }
     }
+
+    @KFuzzTest
+    @IgnoreFailures
+    fun `reproducer test`(data: KFuzzer) {
+        if (data.boolean()) {
+            if (data.method1() == 3) {
+                if (data.method2() == 4) {
+                    method3()
+                } else {
+                    error("Expected failure")
+                }
+            }
+        }
+    }
+}
+
+fun KFuzzer.method1() = int()
+private fun KFuzzer.method2() = int()
+private fun method3() {
+    throw NullPointerException()
 }

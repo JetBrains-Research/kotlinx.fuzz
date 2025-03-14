@@ -93,6 +93,7 @@ object JazzerLauncher {
         return libFuzzerArgs
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private fun runTarget(instance: Any, method: Method): Throwable? {
         val reproducerPath = config.reproducerPathOf(method)
         if (!reproducerPath.exists()) {
@@ -105,7 +106,8 @@ object JazzerLauncher {
 
         val atomicFinding = AtomicReference<Throwable>()
         FuzzTargetRunner.registerFatalFindingDeterminatorForJUnit { bytes, finding ->
-            val stopFuzzing = isTerminalFinding(bytes, finding, reproducerPath)
+            val hash = MessageDigest.getInstance("SHA-1").digest(bytes).toHexString()
+            val stopFuzzing = isTerminalFinding(hash, finding, reproducerPath)
             if (stopFuzzing) {
                 atomicFinding.set(finding)
             }
@@ -125,9 +127,7 @@ object JazzerLauncher {
         return atomicFinding.get()
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
-    private fun isTerminalFinding(bytes: ByteArray, finding: Throwable, reproducerPath: Path): Boolean {
-        val hash = MessageDigest.getInstance("SHA-1").digest(bytes).toHexString()
+    private fun isTerminalFinding(hash: String, finding: Throwable, reproducerPath: Path): Boolean {
         val file = reproducerPath.absolute().resolve("stacktrace-$hash")
 
         if (!file.exists()) {

@@ -12,6 +12,7 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation(libs.jacoco.core)
     implementation(libs.jacoco.report)
+    implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit.jupiter)
 }

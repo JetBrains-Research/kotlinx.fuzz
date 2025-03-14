@@ -1,4 +1,5 @@
 import kotlinx.fuzz.config.CoverageReportType
+import kotlinx.fuzz.config.ReproducerType
 import kotlin.time.Duration.Companion.seconds
 
 plugins {
@@ -10,6 +11,7 @@ plugins {
 repositories {
     mavenCentral()
     maven(url = "https://plan-maven.apal-research.com")
+    maven(url = "https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-ide-plugin-dependencies")
 }
 
 dependencies {
@@ -37,6 +39,7 @@ fuzzConfig {
         )
     }
     supportJazzerTargets = true
+    reproducerType = ReproducerType.LIST_ANY_INLINE
 }
 
 kotlin {

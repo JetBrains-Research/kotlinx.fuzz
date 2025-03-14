@@ -17,6 +17,7 @@ interface GlobalConfig {
     val detailedLogging: Boolean
     val threads: Int
     val supportJazzerTargets: Boolean
+    val reproducerType: ReproducerType
 }
 
 class GlobalConfigImpl internal constructor(builder: KFuzzConfigBuilder) : GlobalConfig {
@@ -78,8 +79,18 @@ class GlobalConfigImpl internal constructor(builder: KFuzzConfigBuilder) : Globa
         fromString = { it.toBooleanStrict() },
         default = false,
     )
+    override var reproducerType: ReproducerType by builder.KFuzzPropProvider(
+        nameSuffix = "reproducerType",
+        intoString = { it.toString() },
+        fromString = { ReproducerType.valueOf(it) },
+        default = ReproducerType.LIST_ANY_INLINE,
+    )
 }
 
 enum class LogLevel {
     DEBUG, ERROR, INFO, TRACE, WARN;
+}
+
+enum class ReproducerType {
+    LIST_ANY_CALL, LIST_ANY_INLINE
 }
