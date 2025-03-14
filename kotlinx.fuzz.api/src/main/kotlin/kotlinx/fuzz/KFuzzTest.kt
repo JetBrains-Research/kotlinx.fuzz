@@ -10,7 +10,7 @@ import org.junit.platform.commons.annotation.Testable
  *  This annotation is used to mark targets for fuzzing.
  *  Global config parameters can be overloaded here. See [KFuzzConfig] for all parameters' description.
  *
- *  @param keepGoing how many bugs to discover before finishing fuzzing. Default: 1
+ *  @param keepGoing how many bugs to discover before finishing fuzzing. Default: 0
  *  @param maxFuzzTime max time to fuzz this target, as a string that [kotlin.time.Duration.parse] can recognize.
  *  Default: "1m"
  *  @param instrument glob patterns matching names of classes that should be instrumented for fuzzing.

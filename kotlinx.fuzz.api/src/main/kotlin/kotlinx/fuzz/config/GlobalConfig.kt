@@ -13,7 +13,6 @@ interface GlobalConfig {
     val customHookExcludes: List<String>
     val hooks: Boolean
     val logLevel: LogLevel
-    val regressionEnabled: Boolean
     val detailedLogging: Boolean
     val threads: Int
     val supportJazzerTargets: Boolean
@@ -52,12 +51,6 @@ class GlobalConfigImpl internal constructor(builder: KFuzzConfigBuilder) : Globa
         intoString = { it.toString() },
         fromString = { it.toBooleanStrict() },
         default = true,
-    )
-    override var regressionEnabled: Boolean by builder.KFuzzPropProvider(
-        nameSuffix = "regression",
-        intoString = { it.toString() },
-        fromString = { it.toBooleanStrict() },
-        default = false,
     )
     override var detailedLogging: Boolean by builder.KFuzzPropProvider(
         nameSuffix = "detailedLogging",

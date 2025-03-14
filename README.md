@@ -134,7 +134,7 @@ The plugin currently allows you to configure its parameters in the `fuzzConfig` 
 * `maxSingleTargetFuzzTime` &mdash; max time to fuzz a single target; default 1 minute
 * `reproducerPath` &mdash; path to store reproducers; default `"$workDir/reproducers"`
 
-These and some other options can also be set through the system properties. You can check system property names [here](kotlinx.fuzz.api/src/main/kotlin/kotlinx/fuzz/SystemProperty.kt).
+These and some other options can also be set through the system properties. You can check system property names [here](docs/Configuration.md).
 
 Design, implementation and default values of configuration properties are subject to change in the future releases.
 

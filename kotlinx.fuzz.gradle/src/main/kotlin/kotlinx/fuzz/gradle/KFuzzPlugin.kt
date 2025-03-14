@@ -22,6 +22,7 @@ import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.*
 
 private const val INTELLIJ_DEBUGGER_DISPATCH_PORT_VAR_NAME = "idea.debugger.dispatch.port"
+private const val REGRESSION_ENABLED_NAME = "kotlinx.fuzz.regressionEnabled"
 
 private val Project.fuzzConfig: KFuzzConfig
     get() {
@@ -94,11 +95,10 @@ abstract class KFuzzPlugin : Plugin<Project> {
             testClassesDirs = defaultTCD
             outputs.upToDateWhen { false }
             doFirst {
-                val regressionConfig = KFuzzConfigBuilder.fromAnotherConfig(fuzzConfig).editOverride {
-                    global.regressionEnabled = true
-                }.build()
+                val regressionConfig = KFuzzConfigBuilder.fromAnotherConfig(fuzzConfig).build()
                 systemProperties(regressionConfig.toPropertiesMap())
                 systemProperties[INTELLIJ_DEBUGGER_DISPATCH_PORT_VAR_NAME] = System.getProperty(INTELLIJ_DEBUGGER_DISPATCH_PORT_VAR_NAME)
+                systemProperties[REGRESSION_ENABLED_NAME] = System.getProperty(REGRESSION_ENABLED_NAME)
             }
             useJUnitPlatform {
                 includeEngines("kotlinx.fuzz")
