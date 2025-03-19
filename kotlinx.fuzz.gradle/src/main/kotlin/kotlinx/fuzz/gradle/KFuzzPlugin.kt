@@ -7,6 +7,7 @@ import kotlinx.fuzz.config.KFuzzConfig
 import kotlinx.fuzz.config.KFuzzConfigBuilder
 import kotlinx.fuzz.log.LoggerFacade
 import kotlinx.fuzz.log.warn
+import kotlinx.serialization.json.Json
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
@@ -23,6 +24,7 @@ import org.gradle.kotlin.dsl.*
 
 private const val INTELLIJ_DEBUGGER_DISPATCH_PORT_VAR_NAME = "idea.debugger.dispatch.port"
 private const val REGRESSION_ENABLED_NAME = "kotlinx.fuzz.regressionEnabled"
+private const val USER_FILES_VAR_NAME = "kotlinx.fuzz.userFiles"
 
 private val Project.fuzzConfig: KFuzzConfig
     get() {
@@ -82,6 +84,10 @@ abstract class KFuzzPlugin : Plugin<Project> {
             doFirst {
                 systemProperties(fuzzConfig.toPropertiesMap())
                 systemProperties[INTELLIJ_DEBUGGER_DISPATCH_PORT_VAR_NAME] = System.getProperty(INTELLIJ_DEBUGGER_DISPATCH_PORT_VAR_NAME)
+                systemProperties[USER_FILES_VAR_NAME] = Json.encodeToString(this@registerFuzzTask.extensions.getByType<SourceSetContainer>()["test"].allSource.files
+                    .toList().map {
+                        it.absolutePath
+                    })
             }
             useJUnitPlatform {
                 includeEngines("kotlinx.fuzz")
@@ -99,6 +105,8 @@ abstract class KFuzzPlugin : Plugin<Project> {
                 systemProperties(regressionConfig.toPropertiesMap())
                 systemProperties[INTELLIJ_DEBUGGER_DISPATCH_PORT_VAR_NAME] = System.getProperty(INTELLIJ_DEBUGGER_DISPATCH_PORT_VAR_NAME)
                 systemProperties[REGRESSION_ENABLED_NAME] = System.getProperty(REGRESSION_ENABLED_NAME)
+                systemProperties[USER_FILES_VAR_NAME] = Json.encodeToString(this@registerRegressionTask.extensions.getByType<SourceSetContainer>()["test"].allSource.files
+                    .toList().map { it.absolutePath })
             }
             useJUnitPlatform {
                 includeEngines("kotlinx.fuzz")

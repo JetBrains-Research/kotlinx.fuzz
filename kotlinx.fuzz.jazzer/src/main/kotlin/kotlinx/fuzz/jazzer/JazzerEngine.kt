@@ -18,6 +18,7 @@ import kotlinx.fuzz.config.JazzerConfig
 import kotlinx.fuzz.config.KFuzzConfig
 import kotlinx.fuzz.log.LoggerFacade
 import kotlinx.fuzz.log.error
+import kotlinx.fuzz.reproduction.CrashReproducerWriter
 
 private const val INTELLIJ_DEBUGGER_DISPATCH_PORT_VAR_NAME = "idea.debugger.dispatch.port"
 
@@ -37,6 +38,7 @@ internal val KFuzzConfig.exceptionsDir: Path
 class JazzerEngine(private val config: KFuzzConfig) : KFuzzEngine {
     private val log = LoggerFacade.getLogger<JazzerEngine>()
     private val jazzerConfig = config.engine as JazzerConfig
+    override lateinit var reproducerWriter: CrashReproducerWriter
 
     override fun initialise() {
         config.corpusDir.createDirectories()
@@ -57,7 +59,7 @@ class JazzerEngine(private val config: KFuzzConfig) : KFuzzEngine {
                         JazzerLauncher.clusterCrashes(methodDir)
                     }
             }
-        clusterCrashes()
+        clusterCrashes(createNewReproducers = false)
     }
 
     @OptIn(ExperimentalPathApi::class)
@@ -133,11 +135,11 @@ class JazzerEngine(private val config: KFuzzConfig) : KFuzzEngine {
 
     override fun finishExecution() {
         collectStatistics()
-        clusterCrashes()
+        clusterCrashes(createNewReproducers = true)
     }
 
-    private fun clusterCrashes() {
-        val crashesForDeletion = mutableListOf<Path>()
+    private fun clusterCrashes(createNewReproducers: Boolean) {
+        val filesForDeletion = mutableListOf<Path>()
         Files.walk(config.global.reproducerDir)
             .filter { it.isDirectory() && it.name.startsWith("cluster-") }
             .map { it to it.listStacktraces() }
@@ -145,18 +147,32 @@ class JazzerEngine(private val config: KFuzzConfig) : KFuzzEngine {
             .forEach { (clusterDir, stacktraceFile) ->
                 val crashFileName = "crash-${stacktraceFile.name.removePrefix("stacktrace-")}"
                 val crashFile = clusterDir.parent.resolve(crashFileName)
-                val targetFile = clusterDir.resolve(crashFileName)
+                val targetCrashFile = clusterDir.resolve(crashFileName)
+                val reproducerFileName = "reproducer-${stacktraceFile.name.removePrefix("stacktrace-")}.kt"
+                val reproducerFile = clusterDir.parent.resolve(reproducerFileName)
+                val targetReproducerFile = clusterDir.resolve(reproducerFileName)
 
-                if (targetFile.exists() || !crashFile.exists()) {
+                if (targetCrashFile.exists() || !crashFile.exists()) {
                     return@forEach
                 }
 
-                crashFile.copyTo(targetFile, overwrite = true)
+                crashFile.copyTo(targetCrashFile, overwrite = true)
+                if (!reproducerFile.exists() && createNewReproducers) {
+                    reproducerWriter.writeToFile(crashFile.readBytes(), reproducerFile)
+                }
                 if (!clusterDir.name.endsWith(crashFileName.removePrefix("crash-"))) {
-                    crashesForDeletion.add(crashFile)
+                    filesForDeletion.add(crashFile)
+                    if (reproducerFile.exists()) {
+                        reproducerFile.copyTo(targetReproducerFile, overwrite = true)
+                        filesForDeletion.add(reproducerFile)
+                    }
+                } else {
+                    if (reproducerFile.exists()) {
+                        reproducerFile.copyTo(targetReproducerFile, overwrite = true)
+                    }
                 }
             }
-        crashesForDeletion.forEach { it.deleteIfExists() }
+        filesForDeletion.forEach { it.deleteIfExists() }
     }
 
     private fun collectStatistics() {

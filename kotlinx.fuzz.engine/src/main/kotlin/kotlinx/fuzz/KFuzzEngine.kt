@@ -1,8 +1,11 @@
 package kotlinx.fuzz
 
 import java.lang.reflect.Method
+import kotlinx.fuzz.reproduction.CrashReproducerWriter
 
 interface KFuzzEngine {
+    var reproducerWriter: CrashReproducerWriter
+
     /**
      * Initialises engine. Should be called only once for every KFuzzEngine instance
      */

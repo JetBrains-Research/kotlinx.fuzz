@@ -13,6 +13,8 @@ dependencies {
     implementation(libs.junit.platform.engine)
     implementation(libs.kotlinx.coroutines)
     implementation(libs.plan.jazzer.junit)
+    implementation(libs.kotlinpoet)
+    implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.junit.platform.testkit)

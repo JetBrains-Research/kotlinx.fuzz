@@ -16,6 +16,7 @@ interface GlobalConfig {
     val detailedLogging: Boolean
     val threads: Int
     val supportJazzerTargets: Boolean
+    val reproducerType: ReproducerType
 }
 
 class GlobalConfigImpl internal constructor(builder: KFuzzConfigBuilder) : GlobalConfig {
@@ -27,7 +28,7 @@ class GlobalConfigImpl internal constructor(builder: KFuzzConfigBuilder) : Globa
     override var logLevel: LogLevel by builder.KFuzzPropProvider(
         nameSuffix = "logLevel",
         intoString = { it.toString() },
-        fromString = { LogLevel.valueOf(it) },
+        fromString = { LogLevel.valueOf(it.uppercase()) },
         default = LogLevel.WARN,
     )
     override var reproducerDir: Path by builder.KFuzzPropProvider(
@@ -71,8 +72,23 @@ class GlobalConfigImpl internal constructor(builder: KFuzzConfigBuilder) : Globa
         fromString = { it.toBooleanStrict() },
         default = false,
     )
+    override var reproducerType: ReproducerType by builder.KFuzzPropProvider(
+        nameSuffix = "reproducerType",
+        intoString = { it.toString() },
+        fromString = { ReproducerType.valueOf(it) },
+        default = ReproducerType.LIST_BASED_INLINE,
+    )
 }
 
 enum class LogLevel {
     DEBUG, ERROR, INFO, TRACE, WARN;
+}
+
+/**
+ * Types of reproducers that are described [here](docs/Crash reproduction.md).
+ * LIST_BASED_NO_INLINE - create a List<Any?> based KFuzzer and call user's method
+ * LIST_BASED_INLINE - create a List<Any?> based KFuzzer and inline user's method
+ */
+enum class ReproducerType {
+    LIST_BASED_INLINE, LIST_BASED_NO_INLINE
 }

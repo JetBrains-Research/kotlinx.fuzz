@@ -4,16 +4,21 @@ import com.code_intelligence.jazzer.api.FuzzedDataProvider
 import com.code_intelligence.jazzer.junit.FuzzTest
 import java.lang.reflect.Method
 import java.net.URI
+import kotlin.io.path.Path
 import kotlin.reflect.KClass
 import kotlinx.coroutines.*
 import kotlinx.fuzz.*
 import kotlinx.fuzz.config.JazzerConfig
 import kotlinx.fuzz.config.KFuzzConfig
+import kotlinx.fuzz.config.ReproducerType
 import kotlinx.fuzz.log.LoggerFacade
 import kotlinx.fuzz.log.debug
 import kotlinx.fuzz.log.info
 import kotlinx.fuzz.log.warn
 import kotlinx.fuzz.regression.RegressionEngine
+import kotlinx.fuzz.reproduction.ListAnyCallReproducerWriter
+import kotlinx.fuzz.reproduction.ListAnyInlineReproducerWriter
+import kotlinx.serialization.json.*
 import org.junit.platform.commons.support.AnnotationSupport
 import org.junit.platform.commons.support.HierarchyTraversalMode
 import org.junit.platform.commons.support.ReflectionSupport
@@ -25,6 +30,7 @@ import org.junit.platform.engine.discovery.PackageSelector
 import org.junit.platform.engine.support.descriptor.EngineDescriptor
 
 private const val REGRESSION_ENABLED_NAME = "kotlinx.fuzz.regressionEnabled"
+private const val USER_FILES_VAR_NAME = "kotlinx.fuzz.userFiles"
 
 class KotlinxFuzzJunitEngine : TestEngine {
     private val log = LoggerFacade.getLogger<KotlinxFuzzJunitEngine>()
@@ -102,6 +108,32 @@ class KotlinxFuzzJunitEngine : TestEngine {
         else -> TestExecutionResult.failed(finding)
     }
 
+    private fun setReproducer(instance: Any, method: Method) = try {
+        when (config.global.reproducerType) {
+            ReproducerType.LIST_BASED_INLINE -> fuzzEngine.reproducerWriter =
+                ListAnyInlineReproducerWriter(
+                    JunitReproducerTemplate(instance, method),
+                    instance,
+                    method,
+                    Json.decodeFromString<List<String>>(System.getProperty(USER_FILES_VAR_NAME)).map { Path(it) },
+                )
+
+            ReproducerType.LIST_BASED_NO_INLINE -> fuzzEngine.reproducerWriter =
+                ListAnyCallReproducerWriter(
+                    JunitReproducerTemplate(instance, method),
+                    instance,
+                    method,
+                )
+        }
+    } catch (e: RuntimeException) {
+        fuzzEngine.reproducerWriter =
+            ListAnyCallReproducerWriter(
+                JunitReproducerTemplate(instance, method),
+                instance,
+                method,
+            )
+    }
+
     private suspend fun executeImpl(request: ExecutionRequest, descriptor: TestDescriptor) {
         when (descriptor) {
             is ClassTestDescriptor -> handleContainer(request, descriptor)
@@ -111,6 +143,8 @@ class KotlinxFuzzJunitEngine : TestEngine {
                 request.engineExecutionListener.executionStarted(descriptor)
                 val method = descriptor.testMethod
                 val instance = method.declaringClass.kotlin.testInstance()
+
+                setReproducer(instance, method)
 
                 val finding = fuzzEngine.runTarget(instance, method)
                 val result = handleFinding(finding, method)

@@ -42,6 +42,7 @@ You can use all of these approaches at the same time even overriding the same co
 * `keepGoing` - How many crashes to find before stopping fuzzing, or `0` for unlimited.
 * `dumpCoverage` - Whether you want to have coverage collected after your run or not
 * `libFuzzerRssLimitMb` - Memory usage limit in Mb for libfuzzer. `0` stays for no limit. Find more info [here](https://llvm.org/docs/LibFuzzer.html)
+* `reproducerType` - Type of reproducer to generate. Supported types: `LIST_BASED_NO_INLINE`, `LIST_BASED_INLINE`. Find more info [here](Crash%20reproduction.md). 
 
 ## Summary
 |      Config Name       | Can be set in annotations | DSL section  |                Project Property                |                      Default Value                       |
@@ -61,3 +62,4 @@ You can use all of these approaches at the same time even overriding the same co
 |      `keepGoing`       |            ✔️             | `fuzzConfig` |            `kotlinx.fuzz.keepGoing`            |                           `0`                            |             
 |     `dumpCoverage`     |            ✔️             | `fuzzConfig` |          `kotlinx.fuzz.dumpCoverage`           |                          `true`                          |             
 | `libFuzzerRssLimitMb`  |             ❌             |   `engine`   | `kotlinx.fuzz.jazzer.libFuzzerArgs.rssLimitMb` |                           `0`                            |            
+|    `reproducerType`    |             ❌             | `fuzzConfig` |         `kotlinx.fuzz.reproducerType`          |            `ReproducerType.LIST_BASED_INLINE`            |            

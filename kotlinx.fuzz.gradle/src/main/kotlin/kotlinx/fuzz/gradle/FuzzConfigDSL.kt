@@ -48,6 +48,7 @@ open class FuzzConfigDSL(
     var detailedLogging by KFConfigDelegate { global::detailedLogging }
     var threads by KFConfigDelegate { global::threads }
     var supportJazzerTargets by KFConfigDelegate { global::supportJazzerTargets }
+    var reproducerType by KFConfigDelegate { global::reproducerType }
 
     // ========== target ==========
     var maxFuzzTimePerTarget by KFConfigDelegate { target::maxFuzzTime }

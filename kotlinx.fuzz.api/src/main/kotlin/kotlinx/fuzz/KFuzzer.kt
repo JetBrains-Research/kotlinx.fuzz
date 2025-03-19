@@ -482,7 +482,7 @@ interface KFuzzer {
      * Class that allows to configure parameters of regex string generation
      *
      * @param maxInfinitePatternLength limit of repetitions for infinite patterns, such as a+, a* and a{n,} (default value `100`)
-     * @param caseInsensitive flag to use case-insensitive matching (defalut value `false`)
+     * @param caseInsensitive flag to use case-insensitive matching (default value `false`)
      * @param allowedCharacters characters that are allowed to appear in the resulting string (default value `null` -> all characters are allowed)
      * @param allowedWhitespaces characters that are allowed to appear in \s pattern (default value `listOf(SPACE, TAB)`)
      */
