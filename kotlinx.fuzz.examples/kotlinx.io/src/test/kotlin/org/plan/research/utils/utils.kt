@@ -3,6 +3,7 @@ package org.plan.research.utils
 import com.code_intelligence.jazzer.api.FuzzedDataProvider
 import kotlinx.io.Buffer
 import kotlinx.io.IOException
+import kotlinx.io.bytestring.ByteString
 import kotlinx.io.snapshot
 import org.plan.research.Constants
 import java.io.File
@@ -137,6 +138,11 @@ inline fun <T> T.callOps(
     }
     return ops
 }
+
+// 32MB
+private val bytesNum = 1 shl 25
+val manyBytes: ByteArray by lazy { Random(42).nextBytes(bytesNum) }
+val largeByteString: ByteString by lazy { ByteString(Random(42).nextBytes(bytesNum)) }
 
 fun main() {
     val random = Random(777)

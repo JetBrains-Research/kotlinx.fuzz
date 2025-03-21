@@ -2,9 +2,9 @@
 
 package kotlinx.fuzz.gradle
 
-import kotlin.reflect.KProperty
 import kotlinx.fuzz.config.KFuzzConfig
 import kotlinx.fuzz.config.KFuzzConfigBuilder
+import kotlin.reflect.KProperty
 
 /**
  * DSL for specifying fuzzing config. Sample usage:
@@ -59,7 +59,9 @@ open class FuzzConfigDSL(
     var dumpCoverage by KFConfigDelegate { target::dumpCoverage }
     private val builtConfig: KFuzzConfig by lazy { builder.build() }
 
-    fun build(): KFuzzConfig = builtConfig
+    fun build(): KFuzzConfig = builtConfig.also {
+        builtConfig.toPropertiesMap().forEach { (key, value) -> System.setProperty(key, value) }
+    }
 
     // ========== engine ==========
 

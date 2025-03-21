@@ -13,9 +13,9 @@ import org.plan.research.Constants.MAX_OPERATIONS_NUMBER
 import kotlin.test.assertEquals
 
 object BuffersKt {
-    val manyBytes = SystemFileSystem.source(Path("data.bin")).buffered().readByteString()
+    val manyBytes by lazy {org.plan.research.utils.largeByteString}
 
-    val arr = ByteArray(manyBytes.size * 100)
+    val arr by lazy {ByteArray(manyBytes.size * 100)}
 
     @FuzzTest(maxDuration = MAX_DURATION)
     fun snapshot(data: FuzzedDataProvider): Unit = with(data) {

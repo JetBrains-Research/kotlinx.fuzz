@@ -7,10 +7,10 @@ import kotlin.time.Duration
 const val HEADER = "execNr,timeSeconds,cov,ft,crashes\n"
 
 internal data class LibfuzzerLogEntryNoTimestamp(
-    val execNr: Int,
-    val cov: Int,
-    val ft: Int,
-    val crashes: Int,
+    val execNr: Long,
+    val cov: Long,
+    val ft: Long,
+    val crashes: Long,
 ) {
     fun addTimestamp(timeSeconds: Long): LibfuzzerLogEntry = LibfuzzerLogEntry(
         timeSeconds = timeSeconds,
@@ -23,14 +23,14 @@ internal data class LibfuzzerLogEntryNoTimestamp(
 
 internal data class LibfuzzerLogEntry(
     val timeSeconds: Long,
-    val execNr: Int,
-    val cov: Int,
-    val ft: Int,
-    val crashes: Int,
+    val execNr: Long,
+    val cov: Long,
+    val ft: Long,
+    val crashes: Long,
 )
 
 internal fun jazzerLogToCsv(file: Path, duration: Duration): String {
-    var crashes = 0
+    var crashes = 0L
 
     /*
     Example of jazzer logs. More info about meaning in LibFuzzer's documentation: https://llvm.org/docs/LibFuzzer.html#output
@@ -54,9 +54,9 @@ internal fun jazzerLogToCsv(file: Path, duration: Duration): String {
             tokens[1] !in setOf("NEW", "REDUCE", "pulse") -> null
 
             else -> @Suppress("MAGIC_NUMBER") LibfuzzerLogEntryNoTimestamp(
-                execNr = tokens[0].substring(1).toInt(),
-                cov = tokens[3].toInt(),
-                ft = tokens[5].toInt(),
+                execNr = tokens[0].substring(1).toLong(),
+                cov = tokens[3].toLong(),
+                ft = tokens[5].toLong(),
                 crashes = crashes,
             )
         }

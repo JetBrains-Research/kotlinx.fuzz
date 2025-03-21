@@ -29,6 +29,7 @@ fuzzConfig {
         "kotlinx.serialization.**",
     )
     maxFuzzTimePerTarget = 10.seconds
+    detailedLogging = true
     coverage {
         reportTypes = setOf(CoverageReportType.HTML, CoverageReportType.CSV)
         includeDependencies = setOf(

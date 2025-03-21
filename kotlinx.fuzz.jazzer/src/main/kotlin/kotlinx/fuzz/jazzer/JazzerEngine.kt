@@ -1,5 +1,12 @@
 package kotlinx.fuzz.jazzer
 
+import kotlinx.fuzz.KFuzzEngine
+import kotlinx.fuzz.KFuzzTest
+import kotlinx.fuzz.addAnnotationParams
+import kotlinx.fuzz.config.JazzerConfig
+import kotlinx.fuzz.config.KFuzzConfig
+import kotlinx.fuzz.log.LoggerFacade
+import kotlinx.fuzz.log.error
 import java.io.DataOutputStream
 import java.io.InputStream
 import java.io.ObjectInputStream
@@ -11,13 +18,6 @@ import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.concurrent.thread
 import kotlin.io.path.*
-import kotlinx.fuzz.KFuzzEngine
-import kotlinx.fuzz.KFuzzTest
-import kotlinx.fuzz.addAnnotationParams
-import kotlinx.fuzz.config.JazzerConfig
-import kotlinx.fuzz.config.KFuzzConfig
-import kotlinx.fuzz.log.LoggerFacade
-import kotlinx.fuzz.log.error
 
 private const val INTELLIJ_DEBUGGER_DISPATCH_PORT_VAR_NAME = "idea.debugger.dispatch.port"
 
@@ -125,11 +125,16 @@ class JazzerEngine(private val config: KFuzzConfig) : KFuzzEngine {
         }
     }
 
-    private fun getException(config: KFuzzConfig, method: Method): Throwable =
-        deserializeException(config.exceptionPath(method)) ?: run {
-            log.error { "Failed to deserialize exception for target '${method.fullName}'" }
-            Error("Failed to deserialize exception for target '${method.fullName}'")
+    private fun getException(config: KFuzzConfig, method: Method): Throwable {
+        val path = config.exceptionPath(method)
+        return when {
+            path.notExists() -> Error("'path' = $path not exists. Can't read exception from test '${method.fullName}'")
+            else -> deserializeException(path) ?: run {
+                log.error { "Failed to deserialize exception for target '${method.fullName}'" }
+                Error("Failed to deserialize exception for target '${method.fullName}'")
+            }
         }
+    }
 
     override fun finishExecution() {
         collectStatistics()

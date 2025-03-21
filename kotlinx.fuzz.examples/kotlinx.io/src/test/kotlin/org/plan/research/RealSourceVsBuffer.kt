@@ -21,14 +21,15 @@ object RealSourceVsBuffer {
         template(source, buf, data, sourceFunctions)
     }
 
-    val manyBytes =
-        SystemFileSystem.source(Path("data.bin")).buffered().readByteArray()
+    val manyBytes by lazy { org.plan.research.utils.manyBytes}
 
-    val manyBuf = Buffer().apply { write(manyBytes) }
-    val fastOps = sourceFunctions
-        .removeLongOps()
-        .filterNot { it.name == "readAtMostTo" }
-        .toTypedArray()
+    val manyBuf by lazy {Buffer().apply { write(manyBytes) }}
+    val fastOps by lazy {
+        sourceFunctions
+            .removeLongOps()
+            .filterNot { it.name == "readAtMostTo" }
+            .toTypedArray()
+    }
 
     @FuzzTest(maxDuration = Constants.MAX_DURATION)
     fun randomOpsManyData(data: FuzzedDataProvider): Unit = with(data) {

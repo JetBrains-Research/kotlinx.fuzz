@@ -1,11 +1,6 @@
-import kotlinx.fuzz.booleanProperty
-
 plugins {
     kotlin("jvm")
 }
-
-group = GROUP_ID
-version = VERSION
 
 repositories {
     mavenCentral()
@@ -16,6 +11,7 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
+
 kotlin {
     jvmToolchain(11)
 }
@@ -23,5 +19,4 @@ kotlin {
 tasks.named<Test>("test") {
     useJUnitPlatform()
     testLogging.showStandardStreams = true
-    enabled = project.booleanProperty("enableTests") == true
 }
