@@ -26,7 +26,7 @@ tasks.named<Test>("test") {
     testLogging.showStandardStreams = true
 
     // set up Jazzer options
-    environment(mapOf("JAZZER_FUZZ" to "0"))
+    environment(mapOf("JAZZER_FUZZ" to "1"))
     maxHeapSize = "${1024 * 4}m"
     jvmArgs("-Xss1g", "-XX:+UseParallelGC")
 }
