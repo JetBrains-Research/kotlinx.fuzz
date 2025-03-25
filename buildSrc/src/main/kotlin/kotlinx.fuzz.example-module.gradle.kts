@@ -1,6 +1,8 @@
 import kotlinx.fuzz.booleanProperty
 import kotlinx.fuzz.task.target.CheckTargetsExist
 import kotlinx.fuzz.task.target.PrintTargetNames
+import kotlin.io.path.Path
+import kotlin.io.path.absolutePathString
 
 plugins {
     kotlin("jvm")
@@ -28,7 +30,14 @@ tasks.named<Test>("test") {
     // set up Jazzer options
     environment(mapOf("JAZZER_FUZZ" to "1"))
     maxHeapSize = "${1024 * 4}m"
-    jvmArgs("-Xss1g", "-XX:+UseParallelGC")
+    val jacocoAgent = Path(System.getenv("KFUZZ_JACOCO")).absolutePathString()
+    val testName = System.getenv("KFUZZ_TEST_NAME")
+    val execsDir = System.getenv("KFUZZ_D")
+    jvmArgs(
+        "-Xss1g",
+        "-XX:+UseParallelGC",
+        "-javaagent:${jacocoAgent}=destfile=$execsDir/$testName.exec,dumponexit=true,output=file,jmx=false,includes=kotlinx.datetime.**"
+    )
 }
 
 tasks.register<Copy>("copyDependencies") {

@@ -18,7 +18,9 @@ def run_target(target_name, home_dir, logs_dir, jacoco_exec_dir, module = None):
     logging.debug("command: " + str(command))
     my_env = os.environ.copy()
     my_env["JAZZER_FUZZ"] = "1"
-    my_env["JAZZER_COVERAGE_DUMP"] = str(path.join(jacoco_exec_dir, target_name + ".exec"))
+    # my_env["JAZZER_COVERAGE_DUMP"] = str(path.join(jacoco_exec_dir, target_name + ".exec"))
+    my_env['KFUZZ_TEST_NAME'] = target_name
+    my_env['KFUZZ_D'] = jacoco_exec_dir
 
     # timestamp = datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S")
     stdout_file = open(path.join(logs_dir, target_name), "w")
