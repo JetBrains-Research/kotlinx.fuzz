@@ -122,8 +122,6 @@ def main(args):
     exec_check_targets_exist(args.module, args.targets_file, args.project_dir)
     shutil.rmtree(path.join(args.project_dir, args.module, 'src', 'test', 'resources', 'org'), ignore_errors=True)
     exec_run_targets(args.experiment_dir, args.project_dir, args.targets_file, args.threads, args.module, run_targets)
-    shutil.copytree(path.join(args.project_dir, str(args.module or '.'), 'src', 'test', 'resources'),
-                    path.join(args.experiment_dir, 'resources'))
     exec_parse_logs(args.experiment_dir, parse_logs, args.duration)
     exec_overall_stats(args.experiment_dir, overall_stats)
     jacoco_merge(args.experiment_dir, jacoco)
