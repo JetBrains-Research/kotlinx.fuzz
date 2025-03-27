@@ -163,6 +163,8 @@ class KFuzzConfigBuilder(
 
 class ConfigurationException(cause: Throwable?) : IllegalArgumentException("cannot create config: ${cause?.message}", cause)
 
+internal fun String.nonEmptySplit(delimiter: String): List<String> = this.split(delimiter).filterNot { it.isEmpty() }
+
 fun getSystemPropertiesMap(): Map<String, String> = buildMap {
     val properties = System.getProperties()
     val propNames = properties.propertyNames()

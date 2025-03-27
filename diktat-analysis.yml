@@ -183,3 +183,5 @@
   enabled: false
 - name: KDOC_NO_CLASS_BODY_PROPERTIES_IN_HEADER
   enabled: false
+- name: AVOID_NESTED_FUNCTIONS
+  enabled: false
