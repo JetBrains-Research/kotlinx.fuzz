@@ -2,16 +2,15 @@ package kotlinx.fuzz.jazzer
 
 import com.code_intelligence.jazzer.api.MethodHook
 import com.code_intelligence.jazzer.api.MethodHooks
+import java.lang.reflect.Method
+import java.nio.file.FileSystems
+import kotlin.io.path.Path
 import kotlinx.fuzz.config.KFuzzConfig
 import org.reflections.Reflections
 import org.reflections.scanners.Scanners.MethodsAnnotated
 import org.reflections.util.ConfigurationBuilder
-import java.lang.reflect.Method
-import java.nio.file.FileSystems
-import kotlin.io.path.Path
 
 object CustomHooks {
-
     fun findCustomHookClasses(config: KFuzzConfig): Set<Class<*>> {
         val scanner = MethodsAnnotated
         val reflections = Reflections(ConfigurationBuilder().apply {
@@ -45,5 +44,4 @@ object CustomHooks {
             }
         }
     }
-
 }

@@ -72,7 +72,7 @@ class JazzerEngine(override val config: KFuzzConfig) : KFuzzEngine {
         } ?: config
         // find custom hook classes
         val customHookClasses = CustomHooks.findCustomHookClasses(config).map { it.name }
-        log.debug("found custom hooks in classes: $customHookClasses")
+        log.debug("found custom hooks in classes: {}", customHookClasses)
         config.global.customHookClasses.addAll(customHookClasses)
 
         val propertiesList = config.toPropertiesMap().map { (property, value) -> "-D$property=$value" }

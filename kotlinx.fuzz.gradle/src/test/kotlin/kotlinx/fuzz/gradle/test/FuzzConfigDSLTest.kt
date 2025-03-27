@@ -36,7 +36,6 @@ object FuzzConfigDsltest {
             dsl.apply {
                 workDir = Path(".")
                 reproducerDir = Path(".")
-                enableCustomHooks = true
                 logLevel = LogLevel.DEBUG
                 detailedLogging = true
                 threads = 5
