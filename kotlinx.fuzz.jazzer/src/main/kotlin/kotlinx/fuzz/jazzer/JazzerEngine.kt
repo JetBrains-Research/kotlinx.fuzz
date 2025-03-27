@@ -65,16 +65,17 @@ class JazzerEngine(override val config: KFuzzConfig) : KFuzzEngine {
         val classpath = System.getProperty("java.class.path")
         val javaCommand = System.getProperty("java.home") + "/bin/java"
 
-        val config = KFuzzConfig.fromSystemProperties()
-        // custom hooks
-        val customHookClasses = CustomHooks.findCustomHookClasses().map { it.canonicalName!! }
-        log.debug("found custom hooks in classes: {}", customHookClasses)
-        config.global.customHookClasses.addAll(customHookClasses)
-        // annotation parameters
-        val methodConfig = method.getAnnotation(KFuzzTest::class.java)?.let { annotation ->
+        var config = KFuzzConfig.fromSystemProperties()
+        // add annotation parameters
+        config = method.getAnnotation(KFuzzTest::class.java)?.let { annotation ->
             config.addAnnotationParams(annotation)
         } ?: config
-        val propertiesList = methodConfig.toPropertiesMap().map { (property, value) -> "-D$property=$value" }
+        // find custom hook classes
+        val customHookClasses = CustomHooks.findCustomHookClasses(config).map { it.name }
+        log.debug("found custom hooks in classes: $customHookClasses")
+        config.global.customHookClasses.addAll(customHookClasses)
+
+        val propertiesList = config.toPropertiesMap().map { (property, value) -> "-D$property=$value" }
 
         val debugOptions = try {
             getDebugSetup(System.getProperty(INTELLIJ_DEBUGGER_DISPATCH_PORT_VAR_NAME).toInt(), method)

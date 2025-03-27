@@ -1,18 +1,18 @@
-package kotlinx.fuzz.test.hooks
+package kotlinx.fuzz.test.hooks.excluded
 
 import com.code_intelligence.jazzer.api.HookType
 import com.code_intelligence.jazzer.api.MethodHook
 import java.lang.invoke.MethodHandle
 
-object Hooks {
+object ExcludedHook {
 
     @MethodHook(
         type = HookType.REPLACE,
-        targetClassName = "java.util.Random",
+        targetClassName = "kotlin.random.Random",
         targetMethod = "nextInt"
     )
     @JvmStatic
-    fun deterministicRandom(
+    fun excludedHook(
         method: MethodHandle,
         thisObject: Any,
         arguments: Array<Any>,
@@ -20,5 +20,4 @@ object Hooks {
     ): Int {
         return 5
     }
-
 }

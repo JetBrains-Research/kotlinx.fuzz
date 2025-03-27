@@ -10,7 +10,6 @@ interface GlobalConfig {
     val workDir: Path
     val reproducerDir: Path
     val instrument: List<String>
-    val enableCustomHooks: Boolean
     val customHookExcludes: List<String>
     val customHookClasses: MutableSet<String>
     val logLevel: LogLevel
@@ -41,12 +40,6 @@ class GlobalConfigImpl internal constructor(builder: KFuzzConfigBuilder) : Globa
         nameSuffix = "instrument",
         intoString = { it.joinToString(",") },
         fromString = { it.split(",") },
-    )
-    override var enableCustomHooks: Boolean by builder.KFuzzPropProvider(
-        nameSuffix = "enableCustomHooks",
-        intoString = { it.toString() },
-        fromString = { it.toBooleanStrict() },
-        default = false,
     )
     override var customHookExcludes: List<String> by builder.KFuzzPropProvider(
         nameSuffix = "customHookExcludes",

@@ -141,6 +141,22 @@ These and some other options can also be set through the system properties. You 
 
 Design, implementation and default values of configuration properties are subject to change in the future releases.
 
+### Using custom hooks
+
+The plugin supports Jazzer's custom hooks. They can be used, for example, to mock certain methods (e.g. make `Random.nextInt()` deterministic), or to add assertions before or after sensitive methods (e.g. verify that a new process does not execute `rm -rf /`).
+
+To apply a custom hook:
+
+1. Add a dependency:
+
+```kotlin
+testImplementation("org.jetbrains:kotlinx.fuzz.jazzer")
+```
+
+2. Write your hook. See the [Jazzer hooks](https://github.com/CodeIntelligenceTesting/jazzer/blob/main/docs/advanced.md#custom-hooks) reference, or [example hook](./kotlinx.fuzz.test/src/test/kotlin/kotlinx/fuzz/test/hooks/Hooks.kt) in this project tests. Note that a hook written in Kotlin must have the `@JvmStatic` annotation.
+
+3. And that's it! Hooks will be applied to the packages specified in `instrument` config parameter. If you want to exclude some packages from instrumentation, use the `customHooksExcludes` parameter.
+
 ## Differences from Jazzer
 
 `kotlinx.fuzz` uses Jazzer as the main fuzzing engine, but also introduces several new key features:
