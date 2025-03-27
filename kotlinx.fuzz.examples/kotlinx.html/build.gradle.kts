@@ -5,8 +5,8 @@ plugins {
 
 dependencies {
     testImplementation(kotlin("reflect"))
-    implementation(libs.jazzer.api)
-    implementation(libs.jazzer.junit)
+    implementation(libs.plan.jazzer.api)
+    implementation(libs.plan.jazzer.junit)
     implementation(libs.reflections)
     implementation(libs.jsoup)
     implementation(libs.kotlinx.html)
