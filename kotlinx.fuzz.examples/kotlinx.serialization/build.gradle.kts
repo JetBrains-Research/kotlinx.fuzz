@@ -4,8 +4,8 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.jazzer.api)
-    implementation(libs.jazzer.junit)
+    implementation(libs.plan.jazzer.api)
+    implementation(libs.plan.jazzer.junit)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.serialization.cbor)
     implementation(libs.kotlinx.serialization.properties)
