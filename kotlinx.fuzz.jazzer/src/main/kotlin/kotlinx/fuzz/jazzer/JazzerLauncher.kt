@@ -158,8 +158,10 @@ object JazzerLauncher {
     private fun initJazzer() {
         Log.fixOutErr(System.out, System.err)
 
-        Opt.hooks.setIfDefault(config.global.hooks)
         Opt.instrumentationIncludes.setIfDefault(config.global.instrument)
+        config.global.customHookClasses.takeIf { it.isNotEmpty() }?.let { customHookClasses ->
+            Opt.customHooks.setIfDefault(customHookClasses.toList())
+        }
         Opt.customHookIncludes.setIfDefault(config.global.instrument)
         Opt.customHookExcludes.setIfDefault(config.global.customHookExcludes)
         Opt.keepGoing.setIfDefault(config.target.keepGoing)

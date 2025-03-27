@@ -172,3 +172,7 @@ fun getSystemPropertiesMap(): Map<String, String> = buildMap {
         put(key, value)
     }
 }
+
+internal fun String.nonEmptySplit(delimiter: String): List<String> {
+    return this.split(delimiter).filterNot { it.isEmpty() }
+}

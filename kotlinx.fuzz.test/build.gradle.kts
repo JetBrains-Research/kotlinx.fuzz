@@ -16,11 +16,13 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test")) // adds green arrow in IDEA (no idea why)
-    testRuntimeOnly("org.jetbrains:kotlinx.fuzz.jazzer")
+
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.8")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.7.3")
 
     testImplementation("org.jetbrains:jazzer-junit:0.0.4")
+
+    testImplementation("org.jetbrains:kotlinx.fuzz.jazzer")
 }
 
 fuzzConfig {
@@ -39,6 +41,7 @@ fuzzConfig {
             "org.jetbrains.kotlinx:kotlinx-serialization-protobuf-jvm",
         )
     }
+    logLevel = kotlinx.fuzz.config.LogLevel.DEBUG
     supportJazzerTargets = true
     reproducerType = ReproducerType.LIST_BASED_INLINE
 }

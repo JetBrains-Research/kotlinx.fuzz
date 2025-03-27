@@ -21,7 +21,7 @@ import kotlinx.fuzz.config.KFuzzConfigBuilder
  *
  * @property workDir Working directory for internal fuzzing files. Default: {buildDir}/fuzz
  * @property reproducerDir Directory for crash reproducers. Default: {workDir}/reproducers
- * @property hooks Whether to apply custom hooks (currently unsupported). Default: true
+ * @property enableCustomHooks Whether to enable support of Jazzer custom hooks. Default: false
  * @property logLevel Sets the logging level for kotlinx.fuzz library. Default: WARN
  * @property detailedLogging Forwards logs from fuzzing engine. Default: false
  * @property threads How many threads to use for parallel fuzzing. Default: #cpu_cores / 2
@@ -43,7 +43,7 @@ open class FuzzConfigDSL(
     // ========== global ==========
     var workDir by KFConfigDelegate { global::workDir }
     var reproducerDir by KFConfigDelegate { global::reproducerDir }
-    var hooks by KFConfigDelegate { global::hooks }
+    var enableCustomHooks by KFConfigDelegate { global::enableCustomHooks }
     var logLevel by KFConfigDelegate { global::logLevel }
     var detailedLogging by KFConfigDelegate { global::detailedLogging }
     var threads by KFConfigDelegate { global::threads }

@@ -46,7 +46,7 @@ object FuzzConfigBuilderTest {
                     libFuzzerRssLimitMb = 5
                 }
                 global.detailedLogging = false
-                global.hooks = true
+                global.enableCustomHooks = true
                 target.keepGoing = 339
                 global.instrument = listOf()
                 global.customHookExcludes = listOf("exclude")
