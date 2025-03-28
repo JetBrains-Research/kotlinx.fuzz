@@ -3,7 +3,7 @@ kotlin = "2.0.21"
 diktat = "2.0.0"
 jazzer = "0.22.1"
 
-plan-jazzer = "0.0.3"
+plan-jazzer = "0.0.4"
 casr-adapter = "1.0.6"
 
 junit-platform = "1.11.4"
@@ -63,7 +63,7 @@ rgxgen = { module = "com.github.curious-odd-man:rgxgen", version.ref = "rgxgen" 
 
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 
-kotlinx-coroutines = {module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines"}
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 
 jacoco-core = { module = "org.jacoco:org.jacoco.core", version.ref = "jacoco" }
 jacoco-report = { module = "org.jacoco:org.jacoco.report", version.ref = "jacoco" }
