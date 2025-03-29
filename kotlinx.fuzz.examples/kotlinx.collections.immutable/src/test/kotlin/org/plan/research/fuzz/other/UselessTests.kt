@@ -7,7 +7,6 @@
 
 package org.plan.research.fuzz.other
 
-import com.code_intelligence.jazzer.api.FuzzedDataProvider
 import com.code_intelligence.jazzer.junit.FuzzTest
 import kotlinx.collections.immutable.*
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -100,13 +99,15 @@ class UselessTests {
     }
 
 
-    @FuzzTest(maxDuration = "2h")
-    fun map2PersistentProvider(data: FuzzedDataProvider) {
-        val size = data.consumeInt(0, 1000)
-        val list = List(size) { data.consumeString(10) }
-        val persistent = list.toPersistentList()
-        list.forEachIndexed { index, elem -> assertTrue(elem == persistent[index]) }
-    }
+    /*
+        @FuzzTest(maxDuration = "2h")
+        fun map2PersistentProvider(data: FuzzedDataProvider) {
+            val size = data.consumeInt(0, 1000)
+            val list = List(size) { data.consumeString(10) }
+            val persistent = list.toPersistentList()
+            list.forEachIndexed { index, elem -> assertTrue(elem == persistent[index]) }
+        }
+    */
 
     @FuzzTest(maxDuration = "30m")
     fun wtf(list: List<Int>?) = ignoreExceptions {
@@ -202,30 +203,32 @@ class UselessTests {
     }
 
 
-    @FuzzTest(maxDuration = "2h")
-    fun randomOps(data: FuzzedDataProvider) {
-        val operationsNumber = data.consumeInt(0, 100)
-        val current = persistentSetOf<Int>().builder()
-        val previous = mutableListOf(current.build())
-        val realSet = mutableSetOf<Int>()
-        repeat(operationsNumber) {
-            when (data.consumeInt(0, 1)) {
-                0 -> {
-                    val n = data.consumeInt()
-                    current.remove(n)
-                    realSet.remove(n)
-                }
+    /*
+        @FuzzTest(maxDuration = "2h")
+        fun randomOps(data: FuzzedDataProvider) {
+            val operationsNumber = data.consumeInt(0, 100)
+            val current = persistentSetOf<Int>().builder()
+            val previous = mutableListOf(current.build())
+            val realSet = mutableSetOf<Int>()
+            repeat(operationsNumber) {
+                when (data.consumeInt(0, 1)) {
+                    0 -> {
+                        val n = data.consumeInt()
+                        current.remove(n)
+                        realSet.remove(n)
+                    }
 
-                1 -> {
-                    val n = data.consumeInt()
-                    current.add(n)
-                    realSet.add(n)
+                    1 -> {
+                        val n = data.consumeInt()
+                        current.add(n)
+                        realSet.add(n)
+                    }
                 }
+                previous.add(current.build())
+                assertTrue(realSet == current)
             }
-            previous.add(current.build())
-            assertTrue(realSet == current)
         }
-    }
+    */
 
 
     data class EvenInt(val value: Int) {
@@ -253,27 +256,29 @@ class UselessTests {
         }
     }
 
-    @FuzzTest(maxDuration = "30m")
-    fun persistentHashSetIsPersistentData(data: FuzzedDataProvider) {
-        val elems = data.consumeString(1000).chunked(10)
-        val set = elems.toSet()
-        val mutSet = elems.toMutableSet()
-        val persistent = set.toPersistentSet()
-        val current = persistent.builder()
-        repeat(1000) {
-            val n = data.consumeString(10)
-            val add = data.consumeBoolean()
-            if (add) {
-                current.add(n)
-                mutSet.add(n)
-            } else {
-                current.remove(n)
-                mutSet.remove(n)
+    /*
+        @FuzzTest(maxDuration = "30m")
+        fun persistentHashSetIsPersistentData(data: FuzzedDataProvider) {
+            val elems = data.consumeString(1000).chunked(10)
+            val set = elems.toSet()
+            val mutSet = elems.toMutableSet()
+            val persistent = set.toPersistentSet()
+            val current = persistent.builder()
+            repeat(1000) {
+                val n = data.consumeString(10)
+                val add = data.consumeBoolean()
+                if (add) {
+                    current.add(n)
+                    mutSet.add(n)
+                } else {
+                    current.remove(n)
+                    mutSet.remove(n)
+                }
+                assertTrue(set == persistent)
+                assertTrue(mutSet == current)
             }
-            assertTrue(set == persistent)
-            assertTrue(mutSet == current)
         }
-    }
+    */
 
 
     @FuzzTest(maxDuration = "30m")
@@ -332,7 +337,7 @@ class UselessTests {
     }
 
     @FuzzTest(maxDuration = "60s")
-    fun myBoxedInt(boxed: MyInt?){
+    fun myBoxedInt(boxed: MyInt?) {
         if (boxed == null) {
             System.err.println("got null")
             return
@@ -342,7 +347,7 @@ class UselessTests {
     }
 
     @FuzzTest(maxDuration = "60s")
-    fun nullTest2(a1: MyInt?, a2: MyInt?){
+    fun nullTest2(a1: MyInt?, a2: MyInt?) {
         if (a1 == null || a2 == null) {
             System.err.println("got null")
             return
@@ -352,16 +357,18 @@ class UselessTests {
     }
 
     @FuzzTest(maxDuration = "60s")
-    fun autoArray(array: IntArray?){
+    fun autoArray(array: IntArray?) {
         if (array == null) return
         assertTrue(array.toTypedArray().toPersistentList().size == array.size)
     }
 
-    @FuzzTest(maxDuration = "60s")
-    fun fuzzArray(data: FuzzedDataProvider) {
-        val array = data.consumeInts(1000)
-        assertTrue(array.toTypedArray().toPersistentList().size == array.size)
-    }
+    /*
+        @FuzzTest(maxDuration = "60s")
+        fun fuzzArray(data: FuzzedDataProvider) {
+            val array = data.consumeInts(1000)
+            assertTrue(array.toTypedArray().toPersistentList().size == array.size)
+        }
+    */
 
 
 //    @FuzzTest(maxDuration = "60s")

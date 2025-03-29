@@ -81,15 +81,6 @@ object JazzerLauncher {
         val currentCorpus = config.corpusDir.resolve(method.fullName)
         currentCorpus.createDirectories()
 
-        if (config.target.dumpCoverage) {
-            val coverageFile = config.global.workDir
-                .resolve("coverage")
-                .createDirectories()
-                .resolve("${method.fullName}.exec")
-                .absolutePathString()
-            Opt.coverageDump.setIfDefault(coverageFile)
-        }
-
         libFuzzerArgs += currentCorpus.absolutePathString()
         libFuzzerArgs += reproducerPath.absolutePathString()
         libFuzzerArgs += "-rss_limit_mb=${jazzerConfig.libFuzzerRssLimitMb}"

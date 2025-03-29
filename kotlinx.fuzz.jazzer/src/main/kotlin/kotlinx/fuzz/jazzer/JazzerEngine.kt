@@ -60,11 +60,8 @@ class JazzerEngine(override val config: KFuzzConfig) : KFuzzEngine {
         return listOf("-agentlib:jdwp=transport=dt_socket,server=n,suspend=y,address=$port")
     }
 
+    // spawn subprocess, redirect output to log and err files
     override fun runTarget(instance: Any, method: Method): Throwable? {
-        // spawn subprocess, redirect output to log and err files
-        val classpath = System.getProperty("java.class.path")
-        val javaCommand = System.getProperty("java.home") + "/bin/java"
-
         // TODO: pass the config explicitly rather than through system properties
         val config = KFuzzConfig.fromSystemProperties()
         val methodConfig = method.getAnnotation(KFuzzTest::class.java)?.let { annotation ->
@@ -74,20 +71,16 @@ class JazzerEngine(override val config: KFuzzConfig) : KFuzzEngine {
             methodConfig.toPropertiesMap().map { (property, value) -> "-D$property=$value" }
 
         val debugOptions = try {
-            getDebugSetup(System.getProperty(INTELLIJ_DEBUGGER_DISPATCH_PORT_VAR_NAME).toInt(), method)
+            getDebugSetup(
+                System.getProperty(INTELLIJ_DEBUGGER_DISPATCH_PORT_VAR_NAME).toInt(),
+                method,
+            )
         } catch (e: Exception) {
             emptyList()
         }
-        val exitCode = ProcessBuilder(
-            javaCommand,
-            "-XX:-OmitStackTraceInFastThrow",
-            "-classpath", classpath,
-            "-Xmx${jazzerConfig.subprocessMaxHeapSizeMb}m",
-            *debugOptions.toTypedArray(),
-            *propertiesList.toTypedArray(),
-            JazzerLauncher::class.qualifiedName!!,
-            method.declaringClass.name, method.name,
-        ).executeAndSaveLogs(
+
+        val command = buildCommand(debugOptions, propertiesList, config, method)
+        val exitCode = ProcessBuilder(*command.toTypedArray()).executeAndSaveLogs(
             stdout = "${method.fullName}.log",
             stderr = "${method.fullName}.err",
         )
@@ -96,6 +89,36 @@ class JazzerEngine(override val config: KFuzzConfig) : KFuzzEngine {
             0 -> null
             else -> getException(config, method)
         }
+    }
+
+    private fun buildCommand(
+        debugOptions: List<String>,
+        propertiesList: List<String>,
+        config: KFuzzConfig,
+        method: Method,
+    ): List<String> {
+        val classpath = System.getProperty("java.class.path")
+        val javaCommand = System.getProperty("java.home") + "/bin/java"
+
+        val command = mutableListOf<String>(
+            javaCommand,
+            "-XX:-OmitStackTraceInFastThrow",
+            "-classpath", classpath,
+            "-Xmx${jazzerConfig.subprocessMaxHeapSizeMb}m",
+            *debugOptions.toTypedArray(),
+            *propertiesList.toTypedArray(),
+        )
+        if (config.target.dumpCoverage) {
+            val coverageFile = config.coverageFile(method)
+            val opt =
+                "-javaagent:$jacocoAgentJar=destfile=$coverageFile,dumponexit=true,output=file,jmx=false,includes=kotlinx.datetime.**"
+
+            command += opt
+        }
+        command += JazzerLauncher::class.qualifiedName!!
+        command += method.declaringClass.name
+        command += method.name
+        return command
     }
 
     private fun getException(config: KFuzzConfig, method: Method): Throwable {
@@ -158,6 +181,12 @@ class JazzerEngine(override val config: KFuzzConfig) : KFuzzEngine {
         }
     }
 }
+
+internal fun KFuzzConfig.coverageFile(method: Method): Path = global.workDir
+    .resolve("coverage")
+    .createDirectories()
+    .resolve("${method.fullName}.exec")
+    .absolute()
 
 internal fun KFuzzConfig.exceptionPath(method: Method): Path =
     exceptionsDir.resolve("${method.fullName}.exception")
