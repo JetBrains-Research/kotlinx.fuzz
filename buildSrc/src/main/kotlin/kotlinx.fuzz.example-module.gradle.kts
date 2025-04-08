@@ -34,10 +34,11 @@ tasks.named<Test>("test") {
     val jacocoAgent = Path(System.getenv("KFUZZ_JACOCO")).absolutePathString()
     val testName = System.getenv("KFUZZ_TEST_NAME")
     val execsDir = System.getenv("KFUZZ_D")
+    val includePaths = System.getenv("KFUZZ_I")
     jvmArgs(
         "-Xss1g",
         "-XX:+UseParallelGC",
-        "-javaagent:${jacocoAgent}=destfile=$execsDir/$testName.exec,dumponexit=true,output=file,jmx=false,includes=kotlinx.datetime.**"
+        "-javaagent:${jacocoAgent}=destfile=$execsDir/$testName.exec,dumponexit=true,output=file,jmx=false,includes=$includePaths"
     )
 }
 
