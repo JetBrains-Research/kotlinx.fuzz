@@ -1,5 +1,6 @@
 package kotlinx.fuzz
 
+import kotlin.random.Random
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -259,5 +260,54 @@ class KFuzzerImplTest {
             assertTrue(result.all { it in chars })
             assertTrue(result.length <= 20)
         }
+    }
+
+    @Test
+    fun `test all finite floats`() {
+        val kFuzzer = KFuzzerImpl(randomByteArray(4 * 10_000))
+        val range = FiniteFloatRange(-Float.MAX_VALUE, Float.MAX_VALUE)
+        repeat(10_000) {
+            assertTrue { kFuzzer.float(range).isFinite() }
+        }
+    }
+
+    @Test
+    fun `test all finite doubles`() {
+        val kFuzzer = KFuzzerImpl(randomByteArray(4 * 10_000))
+        val range = FiniteDoubleRange(-Double.MAX_VALUE, Double.MAX_VALUE)
+        repeat(10_000) {
+            assertTrue { kFuzzer.double(range).isFinite() }
+        }
+    }
+
+    private fun randomByteArray(size: Int): ByteArray = Random(0xDEAD_BEEF)
+        .nextBytes(size = size)
+
+    class FiniteFloatRange(
+        override val start: Float,
+        override val endInclusive: Float,
+    ) : ClosedFloatingPointRange<Float> {
+        init {
+            require(start.isFinite()) { "Start must be finite" }
+            require(endInclusive.isFinite()) { "End must be finite" }
+        }
+
+        override fun contains(value: Float): Boolean = value.isFinite() && value >= start && value <= endInclusive
+
+        override fun lessThanOrEquals(a: Float, b: Float): Boolean = a <= b
+    }
+
+    class FiniteDoubleRange(
+        override val start: Double,
+        override val endInclusive: Double,
+    ) : ClosedFloatingPointRange<Double> {
+        init {
+            require(start.isFinite()) { "Start must be finite" }
+            require(endInclusive.isFinite()) { "End must be finite" }
+        }
+
+        override fun contains(value: Double): Boolean = value.isFinite() && value >= start && value <= endInclusive
+
+        override fun lessThanOrEquals(a: Double, b: Double): Boolean = a <= b
     }
 }

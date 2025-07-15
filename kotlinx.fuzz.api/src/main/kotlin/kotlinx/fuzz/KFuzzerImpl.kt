@@ -79,21 +79,25 @@ class KFuzzerImpl(data: ByteArray) : Random(), KFuzzer {
         value: Float,
         range: FloatRange,
         context: MathContext = MathContext.DECIMAL128,
-    ): Float {
-        if (value.isInfinite() || value.isNaN()) {
-            return value
+    ): Float = when {
+        value.isFinite() -> {
+            val normalized = value.toBigDecimal().add(Float.MAX_VALUE.toBigDecimal(), context)
+                .divide(Float.MAX_VALUE.toBigDecimal().multiply(BigDecimal(2), context), context)
+
+            range.start.toBigDecimal()
+                .add(
+                    normalized.multiply(
+                        range.endInclusive.toBigDecimal().subtract(range.start.toBigDecimal(), context), context,
+                    ),
+                    context,
+                )
+                .toFloat()
         }
-
-        val normalized = value.toBigDecimal().add(Float.MAX_VALUE.toBigDecimal(), context)
-            .divide(Float.MAX_VALUE.toBigDecimal().multiply(BigDecimal(2), context), context)
-
-        return range.start.toBigDecimal()
-            .add(
-                normalized.multiply(
-                    range.endInclusive.toBigDecimal().subtract(range.start.toBigDecimal(), context), context,
-                ), context,
-            )
-            .toFloat()
+        // value is not finite, but it is in range
+        value in range -> value
+        // value is not finite, but it is not included in the range
+        // no proper way to handle this, lets just return any valid entry
+        else -> range.start
     }
 
     /**
@@ -107,21 +111,25 @@ class KFuzzerImpl(data: ByteArray) : Random(), KFuzzer {
         value: Double,
         range: DoubleRange,
         context: MathContext = MathContext.DECIMAL128,
-    ): Double {
-        if (value.isInfinite() || value.isNaN()) {
-            return value
+    ): Double = when {
+        value.isFinite() -> {
+            val normalized = value.toBigDecimal().add(Double.MAX_VALUE.toBigDecimal(), context)
+                .divide(Double.MAX_VALUE.toBigDecimal().multiply(BigDecimal(2), context), context)
+
+            range.start.toBigDecimal()
+                .add(
+                    normalized.multiply(
+                        range.endInclusive.toBigDecimal().subtract(range.start.toBigDecimal(), context), context,
+                    ),
+                    context,
+                )
+                .toDouble()
         }
-
-        val normalized = value.toBigDecimal().add(Double.MAX_VALUE.toBigDecimal(), context)
-            .divide(Double.MAX_VALUE.toBigDecimal().multiply(BigDecimal(2), context), context)
-
-        return range.start.toBigDecimal()
-            .add(
-                normalized.multiply(
-                    range.endInclusive.toBigDecimal().subtract(range.start.toBigDecimal(), context), context,
-                ), context,
-            )
-            .toDouble()
+        // value is not finite, but it is in range
+        value in range -> value
+        // value is not finite, but it is not included in the range
+        // no proper way to handle this, lets just return any valid entry
+        else -> range.start
     }
 
     /**
@@ -524,12 +532,12 @@ class KFuzzerImpl(data: ByteArray) : Random(), KFuzzer {
         }
     }
 
-    override fun string(regex: Regex, configuration: KFuzzer.RegexConfiguration): String {
+    override fun string(regex: Regex, configuration: RegexConfiguration): String {
         val rgxGen = RgxGen.parse(configuration.asRegexProperties(), regex.pattern)
         return rgxGen.generate(this)
     }
 
-    override fun stringOrNull(regex: Regex, configuration: KFuzzer.RegexConfiguration) = when {
+    override fun stringOrNull(regex: Regex, configuration: RegexConfiguration) = when {
         boolean() -> string(regex, configuration)
         else -> null
     }
