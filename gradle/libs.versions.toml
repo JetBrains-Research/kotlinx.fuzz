@@ -1,8 +1,6 @@
 [versions]
-kotlin = "2.0.21"
+kotlin = "2.2.0"
 diktat = "2.0.0"
-
-jazzer = "0.22.1"
 
 plan-jazzer = "0.0.5"
 casr-adapter = "1.0.6"
@@ -36,10 +34,6 @@ kotlin-compiler = "2.1.10"
 [libraries]
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 diktat-gradle-plugin = { module = "com.saveourtool.diktat:diktat-gradle-plugin", version.ref = "diktat" }
-
-jazzer = { module = "com.code-intelligence:jazzer", version.ref = "jazzer" }
-jazzer-junit = { module = "com.code-intelligence:jazzer-junit", version.ref = "jazzer" }
-jazzer-api = { module = "com.code-intelligence:jazzer-api", version.ref = "jazzer" }
 
 plan-jazzer = { module = "org.jetbrains:jazzer", version.ref = "plan-jazzer" }
 plan-jazzer-junit = { module = "org.jetbrains:jazzer-junit", version.ref = "plan-jazzer" }
