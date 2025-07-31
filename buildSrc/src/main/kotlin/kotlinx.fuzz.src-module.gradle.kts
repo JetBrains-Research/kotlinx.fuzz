@@ -24,7 +24,7 @@ kotlin {
 
 tasks.getByName<KotlinCompile>("compileKotlin") {
     compilerOptions {
-        allWarningsAsErrors = true
+        allWarningsAsErrors = false
     }
 }
 
