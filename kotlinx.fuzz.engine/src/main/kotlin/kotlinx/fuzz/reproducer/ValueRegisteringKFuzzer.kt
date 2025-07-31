@@ -283,6 +283,8 @@ internal fun toCodeString(value: Any?) = value?.let {
         isArray(value) -> arrayToString(value)
         value is String -> "\"$value\""
         value is Char -> "\'$value\'"
+        value is Long -> "${value}L"
+        value is Float -> "${value}f"
         else -> value.toString()
     }
 } ?: "null"

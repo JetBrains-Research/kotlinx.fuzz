@@ -23,17 +23,17 @@ class JunitReproducerTemplate(
         val fullClassName = instance::class.java.name
         val packageName = fullClassName.substringBeforeLast('.', missingDelimiterValue = "")
 
-        val testFunction = FunSpec.Companion.builder("`${method.name} reproducer $identifier`")
+        val testFunction = FunSpec.builder("`${method.name} reproducer $identifier`")
             .addAnnotation(ClassName("org.junit.jupiter.api", "Test"))
             .returns(Unit::class)
             .addCode(testCode)
             .build()
 
-        val objectSpec = TypeSpec.Companion.objectBuilder("Reproducer_$identifier")
+        val objectSpec = TypeSpec.objectBuilder("Reproducer_$identifier")
             .addFunction(testFunction)
             .build()
 
-        val fileSpec = FileSpec.Companion.builder(packageName, "")
+        val fileSpec = FileSpec.builder(packageName, "")
             .addType(objectSpec)
         for (import in imports) {
             val pkgName = import.substringBeforeLast('.')
