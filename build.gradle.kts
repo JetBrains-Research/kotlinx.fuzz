@@ -1,5 +1,3 @@
-import kotlinx.fuzz.configureDiktat
-
 plugins {
     id("kotlinx.fuzz.src-module")
 }
@@ -9,5 +7,4 @@ allprojects {
         mavenLocal()
         mavenCentral()
     }
-    configureDiktat()
 }

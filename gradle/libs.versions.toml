@@ -1,5 +1,6 @@
 [versions]
 kotlin = "2.2.0"
+kotlin-compiler = "2.1.21"
 diktat = "2.0.0"
 
 plan-jazzer = "0.0.5"
@@ -25,11 +26,9 @@ kotlinpoet = "2.0.0"
 gradle-publish = "1.2.1"
 jacoco = "0.8.12"
 
-kotlinx-coroutines = "1.10.1"
+kotlinx-coroutines = "1.10.2"
 
 slf4j = "2.0.16"
-
-kotlin-compiler = "2.1.10"
 
 [libraries]
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
