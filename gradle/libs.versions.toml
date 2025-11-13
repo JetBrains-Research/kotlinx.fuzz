@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.2.0"
+kotlin = "2.2.21"
 kotlin-compiler = "2.1.21"
 diktat = "2.0.0"
 
