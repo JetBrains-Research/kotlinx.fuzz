@@ -100,7 +100,7 @@ SampleTarget > public final void org.example.ExampleTest.foo(kotlinx.fuzz.KFuzze
 
 7. Check the fuzzing report in `build/fuzz`
 
-You can see more examples of `kotlinz.fuzz` usage in [`kotlinx.fuzz.test`](kotlinx.fuzz.test)
+You can see more examples of `kotlinx.fuzz` usage in [`kotlinx.fuzz.test`](kotlinx.fuzz.test)
 
 ## Modes
 
